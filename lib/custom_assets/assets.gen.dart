@@ -195,6 +195,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/img_2.png
   AssetGenImage get img2 => const AssetGenImage('assets/images/img_2.png');
 
+  /// File path: assets/images/img_3.png
+  AssetGenImage get img3 => const AssetGenImage('assets/images/img_3.png');
+
   /// File path: assets/images/location_image.png
   AssetGenImage get locationImage =>
       const AssetGenImage('assets/images/location_image.png');
@@ -225,6 +228,7 @@ class $AssetsImagesGen {
     img,
     img1,
     img2,
+    img3,
     locationImage,
     onboardingImage,
     splashBottom,

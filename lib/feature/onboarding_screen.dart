@@ -28,7 +28,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         actions: [
           TextButton(
             onPressed: () {
-              Get.offAllNamed(AppRoutes.customBottomNavBar);
+              Get.offAllNamed(AppRoutes.roleScreen);
             },
             child: CustomText(
               text: 'Skip',
@@ -123,7 +123,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         curve: Curves.easeInOut,
                       );
                     } else {
-                      Get.offAllNamed(AppRoutes.customBottomNavBar);
+                      Get.offAllNamed(AppRoutes.roleScreen);
                     }
                   },
                   child: CustomText(

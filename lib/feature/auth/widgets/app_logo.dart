@@ -20,7 +20,7 @@ class AppLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if(showLogo)
         Assets.icons.splashLogo.svg(height: size.h,width: size.w),

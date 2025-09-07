@@ -23,7 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBar: CustomAppBar(title: 'Sign In'),
+      appBar: CustomAppBar(),
       body: SingleChildScrollView(
         child: Form(
           key: _globalKey,
@@ -32,9 +32,8 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               SizedBox(height: 24.h),
               AppLogo(
-                showLogo: true,
-                title: 'Welcome Back!',
-                subtitle: 'Make sure that you already have an account.',
+                title: 'Sign In ',
+                subtitle: 'Don’t have an account ? Create an account.',
               ),
               SizedBox(height: 40.h),
               CustomTextField(

@@ -4,6 +4,7 @@ import '../feature/auth/forget/forget_screen.dart';
 import '../feature/auth/login/log_in_screen.dart';
 import '../feature/auth/otp/otp_screen.dart';
 import '../feature/auth/reset_pass/reset_password_screen.dart';
+import '../feature/auth/role/role_screen.dart';
 import '../feature/auth/sign_up/sign_up_screen.dart';
 import '../feature/bottom_nav_bar/customtom_bottom_nav.dart';
 import '../feature/chat/inbox_screen.dart';
@@ -62,6 +63,7 @@ abstract class AppRoutes {
   static const String personalInfoScreen = '/personalInfoScreen';
   static const String inboxScreen = '/inboxScreen';
   static const String completeProfileFirstPage = '/completeProfileFirstPage';
+  static const String roleScreen = '/roleScreen';
 
 
 
@@ -84,6 +86,7 @@ abstract class AppRoutes {
     resetPasswordScreen : (context) => ResetPasswordScreen(),
     signUpScreen : (context) => SignUpScreen(),
     completeProfileFirstPage : (context) => CompleteProfileFirstPage(),
+    roleScreen : (context) => RoleScreen(),
 
   };
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:meal_deal_app/custom_assets/fonts.gen.dart';
 import '../app/utils/app_colors.dart';
 import '../widgets/widgets.dart';
 
@@ -54,10 +55,10 @@ class CustomButton extends StatelessWidget {
     return CustomContainer(
       elevation: elevation,
       onTap: onPressed,
-      color: backgroundColor ?? AppColors.secondaryColor,
-      height: height ?? 46.h,
+      color: backgroundColor ?? AppColors.primaryColor,
+      height: height ?? 48.h,
       width: width ?? double.infinity,
-      radiusAll: radius ?? 10.r,
+      radiusAll: radius ?? 4.r,
       bordersColor: bordersColor,
       child:child?? Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -83,9 +84,9 @@ class CustomButton extends StatelessWidget {
               child: CustomText(
                 text: label ?? '',
                 color: foregroundColor ?? Colors.white,
-                fontName: fontName ?? 'Inter',
-                fontWeight: fontWeight ?? FontWeight.w500,
-                fontSize: fontSize ?? 16.sp,
+                fontName: fontName ?? FontFamily.lora,
+                fontWeight: fontWeight ?? FontWeight.w400,
+                fontSize: fontSize ?? 22.sp,
               ),
             ),
 
