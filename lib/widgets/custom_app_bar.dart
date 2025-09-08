@@ -14,7 +14,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.flexibleSpace,
     this.showLeading = true,
     this.actions,
-    this.backAction, this.leading, this.backgroundColor, this.borderColor, this.borderWidth, this.toolbarHeight,
+    this.backAction,
+    this.leading,
+    this.backgroundColor,
+    this.borderColor,
+    this.borderWidth,
+    this.toolbarHeight,
   });
 
   final String? title;
@@ -46,7 +51,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: centerTitle,
       elevation: 0,
       automaticallyImplyLeading: false,
-      backgroundColor: backgroundColor ?? Colors.white,
+      backgroundColor: backgroundColor ?? Color(0xffF5F5F7),
       foregroundColor: Colors.white,
       scrolledUnderElevation: 0,
       flexibleSpace: flexibleSpace,

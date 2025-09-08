@@ -21,6 +21,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/about.svg
   SvgGenImage get about => const SvgGenImage('assets/icons/about.svg');
 
+  /// File path: assets/icons/apple.svg
+  SvgGenImage get apple => const SvgGenImage('assets/icons/apple.svg');
+
   /// File path: assets/icons/arrow_onboarding.svg
   SvgGenImage get arrowOnboarding =>
       const SvgGenImage('assets/icons/arrow_onboarding.svg');
@@ -55,8 +58,8 @@ class $AssetsIconsGen {
   /// File path: assets/icons/email.svg
   SvgGenImage get email => const SvgGenImage('assets/icons/email.svg');
 
-  /// File path: assets/icons/goal.svg
-  SvgGenImage get goal => const SvgGenImage('assets/icons/goal.svg');
+  /// File path: assets/icons/google.svg
+  SvgGenImage get google => const SvgGenImage('assets/icons/google.svg');
 
   /// File path: assets/icons/height.svg
   SvgGenImage get height => const SvgGenImage('assets/icons/height.svg');
@@ -141,6 +144,7 @@ class $AssetsIconsGen {
   /// List of all assets
   List<SvgGenImage> get values => [
     about,
+    apple,
     arrowOnboarding,
     arrowRight,
     backButton,
@@ -151,7 +155,7 @@ class $AssetsIconsGen {
     date,
     delete,
     email,
-    goal,
+    google,
     height,
     home,
     imageAdd,

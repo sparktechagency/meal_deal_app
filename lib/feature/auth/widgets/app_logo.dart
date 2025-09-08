@@ -24,9 +24,10 @@ class AppLogo extends StatelessWidget {
       children: [
         if(showLogo)
         Assets.icons.splashLogo.svg(height: size.h,width: size.w),
-        SizedBox(height: spacing ?? 20.h),
+        SizedBox(height: spacing ?? 16.h),
         if (title != null) ...[
           CustomText(
+            textAlign: TextAlign.start,
             text: title ?? '',
             fontSize: 24.sp,
             fontWeight: FontWeight.w600,
@@ -36,6 +37,7 @@ class AppLogo extends StatelessWidget {
 
         if (subtitle != null)
           CustomText(
+            textAlign: TextAlign.start,
             text: subtitle ?? '',
             fontSize: 12.sp,
            color: Color(0xff5C5C5C),

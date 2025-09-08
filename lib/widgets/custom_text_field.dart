@@ -42,6 +42,7 @@ class CustomTextField extends StatefulWidget {
   final TextInputAction? textInputAction;
   final List<TextInputFormatter>? inputFormatter;
   final int? minLines;
+  final InputBorder? border;
 
   const CustomTextField(
       {super.key,
@@ -75,7 +76,7 @@ class CustomTextField extends StatefulWidget {
       this.fontFamily,
       this.textInputAction,
       this.inputFormatter,
-      this.minLines, this.maxLines});
+      this.minLines, this.maxLines, this.border});
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -163,12 +164,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
               fontFamily: widget.fontFamily),
           decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(
-                  horizontal: widget.contentPaddingHorizontal ?? 20.w,
-                  vertical: widget.contentPaddingVertical ?? 12.h),
+                  horizontal: widget.contentPaddingHorizontal ?? 0.w,
+                  vertical: widget.contentPaddingVertical ?? 0.h),
               fillColor: widget.filColor ?? Colors.transparent,
               filled: true,
               prefixIcon: widget.prefixIcon != null ? Padding(
-                padding:  EdgeInsets.symmetric(horizontal: 16.w),
+                padding:  EdgeInsets.symmetric(horizontal: 10.w),
                 child: widget.prefixIcon,
               ) : null,
               suffixIcon: widget.isPassword
@@ -179,53 +180,47 @@ class _CustomTextFieldState extends State<CustomTextField> {
                           : Icons.visibility_outlined),
                     )
                   : widget.suffixIcon,
-              prefixIconConstraints:
-                  BoxConstraints(minHeight: 24.w, minWidth: 24.w),
+              prefixIconConstraints: BoxConstraints(minHeight: 24.w, minWidth: 24.w),
               hintText: widget.hintText,
               hintStyle: TextStyle(
+                fontFamily: FontFamily.lora,
                   color: widget.hintextColor ?? AppColors.appGreyColor,
                   fontSize: widget.hintextSize ?? 12.h,
                   fontWeight: FontWeight.w400),
-              focusedBorder: focusedBorder(),
-              enabledBorder: enabledBorder(),
-              errorBorder: errorBorder(),
-              border: focusedBorder(),
-              focusedErrorBorder: errorBorder(),
+              focusedBorder: widget.border ?? focusedBorder(),
+              enabledBorder: widget.border ?? enabledBorder(),
+              errorBorder: widget.border ?? errorBorder(),
+              border: widget.border ??  focusedBorder(),
+              focusedErrorBorder: widget.border ?? errorBorder(),
               errorStyle:
                   TextStyle(fontSize: 12.h, fontWeight: FontWeight.w400)),
         ),
-        SizedBox(height: 8.h),
+        SizedBox(height: 16.h),
       ],
     );
   }
 
   _suffixIcon(IconData icon) {
     return Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.all(0),
         child: Icon(icon, color: AppColors.appGreyColor));
   }
 
-  OutlineInputBorder focusedBorder() {
-    return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(widget.borderRadio?.r ?? 8.r),
-      borderSide: BorderSide(
-          width: 0.8, color: widget.borderColor ?? AppColors.grayShade100),
+  UnderlineInputBorder focusedBorder() {
+    return UnderlineInputBorder(
+      borderSide: BorderSide(color: AppColors.appGreyColor), // bottom border color
     );
   }
 
-  OutlineInputBorder enabledBorder() {
-    return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(widget.borderRadio?.r ?? 8.r),
-      borderSide: BorderSide(
-          width: 1, color: widget.borderColor ?? AppColors.grayShade100),
+  UnderlineInputBorder enabledBorder() {
+    return UnderlineInputBorder(
+      borderSide: BorderSide(color: AppColors.appGreyColor), // bottom border color
     );
   }
 
-  OutlineInputBorder errorBorder() {
-    return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(widget.borderRadio?.r ?? 8.r),
-      borderSide:
-          BorderSide(color: widget.borderColor ?? Colors.red, width: 1),
+  UnderlineInputBorder errorBorder() {
+    return UnderlineInputBorder(
+      borderSide: BorderSide(color: Colors.red), // bottom border color
     );
   }
 }

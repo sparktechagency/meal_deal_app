@@ -24,28 +24,29 @@ class _OtpScreenState extends State<OtpScreen> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBar: CustomAppBar(title: 'Verify',),
+      appBar: CustomAppBar(),
       body: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 24.h),
             AppLogo(
               title: 'Enter Verification Code.',
               subtitle:
-                  'Please enter the 6 digit verification code sent \n to your e-mail',
+                  'Please enter the 6 digit verification code sent  to your e-mail or phone number.',
             ),
             SizedBox(height: 40.h),
 
             ///==============Pin code Field============<>>>>
             Form(
               key: _globalKey,
-              child: CustomPinCodeTextField(
-                textEditingController: _authController.otpController,
+              child: Center(
+                child: CustomPinCodeTextField(
+                  textEditingController: _authController.otpController,
+                ),
               ),
             ),
 
-            SizedBox(height: 36.h),
+            SizedBox(height: 80.h),
             // GetBuilder<AuthController>(
             //   builder: (controller) {
             //     return controller.isLoadingOtp
@@ -57,7 +58,7 @@ class _OtpScreenState extends State<OtpScreen> {
             //   },
             // ),
             CustomButton(
-              label: "Verify",
+              label: "Continue",
               onPressed: _onTapNextScreen,
             ),
             SizedBox(height: 18.h),

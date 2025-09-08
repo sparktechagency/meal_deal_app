@@ -48,7 +48,7 @@ class CustomPinCodeTextField extends StatelessWidget {
             //shape: BoxShape.circle,
             color: AppColors.bgColor,
            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: AppColors.grayShade100),
+            border: Border.all(color: AppColors.primaryColor),
           ),
         ),
         cursor: Column(

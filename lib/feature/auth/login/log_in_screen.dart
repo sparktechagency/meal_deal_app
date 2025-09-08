@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../app/utils/app_colors.dart';
 import '../../../controllers/auth/auth_controller.dart';
+import '../../../custom_assets/assets.gen.dart';
 import '../../../routes/app_routes.dart';
 import '../../../widgets/widgets.dart';
 import '../widgets/app_logo.dart';
@@ -16,38 +17,52 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
 
+  final _authType = [
+    {'label': 'Phone', 'value': 'phone'},
+    {'label': 'Email', 'value': 'email'},
+  ];
+
+  String selectedValue = 'phone';
+
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
 
   final AuthController _authController = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
+    final isPhone = selectedValue == 'phone';
     return CustomScaffold(
       appBar: CustomAppBar(),
       body: SingleChildScrollView(
         child: Form(
           key: _globalKey,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 24.h),
               AppLogo(
                 title: 'Sign In ',
                 subtitle: 'Don’t have an account ? Create an account.',
               ),
-              SizedBox(height: 40.h),
+
+              SizedBox(height: 24.h),
+
+              TwoButtonWidget(buttons: _authType, selectedValue: selectedValue, onTap: (value){
+                selectedValue = value;
+                setState(() {});
+              }),
+              SizedBox(height: 24.h),
               CustomTextField(
-                labelText: 'Email',
+                labelText: isPhone ? 'Phone' : 'Email',
                 controller: _authController.loginEmailController,
-                hintText: "Email",
-                keyboardType: TextInputType.emailAddress,
-                isEmail: true,
+                hintText: isPhone ? "Enter Your phone Number" : "Enter Your email",
+                keyboardType: isPhone ? TextInputType.number : TextInputType.emailAddress,
+                isEmail: isPhone ? false : true,
               ),
               CustomTextField(
                 labelText: 'Password',
                 controller: _authController.loginPasswordController,
                 hintText: "Password",
-                isPassword: true,
+                //isPassword: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Password is required';
@@ -58,17 +73,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 },
 
               ),
-              SizedBox(height: 8.h),
+              SizedBox(height: 4.h),
               Align(
-                alignment: Alignment.centerRight,
+                alignment: Alignment.centerLeft,
                 child: CustomText(
+                  decoration: TextDecoration.underline,
                   onTap: () {
                     Get.toNamed(AppRoutes.forgotScreen);
                   },
                   text: "Forgot Password",
                 ),
               ),
-              SizedBox(height: 111.h),
+              SizedBox(height: 80.h),
               // GetBuilder<AuthController>(
               //   builder: (controller) {
               //     return controller.isLoadingLogin ? CustomLoader() : CustomButton(
@@ -81,6 +97,22 @@ class _LoginScreenState extends State<LoginScreen> {
                 label: "Sign In",
                 onPressed: _onSingUp,
               ),
+
+              SizedBox(height: 24.h),
+
+              Center(
+
+                  child: CustomText(
+                    bottom: 10.h,
+                    text: 'Or continue with',color: AppColors.appGreyColor,)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                IconButton(onPressed: (){}, icon: Assets.icons.google.svg()),
+                SizedBox(width: 8.w),
+                IconButton(onPressed: (){}, icon: Assets.icons.apple.svg()),
+              ],),
+
               SizedBox(height: 18.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -88,20 +120,19 @@ class _LoginScreenState extends State<LoginScreen> {
                   CustomText(
                     text: "Don’t have any account?  ",
                     fontSize: 14.sp,
-                    color: AppColors.grayShade100,
+                    color: AppColors.appGreyColor,
                   ),
                   CustomText(
                     onTap: () {
-                     Get.offAllNamed(AppRoutes.signUpScreen);
+                      Get.offAllNamed(AppRoutes.signUpScreen);
                     },
                     text: "Sign Up",
                     fontSize: 14.sp,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.secondaryColor,
+                    color: AppColors.primaryColor,
                   ),
                 ],
               ),
-              SizedBox(height: 10.h),
             ],
           ),
         ),
@@ -111,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _onSingUp() {
     if (!_globalKey.currentState!.validate()) return;
-    Get.toNamed(AppRoutes.completeProfileFirstPage);
+    Get.offAllNamed(AppRoutes.userBottomNavBar);
    // _authController.login();
   }
 

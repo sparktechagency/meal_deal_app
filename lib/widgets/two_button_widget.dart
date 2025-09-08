@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../widgets/widgets.dart';
-import '../app/utils/app_colors.dart';
-
+import 'package:meal_deal_app/app/utils/app_colors.dart';
+import 'package:meal_deal_app/widgets/widgets.dart';
 class TwoButtonWidget extends StatelessWidget {
   final List<Map<String, String>> buttons;
   final String selectedValue;
@@ -13,8 +12,7 @@ class TwoButtonWidget extends StatelessWidget {
     super.key,
     required this.buttons,
     required this.selectedValue,
-    required this.onTap,
-    this.fontSize,
+    required this.onTap, this.fontSize,
   });
 
   @override
@@ -25,26 +23,17 @@ class TwoButtonWidget extends StatelessWidget {
         return Expanded(
           child: GestureDetector(
             onTap: () => onTap(item['value']!),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 500),
-              curve: Curves.fastOutSlowIn,
-              decoration: BoxDecoration(
-                color: isSelected ? AppColors.secondaryColor : Colors.white,
-                border: Border(
-                  bottom: BorderSide(
-                    color: AppColors.secondaryColor,
-                    width: 2,
-                  ),
-                ),
-              ),
-              padding: EdgeInsets.symmetric(vertical: 12.h),
-              child: Center(
-                child: CustomText(
-                  text: item['label']!,
-                  color: isSelected ? Colors.white : Colors.grey,
-                  fontSize: fontSize ?? 15.sp,
-                  fontWeight: FontWeight.w500,
-                ),
+            child: CustomContainer(
+              bordersColor: isSelected ? Color(0xff3E513E) : AppColors.black100TextColor,
+              horizontalMargin: 10.w,
+              radiusAll: 12.r,
+              paddingVertical: 8.h,
+              color: isSelected ? Color(0xff3E513E) : Colors.transparent,
+              child: CustomText(
+                text: item['label']!,
+                color: isSelected ? Colors.white : AppColors.black600TextColor,
+                fontSize: fontSize ?? 15.sp,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ),

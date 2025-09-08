@@ -24,25 +24,25 @@ class _ForgetScreenState extends State<ForgetScreen> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBar:  CustomAppBar(title: 'Forget Password',),
+      appBar:  CustomAppBar(),
       body: SingleChildScrollView(
         child: Form(
           key: _globalKey,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 24.h),
+             // SizedBox(height: 24.h),
               AppLogo(
                 title: 'Forget Your Password?',
-                subtitle: 'Don’t worry! It happens. Please enter the email associated with your account.',
+                subtitle: 'Enter Your Phone Number or Email to reset Password',
               ),
               SizedBox(height: 40.h),
               CustomTextField(
-                labelText: 'Email',
+                labelText: 'Phone Number or Email',
                 controller: _authController.forgotEmailController,
-                hintText: "Email",
+                hintText: "Enter your phone number or email",
                 keyboardType: TextInputType.emailAddress,
-                isEmail: true,
+                //isEmail: true,
               ),
               SizedBox(height: 36.h),
               // GetBuilder<AuthController>(
@@ -55,7 +55,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
               // ),
 
               CustomButton(
-                label: "Get Verification Code",
+                label: "Continue",
                 onPressed: _onGetVerificationCode,
               ),
               SizedBox(height: 18.h),

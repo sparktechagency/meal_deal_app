@@ -25,17 +25,16 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBar:  CustomAppBar(title: 'Reset Password',),
+      appBar:  CustomAppBar(),
       body: SingleChildScrollView(
         child: Form(
           key: _globalKey,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 24.h),
               AppLogo(
-                title: 'Reset Your Password.',
-                subtitle: 'Password  must have 6-8 characters',
+                title: 'New Password',
+                subtitle: 'For Security Enter Your New 8 Character Password.',
               ),
 
 

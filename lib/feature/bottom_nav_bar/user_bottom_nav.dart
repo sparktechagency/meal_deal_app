@@ -14,8 +14,8 @@ import '../home/user/user_home_screen.dart';
 import '../profile/profile_screen.dart';
 import '../session/session_screen.dart';
 
-class CustomBottomNavBar extends StatelessWidget {
-  CustomBottomNavBar({super.key});
+class UserBottomNav extends StatelessWidget {
+  UserBottomNav({super.key});
 
   final CustomBottomNavBarController _navBarController =
   Get.put(CustomBottomNavBarController());

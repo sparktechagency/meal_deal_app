@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../app/utils/app_colors.dart';
 import '../../../controllers/auth/auth_controller.dart';
+import '../../../custom_assets/assets.gen.dart';
 import '../../../routes/app_routes.dart';
 import '../../../widgets/widgets.dart';
 import '../widgets/app_logo.dart';
@@ -28,63 +29,38 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBar: CustomAppBar(
-        title: 'Sign Up',
-      ),
+      appBar: CustomAppBar(),
       body: SingleChildScrollView(
         child: Form(
           key: _globalKey,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 16.h),
               AppLogo(
-                showLogo: true,
-                title: 'Join With Us!',
-                subtitle: 'Make sure your account keep secure.',
+                spacing: 0,
+                title: 'Create Account',
+                subtitle: 'Please tell us more about you',
               ),
 
               SizedBox(height: 24.h),
-              CustomContainer(
-                height: 29.h,
-                radiusAll: 16.r,
-                width: 320.w,
-                bordersColor: AppColors.goldColor,
-                child: Row(
-                  children: ["professional", "parent"].map((type) {
-                    final isSelected = selectedValueType == type;
-                    return Expanded(
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            selectedValueType = type;
-                          });
-                        },
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 250),
-                          curve: Curves.easeInOut,
-                          decoration: BoxDecoration(
-                            color: isSelected ? AppColors.goldColor : Colors.transparent,
-                            borderRadius: BorderRadius.circular(16.r),
-                          ),
-                          alignment: Alignment.center,
-                          child: CustomText(
-                            text: type == "professional" ? "Professional" : "Parent",
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w500,
-                            color: isSelected ? Colors.white : AppColors.goldColor,
-                          ),
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                ),
+              CustomTextField(
+                labelText: 'Full Name',
+                controller: _registerController.emailController,
+                hintText: "Enter Your full name",
+                keyboardType: TextInputType.emailAddress,
+                isEmail: true,
               ),
-              SizedBox(height: 16.h),
+              CustomTextField(
+                labelText: 'Phone Number',
+                controller: _registerController.emailController,
+                hintText: "Enter Your phone Number",
+                keyboardType: TextInputType.emailAddress,
+                isEmail: true,
+              ),
               CustomTextField(
                 labelText: 'Email',
                 controller: _registerController.emailController,
-                hintText: "Email",
+                hintText: "Enter Your Email Address",
                 keyboardType: TextInputType.emailAddress,
                 isEmail: true,
               ),
@@ -123,7 +99,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       return Checkbox(
                         value: controller.isChecked,
                         onChanged: (value) => controller.onChanged(value),
-                        activeColor: AppColors.secondaryColor,
+                        activeColor: AppColors.primaryColor,
                       );
                     }
                   ),
@@ -141,6 +117,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 }
               ),
               SizedBox(height: 24.h),
+
+              Center(
+
+                  child: CustomText(
+                    bottom: 10.h,
+                    text: 'Or continue with',color: AppColors.appGreyColor,)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(onPressed: (){}, icon: Assets.icons.google.svg()),
+                  SizedBox(width: 8.w),
+                  IconButton(onPressed: (){}, icon: Assets.icons.apple.svg()),
+                ],),
+              SizedBox(height: 24.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -156,7 +146,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     text: "Sign In",
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.secondaryColor,
+                    color: AppColors.primaryColor,
                   ),
                 ],
               ),

@@ -27,8 +27,7 @@ class MealDealApp extends StatelessWidget {
       splitScreenMode: true,
       minTextAdapt: true,
       designSize: Size(375, 812),
-      builder:
-          (_, _) => GetMaterialApp(
+      builder: (_, _) => GetMaterialApp(
         debugShowCheckedModeBanner: false,
         initialRoute: AppRoutes.initialRoute,
         theme: AppThemeData.lightThemeData,

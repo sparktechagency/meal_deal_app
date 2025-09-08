@@ -62,6 +62,28 @@ class HelperData {
   ];
 
 
+  static final List<Map<String, dynamic>> category = [
+    {
+      "title": "Turkish",
+      "image": Assets.images.img.image(),
+    },
+    {
+      "title": "American",
+      "image": Assets.images.img1.image(),
+    },
+    {
+      "title": "Mexican",
+      "image": Assets.images.img2.image(),
+    },{
+      "title": "Chinese",
+      "image": Assets.images.img1.image(),
+    },{
+      "title": "Turkish",
+      "image": Assets.images.img.image(),
+    },
+  ];
+
+
 
 
 }

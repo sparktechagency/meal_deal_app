@@ -58,6 +58,8 @@ class CustomListTile extends StatelessWidget {
         fontWeight:  FontWeight.w500,
       ),
       subtitle: subTitle != null ? CustomText(
+        textOverflow: TextOverflow.ellipsis,
+        maxline: 1,
         left: 4,
         textAlign: TextAlign.left,
         text: subTitle ??'',
