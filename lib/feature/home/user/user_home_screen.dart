@@ -59,7 +59,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
             LabelTitleWidget(title: 'Browse by Cuisines'),
 
             SizedBox(
-              height: 180.h,
+              height: 110.h,
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
