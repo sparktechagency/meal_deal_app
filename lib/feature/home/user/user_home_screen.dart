@@ -127,7 +127,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
               },),
             ),
 
-            SizedBox(height: 44.h),
+            SizedBox(height: 24.h),
 
           ],
         ),

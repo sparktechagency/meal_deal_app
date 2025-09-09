@@ -1,70 +1,99 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:meal_deal_app/feature/home/user/user_home_screen.dart';
 import '../../app/utils/app_colors.dart';
 import '../../custom_assets/assets.gen.dart';
-import '../../custom_assets/fonts.gen.dart';
+import '../../widgets/widgets.dart';
 import '../bottom_nav_bar/controller/custom_bottom_nav_bar_controller.dart';
-import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
-import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 
-import '../chat/chat_screen.dart';
-import '../home/user/user_home_screen.dart';
-import '../profile/profile_screen.dart';
-import '../session/session_screen.dart';
+class UserBottomNav extends StatefulWidget {
+  const UserBottomNav({super.key});
 
-class UserBottomNav extends StatelessWidget {
-  UserBottomNav({super.key});
+  @override
+  State<UserBottomNav> createState() => _UserBottomNavState();
+}
 
-  final CustomBottomNavBarController _navBarController =
-  Get.put(CustomBottomNavBarController());
+class _UserBottomNavState extends State<UserBottomNav> {
+  final CustomBottomNavBarController _navBarController = Get.find<CustomBottomNavBarController>();
+ 
+
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   final List<Widget> _screens =  [
     UserHomeScreen(),
-    SessionScreen(),
-    ChatScreen(),
-    ProfileScreen(),
-  ];
-
-  final List<Map<String, dynamic>> _navItems = [
-    {"icon": Assets.icons.home.path, "label": "Home"},
-    {"icon": Assets.icons.session.path, "label": "Session"},
-    {"icon": Assets.icons.chat.path, "label": "Chat"},
-    {"icon": Assets.icons.bottomProfile.path, "label": "Profile"},
+    UserHomeScreen(),
+    UserHomeScreen(),
+    UserHomeScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
-      backgroundColor: AppColors.primaryColor,
+      backgroundColor: AppColors.bgColor,
       body: _screens[_navBarController.selectedIndex.value],
       bottomNavigationBar: SafeArea(
-        child: CurvedNavigationBar(
-          backgroundColor: Colors.white,
-          color: AppColors.primaryColor,
-          buttonBackgroundColor: AppColors.secondaryColor,
-          index: _navBarController.selectedIndex.value,
-          items: List.generate(_navItems.length, (index) {
-            bool isSelected = _navBarController.selectedIndex.value == index;
-            return CurvedNavigationBarItem(
-              child: SvgPicture.asset(
-                _navItems[index]["icon"],
-                color: isSelected ? Colors.white : AppColors.secondaryColor,
-                width: isSelected ? 24.w : 24.w,
-                height: isSelected ? 24.h : 24.h,
-              ),
-              label: _navItems[index]["label"],
-              labelStyle: TextStyle(
-                fontFamily: FontFamily.lora,
-                fontSize: 10.sp,
-                color: isSelected ? Colors.transparent : AppColors.secondaryColor,
-              ),
-            );
-          }),
-          onTap: (index) => _navBarController.onChange(index),
+        child: CustomContainer(
+          horizontalMargin: 16.w,
+          verticalMargin: 6.w,
+          radiusAll: 100.r,
+          paddingVertical: 10.h,
+          color: AppColors.bgColor,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.white,
+              spreadRadius: 2,
+              blurRadius: 6,
+              offset: Offset(-2, -2),
+            ),
+            // Inner shadow (for the pressed-in effect)
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              spreadRadius: 2,
+              blurRadius: 6,
+              offset: Offset(2, 2),
+            ),
+          ],
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: List.generate(
+                _navItems.length, (index) => _buildNavItem(index)),
+          ),
         ),
       ),
     ));
   }
+
+  Widget _buildNavItem(int index) {
+    bool isSelected = _navBarController.selectedIndex.value == index;
+    return GestureDetector(
+      onTap: () => _navBarController.onChange(index),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SvgPicture.asset(
+            _navItems[index]["icon"],
+            width: 24.w,
+            height: 24.h,
+            color: isSelected ? AppColors.primaryColor : AppColors.black700TextColor,
+          ),
+          CustomText(
+            top: 1.h,
+            text: _navItems[index]["label"],fontSize: 12.sp,color: isSelected ? AppColors.primaryColor : AppColors.black700TextColor,)
+        ],
+      ),
+    );
+  }
+
+  final List<Map<String, dynamic>> _navItems = [
+    {"icon": Assets.icons.home.path, "label": "Home"},
+    {"icon": Assets.icons.order.path, "label": "Order"},
+    {"icon": Assets.icons.offer.path, "label": "Offer"},
+    {"icon": Assets.icons.profile.path, "label": "Profile"},
+  ];
 }

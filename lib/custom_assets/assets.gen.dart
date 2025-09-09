@@ -58,9 +58,6 @@ class $AssetsIconsGen {
   /// File path: assets/icons/google.svg
   SvgGenImage get google => const SvgGenImage('assets/icons/google.svg');
 
-  /// File path: assets/icons/height.svg
-  SvgGenImage get height => const SvgGenImage('assets/icons/height.svg');
-
   /// File path: assets/icons/home.svg
   SvgGenImage get home => const SvgGenImage('assets/icons/home.svg');
 
@@ -73,9 +70,6 @@ class $AssetsIconsGen {
   /// File path: assets/icons/image_remove.svg
   SvgGenImage get imageRemove =>
       const SvgGenImage('assets/icons/image_remove.svg');
-
-  /// File path: assets/icons/like.svg
-  SvgGenImage get like => const SvgGenImage('assets/icons/like.svg');
 
   /// File path: assets/icons/logout.svg
   SvgGenImage get logout => const SvgGenImage('assets/icons/logout.svg');
@@ -93,6 +87,12 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/number.svg
   SvgGenImage get number => const SvgGenImage('assets/icons/number.svg');
+
+  /// File path: assets/icons/offer.svg
+  SvgGenImage get offer => const SvgGenImage('assets/icons/offer.svg');
+
+  /// File path: assets/icons/order.svg
+  SvgGenImage get order => const SvgGenImage('assets/icons/order.svg');
 
   /// File path: assets/icons/password.svg
   SvgGenImage get password => const SvgGenImage('assets/icons/password.svg');
@@ -155,17 +155,17 @@ class $AssetsIconsGen {
     date,
     delete,
     google,
-    height,
     home,
     imageAdd,
     imagePost,
     imageRemove,
-    like,
     logout,
     love,
     massegeSend,
     notification,
     number,
+    offer,
+    order,
     password,
     person,
     policy,

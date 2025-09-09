@@ -6,6 +6,7 @@ class AppColors {
   static const Color borderColor = Color(0xffD9D9D9);
   static const Color black300TextColor = Color(0xff797B7F);
   static const Color black600TextColor = Color(0xff32353A);
+  static const Color black700TextColor = Color(0xff27292D);
   static const Color black500TextColor = Color(0xffD7D7D7);
   static const Color black100TextColor = Color(0xffC1C2C4);
   static const Color black800TextColor = Color(0xff767676);
