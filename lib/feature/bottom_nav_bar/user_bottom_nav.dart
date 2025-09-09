@@ -77,10 +77,10 @@ class _UserBottomNavState extends State<UserBottomNav> {
         mainAxisSize: MainAxisSize.min,
         children: [
           SvgPicture.asset(
-            _navItems[index]["icon"],
+            isSelected ? _navItemsF[index]["icon"] : _navItems[index]["icon"],
             width: 24.w,
             height: 24.h,
-            color: isSelected ? AppColors.primaryColor : AppColors.black700TextColor,
+            //color: isSelected ? AppColors.primaryColor : AppColors.black700TextColor,
           ),
           CustomText(
             top: 1.h,
@@ -95,5 +95,12 @@ class _UserBottomNavState extends State<UserBottomNav> {
     {"icon": Assets.icons.order.path, "label": "Order"},
     {"icon": Assets.icons.offer.path, "label": "Offer"},
     {"icon": Assets.icons.profile.path, "label": "Profile"},
+  ];
+
+  final List<Map<String, dynamic>> _navItemsF = [
+    {"icon": Assets.icons.homeF.path, "label": "Home"},
+    {"icon": Assets.icons.orderF.path, "label": "Order"},
+    {"icon": Assets.icons.offerF.path, "label": "Offer"},
+    {"icon": Assets.icons.profileF.path, "label": "Profile"},
   ];
 }

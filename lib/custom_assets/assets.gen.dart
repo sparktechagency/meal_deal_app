@@ -61,6 +61,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/home.svg
   SvgGenImage get home => const SvgGenImage('assets/icons/home.svg');
 
+  /// File path: assets/icons/home_f.svg
+  SvgGenImage get homeF => const SvgGenImage('assets/icons/home_f.svg');
+
   /// File path: assets/icons/image_add.svg
   SvgGenImage get imageAdd => const SvgGenImage('assets/icons/image_add.svg');
 
@@ -91,8 +94,14 @@ class $AssetsIconsGen {
   /// File path: assets/icons/offer.svg
   SvgGenImage get offer => const SvgGenImage('assets/icons/offer.svg');
 
+  /// File path: assets/icons/offer_f.svg
+  SvgGenImage get offerF => const SvgGenImage('assets/icons/offer_f.svg');
+
   /// File path: assets/icons/order.svg
   SvgGenImage get order => const SvgGenImage('assets/icons/order.svg');
+
+  /// File path: assets/icons/order_f.svg
+  SvgGenImage get orderF => const SvgGenImage('assets/icons/order_f.svg');
 
   /// File path: assets/icons/password.svg
   SvgGenImage get password => const SvgGenImage('assets/icons/password.svg');
@@ -117,6 +126,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/profile_edit.svg
   SvgGenImage get profileEdit =>
       const SvgGenImage('assets/icons/profile_edit.svg');
+
+  /// File path: assets/icons/profile_f.svg
+  SvgGenImage get profileF => const SvgGenImage('assets/icons/profile_f.svg');
 
   /// File path: assets/icons/session.svg
   SvgGenImage get session => const SvgGenImage('assets/icons/session.svg');
@@ -156,6 +168,7 @@ class $AssetsIconsGen {
     delete,
     google,
     home,
+    homeF,
     imageAdd,
     imagePost,
     imageRemove,
@@ -165,7 +178,9 @@ class $AssetsIconsGen {
     notification,
     number,
     offer,
+    offerF,
     order,
+    orderF,
     password,
     person,
     policy,
@@ -173,6 +188,7 @@ class $AssetsIconsGen {
     profile,
     profileCamera,
     profileEdit,
+    profileF,
     session,
     setting,
     splashLogo,
