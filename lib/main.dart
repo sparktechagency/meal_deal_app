@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../routes/app_routes.dart';
@@ -11,7 +12,7 @@ import 'app/theme/app_theme.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  
+
   Get.put(ConnectivityController());
 
   DeviceUtils.lockDevicePortrait();
@@ -31,7 +32,7 @@ class MealDealApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         initialRoute: AppRoutes.initialRoute,
         theme: AppThemeData.lightThemeData,
-        darkTheme: AppThemeData.darkThemeData,
+       darkTheme: AppThemeData.darkThemeData,
         themeMode: ThemeMode.light,
         initialBinding: DependencyInjection(),
         routes: AppRoutes.routes,

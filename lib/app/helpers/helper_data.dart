@@ -85,5 +85,91 @@ class HelperData {
 
 
 
+  static final List<Map<String, dynamic>> products = [
+    {
+      "title": "Lotteria - 124 Sandiago",
+      "author": "Leslie Alexander",
+      "authorImage": "",
+      "image": Assets.images.img.image(),
+      "rating": 4.5,
+      "reviews": 232,
+      "distance": "1.3 km",
+      "kcal": 450,
+      "portions": 3,
+    },
+    {
+      "title": "Lotteria - 124 Sandiago",
+      "author": "Guy Hawkins",
+      "authorImage": "",
+      "image": Assets.images.img1.image(),
+      "rating": 3.5,
+      "reviews": 42,
+      "distance": "1.3 km",
+      "kcal": 450,
+      "portions": 3,
+    },
+    {
+      "title": "Lotteria - 124 Sandiago",
+      "author": "Leslie Alexander",
+      "authorImage": "",
+      "image": Assets.images.img.image(),
+      "rating": 4.5,
+      "reviews": 232,
+      "distance": "1.3 km",
+      "kcal": 450,
+      "portions": 3,
+    },
+    {
+      "title": "Lotteria - 124 Sandiago",
+      "author": "Guy Hawkins",
+      "authorImage": "",
+      "image": Assets.images.img1.image(),
+      "rating": 3.5,
+      "reviews": 42,
+      "distance": "1.3 km",
+      "kcal": 450,
+      "portions": 3,
+    },
+  ];
+
+
+  static final List<Map<String, dynamic>> restaurants = [
+    {
+      "name": "Jacob Jones",
+      "image": Assets.images.cook.image(),
+      "time": "10AM - 10PM",
+      "rating": 4.5,
+      "reviews": 232,
+      "distance": "1.3 km"
+    },
+    {
+      "name": "Eleanor Pena",
+      "image": Assets.images.cook2.image(),
+      "time": "10AM - 10PM",
+      "rating": 4.5,
+      "reviews": 232,
+      "distance": "1.3 km"
+    },
+
+    {
+      "name": "Jacob Jones",
+      "image": Assets.images.cook.image(),
+      "time": "10AM - 10PM",
+      "rating": 4.5,
+      "reviews": 232,
+      "distance": "1.3 km"
+    },
+    {
+      "name": "Eleanor Pena",
+      "image": Assets.images.cook2.image(),
+      "time": "10AM - 10PM",
+      "rating": 4.5,
+      "reviews": 232,
+      "distance": "1.3 km"
+    },
+  ];
+
+
+
 
 }

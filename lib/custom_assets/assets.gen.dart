@@ -55,9 +55,6 @@ class $AssetsIconsGen {
   /// File path: assets/icons/delete.svg
   SvgGenImage get delete => const SvgGenImage('assets/icons/delete.svg');
 
-  /// File path: assets/icons/email.svg
-  SvgGenImage get email => const SvgGenImage('assets/icons/email.svg');
-
   /// File path: assets/icons/google.svg
   SvgGenImage get google => const SvgGenImage('assets/icons/google.svg');
 
@@ -131,6 +128,9 @@ class $AssetsIconsGen {
   SvgGenImage get splashLogo =>
       const SvgGenImage('assets/icons/splash_logo.svg');
 
+  /// File path: assets/icons/star.svg
+  SvgGenImage get star => const SvgGenImage('assets/icons/star.svg');
+
   /// File path: assets/icons/success_popup_icon.svg
   SvgGenImage get successPopupIcon =>
       const SvgGenImage('assets/icons/success_popup_icon.svg');
@@ -154,7 +154,6 @@ class $AssetsIconsGen {
     cleanIcon,
     date,
     delete,
-    email,
     google,
     height,
     home,
@@ -177,6 +176,7 @@ class $AssetsIconsGen {
     session,
     setting,
     splashLogo,
+    star,
     successPopupIcon,
     support,
     terms,
@@ -189,6 +189,12 @@ class $AssetsImagesGen {
   /// File path: assets/images/app_logo.png
   AssetGenImage get appLogo =>
       const AssetGenImage('assets/images/app_logo.png');
+
+  /// File path: assets/images/cook.png
+  AssetGenImage get cook => const AssetGenImage('assets/images/cook.png');
+
+  /// File path: assets/images/cook_2.png
+  AssetGenImage get cook2 => const AssetGenImage('assets/images/cook_2.png');
 
   /// File path: assets/images/img.png
   AssetGenImage get img => const AssetGenImage('assets/images/img.png');
@@ -229,6 +235,8 @@ class $AssetsImagesGen {
   /// List of all assets
   List<AssetGenImage> get values => [
     appLogo,
+    cook,
+    cook2,
     img,
     img1,
     img2,

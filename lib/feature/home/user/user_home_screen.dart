@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meal_deal_app/app/helpers/helper_data.dart';
+import 'package:meal_deal_app/feature/home/widgets/cooks_card_widget.dart';
 import 'package:meal_deal_app/widgets/label_title_widget.dart';
 import '../../../app/utils/app_colors.dart';
 import '../../../custom_assets/assets.gen.dart';
 import '../../../widgets/widgets.dart';
+import '../widgets/category_card_widget.dart';
+import '../widgets/products_card_widget.dart';
 
 class UserHomeScreen extends StatefulWidget {
   const UserHomeScreen({super.key});
@@ -56,73 +59,73 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
             ),
 
 
-            LabelTitleWidget(title: 'Browse by Cuisines'),
+            LabelTitleWidget(title: 'Browse by Cuisines',onTap: (){}),
 
             SizedBox(
-              height: 110.h,
-              child: SingleChildScrollView(
+              height: 100.h,
+              child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: List.generate(HelperData.category.length, (index) {
-                    final data = HelperData.category[index];
-                    return CustomContainer(
-                      paddingHorizontal: 10.w,
-                      marginRight: 14.w,
-                      marginLeft: index == 0 ? 14.w : 0,
-                      radiusAll: 8.r,
-                      height: 105.h,
-                      width: 75.w,
-                      color: AppColors.bgColor,
-                      bordersColor: AppColors.borderColor,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: 75.h,
-                            width: 75.w,
-                            child: data['image'],
-                          ),
-                          FittedBox(child: CustomText(text: data['title'],fontSize: 12.sp)),
-                        ],
-                      ),
-                    );
-                  }),
-                ),
+                  itemCount: HelperData.category.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                  final data = HelperData.category[index];
+                  return CategoryCardWidget(data: data,index: index);
+                }),
               ),
+
+            SizedBox(height: 10.h),
+            Divider(color: AppColors.borderColor,thickness: 0.5,),
+
+            LabelTitleWidget(title: 'Your previous orders',onTap: (){}),
+
+            SizedBox(
+              height: 265.h,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: HelperData.products.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  final item = HelperData.products[index];
+                  return ProductsCardWidget(item: item, index: index,);
+              },),
             ),
 
-            CustomText(
-                top: 24.h,
-                bottom: 10.h,
-                left: 16.w,
-                right: 16.w,
-                text: 'Upcoming Sessions',fontWeight: FontWeight.w600,fontSize: 16.sp),
 
 
+            SizedBox(height: 10.h),
+            Divider(color: AppColors.borderColor,thickness: 0.5,),
 
-            ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: 10,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-              return Padding(
-                padding:  EdgeInsets.symmetric(horizontal: 16.w,vertical: 6.h),
-                child: CustomListTile(
-                  contentPaddingVertical: 6.h,
-                  borderRadius: 8.r,
-                  borderColor: AppColors.borderColor,
-                  image: '',
-                  title: 'Annette Black',
-                  subTitle: '08/08/25 at 4:30 PM',
-                  titleFontSize: 16.sp,
-                  trailing: CustomButton(
-                    radius: 8.r,
-                    height: 25.h,
-                    fontSize: 10.sp,
-                      onPressed: (){},label: 'View Detail'),
-                ),
-              );
-            },),
+            LabelTitleWidget(title: 'Top Rated Cooks',onTap: (){}),
+
+            SizedBox(
+              height: 210.h,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: HelperData.restaurants.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  final item = HelperData.restaurants[index];
+                  return CooksCardWidget(item: item, index: index,);
+              },),
+            ),
+
+
+            SizedBox(height: 10.h),
+            Divider(color: AppColors.borderColor,thickness: 0.5,),
+
+            LabelTitleWidget(title: 'Popular Meals',onTap: (){}),
+
+            SizedBox(
+              height: 265.h,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: HelperData.products.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  final item = HelperData.products[index];
+                  return ProductsCardWidget(item: item, index: index,);
+              },),
+            ),
 
             SizedBox(height: 44.h),
 
@@ -132,3 +135,5 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
     );
   }
 }
+
+
