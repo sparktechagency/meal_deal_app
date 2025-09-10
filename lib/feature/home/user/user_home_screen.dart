@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:meal_deal_app/app/helpers/helper_data.dart';
 import 'package:meal_deal_app/feature/home/widgets/cooks_card_widget.dart';
+import 'package:meal_deal_app/routes/app_routes.dart';
 import 'package:meal_deal_app/widgets/label_title_widget.dart';
 import '../../../app/utils/app_colors.dart';
 import '../../../custom_assets/assets.gen.dart';
@@ -59,7 +61,9 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
             ),
 
 
-            LabelTitleWidget(title: 'Browse by Cuisines',onTap: (){}),
+            LabelTitleWidget(title: 'Browse by Cuisines',onTap: (){
+              Get.toNamed(AppRoutes.categoryScreen);
+            }),
 
             SizedBox(
               height: 100.h,

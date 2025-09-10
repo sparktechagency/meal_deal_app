@@ -55,6 +55,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/delete.svg
   SvgGenImage get delete => const SvgGenImage('assets/icons/delete.svg');
 
+  /// File path: assets/icons/filter.svg
+  SvgGenImage get filter => const SvgGenImage('assets/icons/filter.svg');
+
   /// File path: assets/icons/google.svg
   SvgGenImage get google => const SvgGenImage('assets/icons/google.svg');
 
@@ -130,9 +133,6 @@ class $AssetsIconsGen {
   /// File path: assets/icons/profile_f.svg
   SvgGenImage get profileF => const SvgGenImage('assets/icons/profile_f.svg');
 
-  /// File path: assets/icons/session.svg
-  SvgGenImage get session => const SvgGenImage('assets/icons/session.svg');
-
   /// File path: assets/icons/setting.svg
   SvgGenImage get setting => const SvgGenImage('assets/icons/setting.svg');
 
@@ -166,6 +166,7 @@ class $AssetsIconsGen {
     cleanIcon,
     date,
     delete,
+    filter,
     google,
     home,
     homeF,
@@ -189,7 +190,6 @@ class $AssetsIconsGen {
     profileCamera,
     profileEdit,
     profileF,
-    session,
     setting,
     splashLogo,
     star,

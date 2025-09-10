@@ -66,20 +66,30 @@ class HelperData {
     {
       "title": "Turkish",
       "image": Assets.images.img.image(),
+      "rating": 3.5,
+      "price": '12-15',
     },
     {
       "title": "American",
       "image": Assets.images.img1.image(),
+      "rating": 3.5,
+      "price": '12-15',
     },
     {
       "title": "Mexican",
       "image": Assets.images.img2.image(),
+      "rating": 3.5,
+      "price": '12-15',
     },{
       "title": "Chinese",
       "image": Assets.images.img1.image(),
+      "rating": 3.5,
+      "price": '12-15',
     },{
       "title": "Turkish",
       "image": Assets.images.img.image(),
+      "rating": 3.5,
+      "price": '12-15',
     },
   ];
 

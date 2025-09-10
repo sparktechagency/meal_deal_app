@@ -29,7 +29,7 @@ class CustomBottomNavBar extends StatelessWidget {
 
   final List<Map<String, dynamic>> _navItems = [
     {"icon": Assets.icons.home.path, "label": "Home"},
-    {"icon": Assets.icons.session.path, "label": "Session"},
+    //{"icon": Assets.icons.session.path, "label": "Session"},
     {"icon": Assets.icons.chat.path, "label": "Chat"},
     {"icon": Assets.icons.bottomProfile.path, "label": "Profile"},
   ];

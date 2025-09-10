@@ -80,7 +80,6 @@ class _UserBottomNavState extends State<UserBottomNav> {
             isSelected ? _navItemsF[index]["icon"] : _navItems[index]["icon"],
             width: 24.w,
             height: 24.h,
-            //color: isSelected ? AppColors.primaryColor : AppColors.black700TextColor,
           ),
           CustomText(
             top: 1.h,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meal_deal_app/feature/home/user/children/category_screen.dart';
 import '../feature/auth/complete_profile/complete_profile_first_page.dart';
 import '../feature/auth/forget/forget_screen.dart';
 import '../feature/auth/login/log_in_screen.dart';
@@ -66,6 +67,7 @@ abstract class AppRoutes {
   static const String completeProfileFirstPage = '/completeProfileFirstPage';
   static const String roleScreen = '/roleScreen';
   static const String userBottomNavBar = '/userBottomNavBar';
+  static const String categoryScreen = '/categoryScreen';
 
 
 
@@ -90,6 +92,7 @@ abstract class AppRoutes {
     completeProfileFirstPage : (context) => CompleteProfileFirstPage(),
     roleScreen : (context) => RoleScreen(),
     userBottomNavBar : (context) => UserBottomNav(),
+    categoryScreen : (context) => CategoryScreen(),
 
   };
 }
