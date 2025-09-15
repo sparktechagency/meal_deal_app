@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:meal_deal_app/custom_assets/fonts.gen.dart';
 
 import '../app/utils/app_colors.dart';
 import '../custom_assets/assets.gen.dart';
@@ -8,7 +9,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({
     super.key,
     this.title,
-    this.titleSize = 18,
+    this.titleSize = 16,
     this.centerTitle = true,
     this.titleWidget,
     this.flexibleSpace,
@@ -66,8 +67,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ? Text(
         title!,
         style: TextStyle(
-         // fontFamily: FontFamily.inter,
-          fontWeight: FontWeight.w500,
+          fontFamily: FontFamily.lora,
+          fontWeight: FontWeight.w400,
           fontSize: titleSize.sp,
           color: AppColors.appBarTitleColor,
         ),

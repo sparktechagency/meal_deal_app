@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:meal_deal_app/app/utils/app_colors.dart';
+import 'package:meal_deal_app/custom_assets/fonts.gen.dart';
 
 class MenuShowHelper {
   static final List<String> heightOptions = List.generate(100, (index) {
@@ -45,15 +47,16 @@ class MenuShowHelper {
       ),
       items: options.map((String option) {
         return PopupMenuItem<String>(
+          height: 32.h,
           value: option,
           padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 12.w),
           child: SizedBox(
-            height: 28.h,
+            //height: 28.h,
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 option,
-                style: TextStyle(fontSize: 12.sp, color: Colors.black),
+                style: TextStyle(fontSize: 12.sp, color: AppColors.appGreyColor,fontFamily: FontFamily.lora),
               ),
             ),
           ),

@@ -5,11 +5,15 @@ class AppColors {
   static const Color bgColor = Color(0xffF5F5F7);
   static const Color borderColor = Color(0xffD9D9D9);
   static const Color black300TextColor = Color(0xff797B7F);
+  static const Color black400TextColor = Color(0xff5F6166);
+  static const Color black04TextColor = Color(0xff565656);
   static const Color black600TextColor = Color(0xff32353A);
   static const Color black700TextColor = Color(0xff27292D);
   static const Color black500TextColor = Color(0xffD7D7D7);
   static const Color black100TextColor = Color(0xffC1C2C4);
   static const Color black800TextColor = Color(0xff767676);
+  static const Color white1TextColor = Color(0xffECECEC);
+  static const Color colorE7E7E7 = Color(0xffE7E7E7);
   static const Color primaryColor = Color(0xffCC7108);
   static const Color secondaryColor = Color(0xff305CDE);
   static const Color blue1 = Color(0xff59B5F7);

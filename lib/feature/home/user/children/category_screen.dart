@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:meal_deal_app/app/helpers/helper_data.dart';
 import 'package:meal_deal_app/app/utils/app_colors.dart';
 import 'package:meal_deal_app/feature/home/widgets/category_big_card_widget.dart';
+import 'package:meal_deal_app/routes/app_routes.dart';
 import 'package:meal_deal_app/widgets/widgets.dart';
 import '../../../../custom_assets/assets.gen.dart';
 
@@ -16,17 +18,8 @@ class CategoryScreen extends StatefulWidget {
 class _CategoryScreenState extends State<CategoryScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  /// State for radio (only one selected at a time)
+  /// State for radio (only one selected at a time per section)
   String? _selectedDietary = "";
-
-  /// State for cuisines
-  final Set<String> _selectedCuisines = {};
-
-  /// State for fitness flow
-  final Set<String> _selectedFitness = {};
-
-  /// State for cheat flow
-  final Set<String> _selectedCheat = {};
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +49,11 @@ class _CategoryScreenState extends State<CategoryScreen> {
           itemCount: HelperData.category.length,
           itemBuilder: (context, index) {
             final data = HelperData.category[index];
-            return CategoryBigCardWidget(data: data, index: index);
+            return CategoryBigCardWidget(
+              onTap: (){
+                Get.toNamed(AppRoutes.productViewScreen,arguments: data['title']);
+              },
+                data: data, index: index);
           },
         ),
       ),
@@ -80,13 +77,12 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   CustomText(text: "Dietary", color: AppColors.appGreyColor),
                   ...["Vegan", "Vegetarian", "Halal", "Gluten Free"].map((item) {
                     return RadioListTile<String>(
+                      selected: item == _selectedDietary ? true : false,
+                      selectedTileColor: AppColors.primaryColor.withOpacity(0.2),
                       activeColor: AppColors.primaryColor,
                       contentPadding: EdgeInsets.zero,
                       dense: true,
-                      title: CustomText(
-                        textAlign: TextAlign.start,
-                        text: item,
-                      ),
+                      title: CustomText(textAlign: TextAlign.start, text: item),
                       value: item,
                       groupValue: _selectedDietary,
                       onChanged: (val) {
@@ -99,26 +95,21 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
                   Divider(color: AppColors.borderColor, thickness: 0.5),
 
-                  /// Cuisine Section (Checkbox)
+                  /// Cuisine Section (Radio)
                   CustomText(text: "Cuisine", color: AppColors.appGreyColor),
-                  ...["Main", "Dessert", "Snacks", "Drinks", "Seafood"]
-                      .map((item) {
-                    return CheckboxListTile(
+                  ...["Main", "Dessert", "Snacks", "Drinks", "Seafood"].map((item) {
+                    return RadioListTile<String>(
+                      selected: item == _selectedDietary ? true : false,
+                      selectedTileColor: AppColors.primaryColor.withOpacity(0.2),
                       activeColor: AppColors.primaryColor,
                       contentPadding: EdgeInsets.zero,
                       dense: true,
-                      title: CustomText(
-                        textAlign: TextAlign.start,
-                        text: item,
-                      ),
-                      value: _selectedCuisines.contains(item),
+                      title: CustomText(textAlign: TextAlign.start, text: item),
+                      value: item,
+                      groupValue: _selectedDietary,
                       onChanged: (val) {
                         setState(() {
-                          if (val == true) {
-                            _selectedCuisines.add(item);
-                          } else {
-                            _selectedCuisines.remove(item);
-                          }
+                          _selectedDietary = val;
                         });
                       },
                     );
@@ -126,25 +117,21 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
                   Divider(color: AppColors.borderColor, thickness: 0.5),
 
-                  /// Fitness Flow (Checkbox)
+                  /// Fitness Flow (Radio)
                   CustomText(text: "Fitness Flow", color: AppColors.appGreyColor),
                   ...["Protein", "Low-Carbs", "Smoothies"].map((item) {
-                    return CheckboxListTile(
+                    return RadioListTile<String>(
+                      selected: item == _selectedDietary ? true : false,
+                      selectedTileColor: AppColors.primaryColor.withOpacity(0.2),
                       activeColor: AppColors.primaryColor,
                       contentPadding: EdgeInsets.zero,
                       dense: true,
-                      title: CustomText(
-                        textAlign: TextAlign.start,
-                        text: item,
-                      ),
-                      value: _selectedFitness.contains(item),
+                      title: CustomText(textAlign: TextAlign.start, text: item),
+                      value: item,
+                      groupValue: _selectedDietary,
                       onChanged: (val) {
                         setState(() {
-                          if (val == true) {
-                            _selectedFitness.add(item);
-                          } else {
-                            _selectedFitness.remove(item);
-                          }
+                          _selectedDietary = val;
                         });
                       },
                     );
@@ -152,25 +139,21 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
                   Divider(color: AppColors.borderColor, thickness: 0.5),
 
-                  // Cheat Flow (Checkbox)
+                  /// Cheat Flow (Radio)
                   CustomText(text: "Cheat Flow", color: AppColors.appGreyColor),
                   ...["Comfort", "Sweet", "Street Food"].map((item) {
-                    return CheckboxListTile(
+                    return RadioListTile<String>(
+                      selected: item == _selectedDietary ? true : false,
+                      selectedTileColor: AppColors.primaryColor.withOpacity(0.2),
                       activeColor: AppColors.primaryColor,
                       contentPadding: EdgeInsets.zero,
                       dense: true,
-                      title: CustomText(
-                        textAlign: TextAlign.start,
-                        text: item,
-                      ),
-                      value: _selectedCheat.contains(item),
+                      title: CustomText(textAlign: TextAlign.start, text: item),
+                      value: item,
+                      groupValue: _selectedDietary,
                       onChanged: (val) {
                         setState(() {
-                          if (val == true) {
-                            _selectedCheat.add(item);
-                          } else {
-                            _selectedCheat.remove(item);
-                          }
+                          _selectedDietary = val;
                         });
                       },
                     );
@@ -184,9 +167,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     fontSize: 16.sp,
                     onPressed: () {
                       debugPrint("Dietary: $_selectedDietary");
-                      debugPrint("Cuisines: $_selectedCuisines");
-                      debugPrint("Fitness: $_selectedFitness");
-                      debugPrint("Cheat: $_selectedCheat");
                       Navigator.pop(context);
                     },
                     label: 'Apply filter',

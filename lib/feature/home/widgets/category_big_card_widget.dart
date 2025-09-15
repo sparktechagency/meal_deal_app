@@ -7,15 +7,17 @@ import '../../../widgets/widgets.dart';
 class CategoryBigCardWidget extends StatelessWidget {
   const CategoryBigCardWidget({
     super.key,
-    required this.data, required this.index,
+    required this.data, required this.index,this.onTap,
   });
 
   final Map<String, dynamic> data;
   final int  index;
+  final VoidCallback?  onTap;
 
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
+      onTap: onTap,
       radiusAll: 8.r,
       height: 187.h,
       width: 166.w,

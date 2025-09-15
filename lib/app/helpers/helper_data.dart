@@ -93,9 +93,75 @@ class HelperData {
     },
   ];
 
+  static final List<Map<String, dynamic>> categoryItem = [
+    {
+      "title": "Dietary categories",
+      "items": ["Vegan", "Vegetarian", "Halal", "Gluten Free"]
+    },
+    {
+      "title": "Category",
+      "items": ["Main", "Dessert", "Snacks", "Drinks", "Seafood"]
+    },
+    {
+      "title": "Fitness Flow",
+      "items": ["Protein", "Low-Carbs", "Smoothies"]
+    },
+    {
+      "title": "Cheat Flow",
+      "items": ["Comfort", "Sweet", "Street Food"]
+    },
+  ];
+
+  static final List<String> cuisines = [
+    "Italian", "Swiss", "Asian", "Mexican", "American"
+  ];
 
 
   static final List<Map<String, dynamic>> products = [
+    {
+      "title": "Lotteria - 124 Sandiago",
+      "author": "Leslie Alexander",
+      "authorImage": "",
+      "image": Assets.images.img.image(),
+      "rating": 4.5,
+      "reviews": 232,
+      "distance": "1.3 km",
+      "kcal": 450,
+      "portions": 3,
+    },
+    {
+      "title": "Lotteria - 124 Sandiago",
+      "author": "Guy Hawkins",
+      "authorImage": "",
+      "image": Assets.images.img1.image(),
+      "rating": 3.5,
+      "reviews": 42,
+      "distance": "1.3 km",
+      "kcal": 450,
+      "portions": 3,
+    },
+    {
+      "title": "Lotteria - 124 Sandiago",
+      "author": "Leslie Alexander",
+      "authorImage": "",
+      "image": Assets.images.img.image(),
+      "rating": 4.5,
+      "reviews": 232,
+      "distance": "1.3 km",
+      "kcal": 450,
+      "portions": 3,
+    },
+    {
+      "title": "Lotteria - 124 Sandiago",
+      "author": "Guy Hawkins",
+      "authorImage": "",
+      "image": Assets.images.img1.image(),
+      "rating": 3.5,
+      "reviews": 42,
+      "distance": "1.3 km",
+      "kcal": 450,
+      "portions": 3,
+    },
     {
       "title": "Lotteria - 124 Sandiago",
       "author": "Leslie Alexander",

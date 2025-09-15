@@ -7,17 +7,19 @@ import '../../../widgets/widgets.dart';
 class ProductsCardWidget extends StatelessWidget {
   const ProductsCardWidget({
     super.key,
-    required this.item, required this.index,
+    required this.item,  this.index,
   });
 
   final Map<String, dynamic> item;
-  final int  index;
+  final int?  index;
 
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
-      marginRight: 14.w,
-      marginLeft: index == 0 ? 14.w : 0,
+      marginRight: index == null  ? 0 : 14.w,
+      marginLeft: (index == null)
+          ? 0
+          : (index == 0 ? 14.w : 0),
       radiusAll: 8.r,
       height: 265.h,
       width: 166.w,

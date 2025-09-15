@@ -73,14 +73,18 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                   final data = HelperData.category[index];
-                  return CategoryCardWidget(data: data,index: index);
+                  return CategoryCardWidget(data: data,index: index,onTap: (){
+                    Get.toNamed(AppRoutes.productViewScreen,arguments: data['title']);
+                  },);
                 }),
               ),
 
             SizedBox(height: 10.h),
             Divider(color: AppColors.borderColor,thickness: 0.5,),
 
-            LabelTitleWidget(title: 'Your previous orders',onTap: (){}),
+            LabelTitleWidget(title: 'Your previous orders',onTap: (){
+              Get.toNamed(AppRoutes.productViewScreen,arguments: 'Previous orders');
+            }),
 
             SizedBox(
               height: 265.h,
@@ -90,7 +94,9 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   final item = HelperData.products[index];
-                  return ProductsCardWidget(item: item, index: index,);
+                  return ProductsCardWidget(item: item, index: index,
+
+                  );
               },),
             ),
 
@@ -109,7 +115,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   final item = HelperData.restaurants[index];
-                  return CooksCardWidget(item: item, index: index,);
+                  return CooksCardWidget(item: item, index: index);
               },),
             ),
 
@@ -117,7 +123,10 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
             SizedBox(height: 10.h),
             Divider(color: AppColors.borderColor,thickness: 0.5,),
 
-            LabelTitleWidget(title: 'Popular Meals',onTap: (){}),
+            LabelTitleWidget(title: 'Popular Meals',onTap: (){
+              Get.toNamed(AppRoutes.productViewScreen,arguments: 'Popular Meals');
+
+            }),
 
             SizedBox(
               height: 265.h,

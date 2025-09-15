@@ -49,9 +49,6 @@ class $AssetsIconsGen {
   /// File path: assets/icons/clean_icon.svg
   SvgGenImage get cleanIcon => const SvgGenImage('assets/icons/clean_icon.svg');
 
-  /// File path: assets/icons/date.svg
-  SvgGenImage get date => const SvgGenImage('assets/icons/date.svg');
-
   /// File path: assets/icons/delete.svg
   SvgGenImage get delete => const SvgGenImage('assets/icons/delete.svg');
 
@@ -67,9 +64,6 @@ class $AssetsIconsGen {
   /// File path: assets/icons/home_f.svg
   SvgGenImage get homeF => const SvgGenImage('assets/icons/home_f.svg');
 
-  /// File path: assets/icons/image_add.svg
-  SvgGenImage get imageAdd => const SvgGenImage('assets/icons/image_add.svg');
-
   /// File path: assets/icons/image_post.svg
   SvgGenImage get imagePost => const SvgGenImage('assets/icons/image_post.svg');
 
@@ -77,11 +71,17 @@ class $AssetsIconsGen {
   SvgGenImage get imageRemove =>
       const SvgGenImage('assets/icons/image_remove.svg');
 
+  /// File path: assets/icons/listing.svg
+  SvgGenImage get listing => const SvgGenImage('assets/icons/listing.svg');
+
   /// File path: assets/icons/logout.svg
   SvgGenImage get logout => const SvgGenImage('assets/icons/logout.svg');
 
   /// File path: assets/icons/love.svg
   SvgGenImage get love => const SvgGenImage('assets/icons/love.svg');
+
+  /// File path: assets/icons/map_view.svg
+  SvgGenImage get mapView => const SvgGenImage('assets/icons/map_view.svg');
 
   /// File path: assets/icons/massege_send.svg
   SvgGenImage get massegeSend =>
@@ -164,17 +164,17 @@ class $AssetsIconsGen {
     cameraAdd,
     chat,
     cleanIcon,
-    date,
     delete,
     filter,
     google,
     home,
     homeF,
-    imageAdd,
     imagePost,
     imageRemove,
+    listing,
     logout,
     love,
+    mapView,
     massegeSend,
     notification,
     number,
@@ -228,6 +228,10 @@ class $AssetsImagesGen {
   AssetGenImage get locationImage =>
       const AssetGenImage('assets/images/location_image.png');
 
+  /// File path: assets/images/map_resturant.png
+  AssetGenImage get mapResturant =>
+      const AssetGenImage('assets/images/map_resturant.png');
+
   /// File path: assets/images/onboarding_image.png
   AssetGenImage get onboardingImage =>
       const AssetGenImage('assets/images/onboarding_image.png');
@@ -258,6 +262,7 @@ class $AssetsImagesGen {
     img2,
     img3,
     locationImage,
+    mapResturant,
     onboardingImage,
     splashBottom,
     splashLogo,
