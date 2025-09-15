@@ -212,6 +212,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/cook_2.png
   AssetGenImage get cook2 => const AssetGenImage('assets/images/cook_2.png');
 
+  /// File path: assets/images/cook_image.jpg
+  AssetGenImage get cookImage =>
+      const AssetGenImage('assets/images/cook_image.jpg');
+
   /// File path: assets/images/img.png
   AssetGenImage get img => const AssetGenImage('assets/images/img.png');
 
@@ -257,6 +261,7 @@ class $AssetsImagesGen {
     appLogo,
     cook,
     cook2,
+    cookImage,
     img,
     img1,
     img2,

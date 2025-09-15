@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meal_deal_app/feature/home/user/children/category_screen.dart';
+import 'package:meal_deal_app/feature/home/user/children/cook_veiw_screen.dart';
 import 'package:meal_deal_app/feature/home/user/children/map_screen.dart';
 import 'package:meal_deal_app/feature/home/user/children/product_details_screen.dart';
 import 'package:meal_deal_app/feature/home/user/children/product_view_screen.dart';
@@ -73,6 +74,7 @@ abstract class AppRoutes {
   static const String categoryScreen = '/categoryScreen';
   static const String productViewScreen = '/productViewScreen';
   static const String productDetailsScreen = '/productDetailsScreen';
+  static const String cookViewScreen = '/cookViewScreen';
 
 
 
@@ -100,6 +102,7 @@ abstract class AppRoutes {
     categoryScreen : (context) => CategoryScreen(),
     productViewScreen : (context) => ProductViewScreen(),
     productDetailsScreen : (context) => ProductDetailsScreen(),
+    cookViewScreen : (context) => CookViewScreen(),
 
   };
 }
