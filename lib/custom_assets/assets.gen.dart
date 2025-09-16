@@ -71,6 +71,9 @@ class $AssetsIconsGen {
   SvgGenImage get imageRemove =>
       const SvgGenImage('assets/icons/image_remove.svg');
 
+  /// File path: assets/icons/info.svg
+  SvgGenImage get info => const SvgGenImage('assets/icons/info.svg');
+
   /// File path: assets/icons/listing.svg
   SvgGenImage get listing => const SvgGenImage('assets/icons/listing.svg');
 
@@ -79,6 +82,9 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/love.svg
   SvgGenImage get love => const SvgGenImage('assets/icons/love.svg');
+
+  /// File path: assets/icons/love_field.svg
+  SvgGenImage get loveField => const SvgGenImage('assets/icons/love_field.svg');
 
   /// File path: assets/icons/map_view.svg
   SvgGenImage get mapView => const SvgGenImage('assets/icons/map_view.svg');
@@ -171,9 +177,11 @@ class $AssetsIconsGen {
     homeF,
     imagePost,
     imageRemove,
+    info,
     listing,
     logout,
     love,
+    loveField,
     mapView,
     massegeSend,
     notification,

@@ -27,7 +27,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           return [
             SliverAppBar(
-              expandedHeight: 200.h,
+              expandedHeight: 280.h,
               floating: false,
               pinned: false,
               elevation: 0,
@@ -49,10 +49,31 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 ),
               ],
               flexibleSpace: FlexibleSpaceBar(
-                background: Container(
-                  color: AppColors.bgColor,
-                  alignment: Alignment.center,
-                  child: Assets.images.img.image(fit: BoxFit.contain),
+                background: SafeArea(
+                  bottom: false,
+                  child: CustomContainer(
+                    color: AppColors.bgColor,
+                    image: DecorationImage(image: AssetImage(Assets.images.img.path)),
+                   child: Align(
+                     alignment: Alignment.bottomLeft,
+                     child: Padding(
+                       padding:  EdgeInsets.symmetric(horizontal: 16.w),
+                       child: Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         mainAxisSize: MainAxisSize.min,
+                         children: [
+                           CustomText(text: 'Category : Main',color: AppColors.black400TextColor,bottom: 4.h,),
+                           Row(
+                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                             children: [
+                             CustomText(text: '30 Mins for Pick Up',color: AppColors.black400TextColor,bottom: 8.h,),
+                             CustomText(text: '450 kcal',color: AppColors.black400TextColor,bottom: 8.h),
+                           ],)
+                         ],
+                       ),
+                     ),
+                   ),
+                  ),
                 ),
               ),
             ),

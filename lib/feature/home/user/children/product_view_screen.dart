@@ -31,8 +31,9 @@ class _ProductViewScreenState extends State<ProductViewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      paddingSide: 0,
+    return Scaffold(
+      backgroundColor: AppColors.bgColor,
+      //paddingSide: 0,
       appBar: selectedValueButton == 'Map View'
           ? null
           : CustomAppBar(title: appTitle),

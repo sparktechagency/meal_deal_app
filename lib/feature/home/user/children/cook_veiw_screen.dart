@@ -14,34 +14,40 @@ class CookViewScreen extends StatelessWidget {
       body: Stack(
         children: [
           SingleChildScrollView(
-            child: Column(
+            child: Stack(
               children: [
-                CustomContainer(
-                  height: 370.h,
-                  width: double.infinity,
-                  child: Assets.images.cookImage.image(
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                    height: double.infinity,
-                  ),
+                Column(
+                  children: [
+                    CustomContainer(
+                      height: 370.h,
+                      width: double.infinity,
+                      child: Assets.images.cookImage.image(
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: double.infinity,
+                      ),
+                    ),
+                    SizedBox(height: 100.h),
+                   // _buildFilters(),
+                    //SizedBox(height: 16.h),
+                    ..._buildMenuItems(),
+                  ],
                 ),
-                SizedBox(height: 100.h),
-               // _buildFilters(),
-                //SizedBox(height: 16.h),
-                ..._buildMenuItems(),
+                Positioned(
+                    top: 280.h,
+                    left: 24.w,
+                    right: 24.w,
+                    child: _buildProfileHeader()),
+
               ],
             ),
           ),
           Positioned(
-            top: 280.h,
-              left: 24.w,
-              right: 24.w,
-              child: _buildProfileHeader()),
-          Positioned(
             top: 0.h,
               left: 0.w,
               right: 0.w,
-              child: CustomAppBar(backgroundColor: Colors.transparent,)),
+              child: CustomAppBar(backgroundColor: Colors.transparent,actions: [
+              ])),
         ],
       ),
     );

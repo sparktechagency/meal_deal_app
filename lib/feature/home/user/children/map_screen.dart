@@ -70,7 +70,7 @@ class _MapViewScreenState extends State<MapViewScreen> {
           ),
         ),
         Positioned(
-          top: 60.h,
+          top: 90.h,
           left: 24.w,
           right: 24.w,
           child:CustomTextField(
@@ -86,7 +86,7 @@ class _MapViewScreenState extends State<MapViewScreen> {
 
         ),
         Positioned(
-          top: 120.h,
+          top: 150.h,
           left: 24.w,
           right: 24.w,
           child:SizedBox(
