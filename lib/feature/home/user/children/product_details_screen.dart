@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:meal_deal_app/routes/app_routes.dart';
 import '../../../../app/utils/app_colors.dart';
 import '../../../../custom_assets/assets.gen.dart';
 import '../../../../widgets/widgets.dart';
@@ -40,12 +42,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               actions: [
                 IconButton(
                   onPressed: () {},
-                  icon: CustomContainer(
-                    color: Colors.white,
-                    paddingAll: 6.r,
-                    shape: BoxShape.circle,
-                    child: Assets.icons.love.svg(height: 20.h, width: 20.w),
-                  ),
+                  icon: Assets.icons.love.svg(),
                 ),
               ],
               flexibleSpace: FlexibleSpaceBar(
@@ -314,6 +311,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       bottomNavigationBar: SafeArea(
         top: false,
         child: CustomContainer(
+          onTap: (){
+            Get.toNamed(AppRoutes.cardScreen);
+          },
           marginAll: 16.r,
           radiusAll: 8.r,
           paddingAll: 12.r,

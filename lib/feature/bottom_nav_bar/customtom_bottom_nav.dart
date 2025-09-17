@@ -31,7 +31,7 @@ class CustomBottomNavBar extends StatelessWidget {
     {"icon": Assets.icons.home.path, "label": "Home"},
     //{"icon": Assets.icons.session.path, "label": "Session"},
     {"icon": Assets.icons.chat.path, "label": "Chat"},
-    {"icon": Assets.icons.bottomProfile.path, "label": "Profile"},
+    {"icon": Assets.icons.chat.path, "label": "Profile"},
   ];
 
   @override

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:meal_deal_app/feature/home/user/card/card_screen.dart';
+import 'package:meal_deal_app/feature/home/user/card/checkout_screen.dart';
 import 'package:meal_deal_app/feature/home/user/children/category_screen.dart';
+import 'package:meal_deal_app/feature/home/user/children/cook_details_screen.dart';
 import 'package:meal_deal_app/feature/home/user/children/cook_veiw_screen.dart';
-import 'package:meal_deal_app/feature/home/user/children/map_screen.dart';
 import 'package:meal_deal_app/feature/home/user/children/product_details_screen.dart';
 import 'package:meal_deal_app/feature/home/user/children/product_view_screen.dart';
 import '../feature/auth/complete_profile/complete_profile_first_page.dart';
@@ -75,6 +77,9 @@ abstract class AppRoutes {
   static const String productViewScreen = '/productViewScreen';
   static const String productDetailsScreen = '/productDetailsScreen';
   static const String cookViewScreen = '/cookViewScreen';
+  static const String cookDetailsScreen = '/cookDetailsScreen';
+  static const String cardScreen = '/cardScreen';
+  static const String checkoutScreen = '/checkoutScreen';
 
 
 
@@ -103,6 +108,9 @@ abstract class AppRoutes {
     productViewScreen : (context) => ProductViewScreen(),
     productDetailsScreen : (context) => ProductDetailsScreen(),
     cookViewScreen : (context) => CookViewScreen(),
+    cookDetailsScreen : (context) => CookDetailsScreen(),
+    cardScreen : (context) => CardScreen(),
+    checkoutScreen : (context) => CheckoutScreen(),
 
   };
 }

@@ -5,46 +5,50 @@ import '../widgets/widgets.dart';
 
 class CustomDialog extends StatelessWidget {
   final String title;
+  final String? subtitle;
   final String? cancelButtonText;
   final String? confirmButtonText;
   final Color? confirmButtonColor;
-  final VoidCallback onCancel;
+  final VoidCallback? onCancel;
   final VoidCallback onConfirm;
 
   const CustomDialog({
     super.key,
     required this.title,
     this.cancelButtonText = "Cancel",
-    this.confirmButtonText = "Log Out",
-    required this.onCancel,
-    required this.onConfirm, this.confirmButtonColor,
+    this.confirmButtonText = "Delete",
+     this.onCancel,
+    required this.onConfirm, this.confirmButtonColor,  this.subtitle,
   });
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      backgroundColor: AppColors.bgColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.r),
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Close Button
-            Align(
-              alignment: Alignment.topRight,
-              child: GestureDetector(
-                onTap: () => Navigator.of(context).pop(),
-                child: Icon(Icons.close, size: 22.sp, color: Colors.black),
-              ),
-            ),
-            SizedBox(height: 8.h),
             // Title Text
             CustomText(
+              textAlign: TextAlign.start,
               text: title,
+              fontSize: 20.sp,
+              color: Colors.black,
+              maxline: 2,
+            ),
+
+            if(subtitle != null)
+            CustomText(
+              top: 10.h,
+              textAlign: TextAlign.start,
+              text: subtitle!,
               fontSize: 16.sp,
-              fontWeight: FontWeight.w600,
               color: Colors.black,
               maxline: 2,
             ),
@@ -56,9 +60,9 @@ class CustomDialog extends StatelessWidget {
                 // Cancel Button
                 Expanded(
                   child: TextButton(
-                    onPressed: onCancel,
+                    onPressed: onCancel ?? () => Navigator.pop(context),
                     style: TextButton.styleFrom(
-                      backgroundColor: AppColors.secondaryColor.withOpacity(0.2),
+                      backgroundColor:  Color(0xff303030),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.r),
                       ),
@@ -66,9 +70,7 @@ class CustomDialog extends StatelessWidget {
                     ),
                     child: CustomText(
                       text: cancelButtonText!,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -78,7 +80,7 @@ class CustomDialog extends StatelessWidget {
                   child: TextButton(
                     onPressed: onConfirm,
                     style: TextButton.styleFrom(
-                      backgroundColor:confirmButtonColor?? AppColors.secondaryColor,
+                      backgroundColor:confirmButtonColor ?? Color(0xffE11E1E),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.r),
                       ),
@@ -86,7 +88,6 @@ class CustomDialog extends StatelessWidget {
                     ),
                     child: CustomText(
                       text: confirmButtonText!,
-                      fontWeight: FontWeight.w500,
                       color: Colors.white,
                     ),
                   ),

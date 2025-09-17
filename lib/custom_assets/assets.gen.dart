@@ -36,10 +36,6 @@ class $AssetsIconsGen {
   SvgGenImage get backButton =>
       const SvgGenImage('assets/icons/back_button.svg');
 
-  /// File path: assets/icons/bottom_profile.svg
-  SvgGenImage get bottomProfile =>
-      const SvgGenImage('assets/icons/bottom_profile.svg');
-
   /// File path: assets/icons/camera_add.svg
   SvgGenImage get cameraAdd => const SvgGenImage('assets/icons/camera_add.svg');
 
@@ -121,6 +117,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/policy.svg
   SvgGenImage get policy => const SvgGenImage('assets/icons/policy.svg');
 
+  /// File path: assets/icons/pomo_code.svg
+  SvgGenImage get pomoCode => const SvgGenImage('assets/icons/pomo_code.svg');
+
   /// File path: assets/icons/post_upload.svg
   SvgGenImage get postUpload =>
       const SvgGenImage('assets/icons/post_upload.svg');
@@ -166,7 +165,6 @@ class $AssetsIconsGen {
     arrowOnboarding,
     arrowRight,
     backButton,
-    bottomProfile,
     cameraAdd,
     chat,
     cleanIcon,
@@ -193,6 +191,7 @@ class $AssetsIconsGen {
     password,
     person,
     policy,
+    pomoCode,
     postUpload,
     profile,
     profileCamera,

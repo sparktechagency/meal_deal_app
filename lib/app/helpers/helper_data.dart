@@ -248,4 +248,28 @@ class HelperData {
 
 
 
+  static List<CartItem> cartItems = [
+    CartItem(name: 'Fondue', price: 12.52,cookName: 'Jacob Jones'),
+    CartItem(name: 'Pizza', price: 8.99, cookName: 'Jacob Jones'),
+    CartItem(name: 'Burger', price: 15.25, cookName: 'Jacob Jones'),
+    CartItem(name: 'Pasta', price: 10.50,cookName: 'Jacob Jones' ),
+    CartItem(name: 'Salad', price: 6.75,cookName: 'Jacob Jones' ),
+  ];
+
+
+
+
+}
+
+class CartItem {
+  String name;
+  String cookName;
+  double price;
+  int quantity;
+  CartItem({
+    required this.cookName,
+    required this.name,
+    required this.price,
+    this.quantity = 1,
+  });
 }
