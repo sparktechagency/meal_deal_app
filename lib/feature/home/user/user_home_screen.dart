@@ -37,7 +37,10 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
           statusColor: AppColors.black800TextColor,
         ),
         actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.notifications_none_outlined,color: AppColors.primaryColor,)),
+          GestureDetector(onTap: (){}, child: Icon(Icons.notifications_none_outlined,color: AppColors.primaryColor,)),
+          IconButton(onPressed: (){
+            Get.toNamed(AppRoutes.allCardScreen);
+          }, icon: Icon(Icons.shopping_cart_outlined,color: AppColors.primaryColor,)),
         ],
       ),
 

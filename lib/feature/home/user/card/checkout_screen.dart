@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:meal_deal_app/app/utils/app_colors.dart';
+import 'package:meal_deal_app/routes/app_routes.dart';
 import '../../../../custom_assets/assets.gen.dart';
 import '../../../../widgets/widgets.dart';
+import '../../widgets/cart_section_cook_widget.dart';
 
 class CheckoutScreen extends StatelessWidget {
   const CheckoutScreen({super.key});
@@ -15,6 +18,11 @@ class CheckoutScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 10.h),
+
+          CartSectionCookWidget(),
+
+          SizedBox(height: 10.h),
+
           CustomText(
             color: AppColors.black400TextColor,
             textAlign: TextAlign.start,
@@ -79,6 +87,7 @@ class CheckoutScreen extends StatelessWidget {
               SizedBox(height: 16.h),
               CustomContainer(
                 onTap: (){
+                  Get.toNamed(AppRoutes.oderHistoryScreen);
                 },
                 paddingAll: 14.r,
                 color: AppColors.primaryColor,

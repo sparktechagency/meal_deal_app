@@ -244,16 +244,41 @@ class HelperData {
       "distance": "1.3 km"
     },
   ];
+  static final List<Map<String, dynamic>> restaurantsCard = [
+    {
+      "name": "Jacob Jones",
+      "image": Assets.images.cook.path,
+      'item' : 2
+    },
+    {
+      "name": "Eleanor Pena",
+      "image": Assets.images.cook2.path,
+      'item' : 7
+    },
+
+    {
+      "name": "Jacob Jones",
+      "image": Assets.images.cook.path,
+      'item' : 3
+
+    },
+    {
+      "name": "Eleanor Pena",
+      "image": Assets.images.cook2.path,
+      'item' : 5
+
+    },
+  ];
 
 
 
 
   static List<CartItem> cartItems = [
-    CartItem(name: 'Fondue', price: 12.52,cookName: 'Jacob Jones'),
-    CartItem(name: 'Pizza', price: 8.99, cookName: 'Jacob Jones'),
-    CartItem(name: 'Burger', price: 15.25, cookName: 'Jacob Jones'),
-    CartItem(name: 'Pasta', price: 10.50,cookName: 'Jacob Jones' ),
-    CartItem(name: 'Salad', price: 6.75,cookName: 'Jacob Jones' ),
+    CartItem(name: 'Fondue', price: 12.52, rating: 4.2, reviewCount: 232),
+    CartItem(name: 'Pizza', price: 8.99, rating: 4.5, reviewCount: 150),
+    CartItem(name: 'Burger', price: 15.25, rating: 4.0, reviewCount: 98),
+    CartItem(name: 'Pasta', price: 10.50, rating: 4.3, reviewCount: 180),
+    CartItem(name: 'Salad', price: 6.75, rating: 4.1, reviewCount: 76),
   ];
 
 
@@ -263,13 +288,15 @@ class HelperData {
 
 class CartItem {
   String name;
-  String cookName;
   double price;
+  double rating;
+  int reviewCount;
   int quantity;
   CartItem({
-    required this.cookName,
     required this.name,
     required this.price,
+    required this.rating,
+    required this.reviewCount,
     this.quantity = 1,
   });
 }

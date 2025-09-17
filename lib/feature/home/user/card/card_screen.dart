@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:meal_deal_app/app/helpers/helper_data.dart';
 import 'package:meal_deal_app/app/utils/app_colors.dart';
 import 'package:meal_deal_app/custom_assets/assets.gen.dart';
+import 'package:meal_deal_app/feature/home/widgets/cart_section_cook_widget.dart';
 import 'package:meal_deal_app/routes/app_routes.dart';
 import '../../../../widgets/widgets.dart';
 
@@ -36,6 +37,17 @@ class _CardScreenState extends State<CardScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomText(
+            left: 16.w,
+            text: 'Your Cook',
+            color: AppColors.black800TextColor,
+          ),
+
+          Padding(
+            padding:  EdgeInsets.symmetric(horizontal: 16.w),
+            child: CartSectionCookWidget(),
+          ),
+          CustomText(
+            top: 24.h,
             left: 16.w,
             bottom: 10.h,
             text: 'Your items',
@@ -148,13 +160,20 @@ class _CardScreenState extends State<CardScreen> {
                   top: 2.h,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Flexible(
-                      child: CustomText(
-                        text: 'Cook : ${item.cookName}',
-                        fontSize: 12.sp,
-                        color: AppColors.colorA0A0A0,
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Assets.icons.star.svg(height: 14.w, width: 14.w),
+                          SizedBox(width: 4.w),
+                          Flexible(
+                            child: CustomText(
+                              text: "${item.rating} (${item.reviewCount})",
+                              fontSize: 12.sp,
+                              color: AppColors.colorA0A0A0,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     CustomContainer(
@@ -201,3 +220,4 @@ class _CardScreenState extends State<CardScreen> {
     );
   }
 }
+
