@@ -36,15 +36,15 @@ class ChatBubbleMessage extends StatelessWidget {
             mainAxisAlignment:
             isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
             children: [
-              if(!isMe)
-                CustomImageAvatar(
-                  right: 8.w,
-                  radius: 15.r,
-                ),
+              // if(!isMe)
+              //   CustomImageAvatar(
+              //     right: 8.w,
+              //     radius: 15.r,
+              //   ),
               Flexible(
                 child: CustomContainer(
                   paddingAll: 10.r,
-                  color: isMe ? const Color(0xff666978) : const Color(0xffE8E9EB),
+                  color: isMe ? const Color(0xffCC7108) : const Color(0xffECECEC),
                   bottomRight: 10.r,
                   bottomLeft: 10.r,
                   topLeftRadius: isMe ? 10.r : 0,
@@ -64,8 +64,8 @@ class ChatBubbleMessage extends StatelessWidget {
                 fontSize: 10.sp,
                 fontWeight: FontWeight.w400,
                 text: time,
-                left: isMe ? 0 : 44.w,
-                right: isMe ? 10.w : 0,
+               // left: isMe ? 0 : 44.w,
+               // right: isMe ? 10.w : 0,
                 color: AppColors.appGreyColor,
               ),
              // SizedBox(width: 4.w),
@@ -81,10 +81,10 @@ class ChatBubbleMessage extends StatelessWidget {
     if (text?.isNotEmpty == true) {
       return CustomText(
         maxline: 10,
-        fontSize: 12.sp,
+        fontSize: 14.sp,
         textAlign: TextAlign.left,
         fontWeight: FontWeight.w400,
-        color: isMe ? Colors.white : Colors.grey.shade800,
+        color: isMe ? Colors.white : Color(0xff1B1B1B),
         text: text!,
       );
     } else if (images != null && images!.isNotEmpty) {

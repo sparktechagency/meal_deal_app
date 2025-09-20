@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:meal_deal_app/routes/app_routes.dart';
 import 'package:timelines_plus/timelines_plus.dart';
 import '../../../../app/utils/app_colors.dart';
 import '../../../../widgets/widgets.dart';
@@ -11,7 +13,9 @@ class OrderHistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBar: CustomAppBar(title: 'Order History'),
+      appBar: CustomAppBar(title: 'Order History',backAction: (){
+        Get.offAllNamed(AppRoutes.userBottomNavBar);
+      }),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -68,7 +72,9 @@ class OrderHistoryScreen extends StatelessWidget {
             ),
 
             /// Cook section
-            CartSectionCookWidget(chatAction: () {}),
+            CartSectionCookWidget(chatAction: () {
+              Get.toNamed(AppRoutes.chatInboxScreen);
+            }),
 
             /// Order detail section
             CustomContainer(

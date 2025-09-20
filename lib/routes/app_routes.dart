@@ -3,6 +3,7 @@ import 'package:meal_deal_app/feature/home/user/card/all_card_screen.dart';
 import 'package:meal_deal_app/feature/home/user/card/card_screen.dart';
 import 'package:meal_deal_app/feature/home/user/card/checkout_screen.dart';
 import 'package:meal_deal_app/feature/home/user/card/oder_history_screen.dart';
+import 'package:meal_deal_app/feature/home/user/chat/chat_inbox_screen.dart';
 import 'package:meal_deal_app/feature/home/user/children/category_screen.dart';
 import 'package:meal_deal_app/feature/home/user/children/cook_details_screen.dart';
 import 'package:meal_deal_app/feature/home/user/children/cook_veiw_screen.dart';
@@ -84,6 +85,7 @@ abstract class AppRoutes {
   static const String checkoutScreen = '/checkoutScreen';
   static const String allCardScreen = '/allCardScreen';
   static const String oderHistoryScreen = '/oderHistoryScreen';
+  static const String chatInboxScreen = '/chatInboxScreen';
 
 
 
@@ -117,6 +119,7 @@ abstract class AppRoutes {
     checkoutScreen : (context) => CheckoutScreen(),
     allCardScreen : (context) => AllCardScreen(),
     oderHistoryScreen : (context) => OrderHistoryScreen(),
+    chatInboxScreen : (context) => ChatInboxScreen(),
 
   };
 }

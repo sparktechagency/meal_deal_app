@@ -2,8 +2,11 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:meal_deal_app/app/helpers/toast_message_helper.dart';
 import 'package:meal_deal_app/env/config.dart';
+import 'package:meal_deal_app/routes/app_routes.dart';
 
 class PaymentController {
 
@@ -37,11 +40,11 @@ class PaymentController {
             customFlow: false,
             billingDetails: const BillingDetails(
               name: '',
-              email: 'contact@courtconnect.uk',
+              email: 'ikramulhasantanvir@gmail.com',
             ),
             googlePay: const PaymentSheetGooglePay(merchantCountryCode: 'US'),
 
-            merchantDisplayName: 'court connect',
+            merchantDisplayName: 'meal deal',
             paymentIntentClientSecret: clientSecret,
             style: ThemeMode.dark,
           ),
@@ -57,6 +60,13 @@ class PaymentController {
   }
 
 
+
+
+
+
+
+
+  /// ===================================>>> hide =========================>>>
   Future<Map<String,dynamic>?> _createPaymentIntent(String amount,String currency) async {
 
 
@@ -105,11 +115,6 @@ class PaymentController {
     }
   }
 
-
-
-
-
-
   Future<void> _displayPaymentSheet({required String price}) async {
     try {
       await Stripe.instance.presentPaymentSheet();
@@ -125,7 +130,6 @@ class PaymentController {
     }
   }
 
-
   Future<void> _retrieveTxnId({required String paymentIntent, required String price}) async {
     try {
       final response = await http.get(
@@ -136,37 +140,37 @@ class PaymentController {
         },
       );
 
-      // if (response.statusCode == 200) {
-      //   var data = json.decode(response.body);
-      //
-      //   String transactionId = data['data'][0]['balance_transaction'];
-      //
-      //   if (kDebugMode) {
-      //     print("Transaction Id: $transactionId");
-      //     print("***********payment data: $data");
-      //   }
-      //
-      //   var bodyParams = {"amount": int.parse(price), "transactionId": transactionId};
-      //
-      //
-      //   ///API URL
-      //   final apiResponse = await ApiClient.postData(ApiUrls.paymentConfirm, bodyParams);
-      //
-      //   if (apiResponse.statusCode==200|| apiResponse.statusCode==201) {
-      //     ToastMessageHelper.showToastMessage("Payment Success");
-      //     if (kDebugMode) {
-      //
-      //
-      //       print("Payment successfully created: ${apiResponse.body}");
-      //     }
-      //   }
-      // }
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+
+        String transactionId = data['data'][0]['balance_transaction'];
+
+        if (kDebugMode) {
+          print("Transaction Id: $transactionId");
+          print("***********payment data: $data");
+        }
+
+
+        ToastMessageHelper.showToastMessage("Payment Success");
+        Get.toNamed(AppRoutes.oderHistoryScreen);
+
+        //var bodyParams = {"amount": int.parse(price), "transactionId": transactionId};
+        ///API URL
+        // final apiResponse = await ApiClient.postData(ApiUrls.paymentConfirm, bodyParams);
+        //
+        // if (apiResponse.statusCode==200|| apiResponse.statusCode==201) {
+        //   ToastMessageHelper.showToastMessage("Payment Success");
+        //   if (kDebugMode) {
+        //
+        //
+        //     print("Payment successfully created: ${apiResponse.body}");
+        //   }
+        // }
+      }
     } catch (e) {
       debugPrint(e.toString());
     }
   }
-
-
 
   String _calculateAmount(String amount) {
     final doubleAmount = double.tryParse(amount);

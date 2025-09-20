@@ -8,10 +8,11 @@ import '../../../widgets/widgets.dart';
 
 class CartSectionCookWidget extends StatelessWidget {
   const CartSectionCookWidget({
-    super.key, this.chatAction,
+    super.key, this.chatAction, this.radiusAll,
   });
 
   final VoidCallback? chatAction;
+  final double? radiusAll;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class CartSectionCookWidget extends StatelessWidget {
       verticalMargin: 10.h,
       paddingAll: 10.w,
       color: Colors.white,
-      radiusAll: 12.r,
+      radiusAll: radiusAll ?? 12.r,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
