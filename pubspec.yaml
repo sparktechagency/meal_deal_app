@@ -41,6 +41,7 @@ dependencies:
   geolocator: ^14.0.2
   rating_summary: ^1.0.4
   timelines_plus: ^1.0.7
+  flutter_stripe: ^12.0.2
 
 
 dev_dependencies:
