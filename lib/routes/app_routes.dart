@@ -9,6 +9,8 @@ import 'package:meal_deal_app/feature/home/user/children/cook_details_screen.dar
 import 'package:meal_deal_app/feature/home/user/children/cook_veiw_screen.dart';
 import 'package:meal_deal_app/feature/home/user/children/product_details_screen.dart';
 import 'package:meal_deal_app/feature/home/user/children/product_view_screen.dart';
+import 'package:meal_deal_app/feature/profile/favourite_screen.dart';
+import 'package:meal_deal_app/feature/profile/setting/support_screen.dart';
 import '../feature/auth/complete_profile/complete_profile_first_page.dart';
 import '../feature/auth/forget/forget_screen.dart';
 import '../feature/auth/login/log_in_screen.dart';
@@ -85,6 +87,7 @@ abstract class AppRoutes {
   static const String allCardScreen = '/allCardScreen';
   static const String oderHistoryScreen = '/oderHistoryScreen';
   static const String chatInboxScreen = '/chatInboxScreen';
+  static const String favouriteScreen = '/favouriteScreen';
 
 
 
@@ -118,6 +121,8 @@ abstract class AppRoutes {
     allCardScreen : (context) => AllCardScreen(),
     oderHistoryScreen : (context) => OrderHistoryScreen(),
     chatInboxScreen : (context) => ChatInboxScreen(),
+    supportScreen : (context) => SupportScreen(),
+    favouriteScreen : (context) => FavouriteScreen(),
 
   };
 }

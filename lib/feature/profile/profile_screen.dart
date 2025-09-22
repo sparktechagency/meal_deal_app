@@ -68,7 +68,7 @@ class ProfileScreen extends StatelessWidget {
             icon: Assets.icons.favourite.svg(),
             title: "Favourite",
             onTap: () {
-              // Get.toNamed(AppRoutes.settingScreen);
+              Get.toNamed(AppRoutes.favouriteScreen);
             },
           ),
           ProfileListTile(
@@ -83,7 +83,7 @@ class ProfileScreen extends StatelessWidget {
             icon: Assets.icons.support.svg(),
             title: "Support Center",
             onTap: () {
-              Get.toNamed(AppRoutes.settingScreen);
+              Get.toNamed(AppRoutes.supportScreen);
             },
           ),
 

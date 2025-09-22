@@ -9,11 +9,11 @@ import '../../../widgets/widgets.dart';
 class CooksCardWidget extends StatelessWidget {
   const CooksCardWidget({
     super.key,
-    required this.item, required this.index,
+    required this.item,  this.index,
   });
 
   final Map<String, dynamic> item;
-  final int  index;
+  final int?  index;
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +22,10 @@ class CooksCardWidget extends StatelessWidget {
         Get.toNamed(AppRoutes.cookViewScreen);
       },
       paddingVertical: 6.h,
-      marginRight: 14.w,
-      marginLeft: index == 0 ? 14.w : 0,
+      marginRight: index == null  ? 0 : 14.w,
+      marginLeft: (index == null)
+          ? 0
+          : (index == 0 ? 14.w : 0),
       radiusAll: 8.r,
       height: 210.h,
       width: 160.w,
