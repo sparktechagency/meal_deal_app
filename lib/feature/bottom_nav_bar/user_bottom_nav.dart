@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:meal_deal_app/feature/home/user/user_home_screen.dart';
+import 'package:meal_deal_app/feature/profile/profile_screen.dart';
 import '../../app/utils/app_colors.dart';
 import '../../custom_assets/assets.gen.dart';
 import '../../widgets/widgets.dart';
@@ -29,7 +30,7 @@ class _UserBottomNavState extends State<UserBottomNav> {
     UserHomeScreen(),
     UserHomeScreen(),
     UserHomeScreen(),
-    UserHomeScreen(),
+    ProfileScreen(),
   ];
 
   @override

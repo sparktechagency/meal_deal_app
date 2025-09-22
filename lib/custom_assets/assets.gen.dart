@@ -48,6 +48,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/delete.svg
   SvgGenImage get delete => const SvgGenImage('assets/icons/delete.svg');
 
+  /// File path: assets/icons/favourite.svg
+  SvgGenImage get favourite => const SvgGenImage('assets/icons/favourite.svg');
+
   /// File path: assets/icons/filter.svg
   SvgGenImage get filter => const SvgGenImage('assets/icons/filter.svg');
 
@@ -169,6 +172,7 @@ class $AssetsIconsGen {
     chat,
     cleanIcon,
     delete,
+    favourite,
     filter,
     google,
     home,

@@ -24,12 +24,13 @@ class ProfileListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomContainer(
       onTap: onTap,
-      verticalMargin: 12.h,
+      verticalMargin: 7.h,
       horizontalMargin: 24.w,
       paddingHorizontal: 10.w ,
-      paddingVertical: 8.h,
-     border: Border(bottom: BorderSide(color: AppColors.secondaryColor)),
-     // color: color ?? AppColors.textColor171717,
+      paddingVertical: 14.h,
+     radiusAll: 12.r,
+     bordersColor: color ?? AppColors.primaryColor.withOpacity(0.2),
+     color:  AppColors.bgColor,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -39,12 +40,12 @@ class ProfileListTile extends StatelessWidget {
             child: CustomText(
               text: title,
               textAlign: TextAlign.start,
-              color: textColor ?? Color(0xff111111),
-              fontSize: 16.sp,
+              color: textColor ?? Color(0xff999999),
+              fontSize: 14.sp,
             ),
           ),
           if (noIcon != true)
-            Assets.icons.arrowRight.svg(),
+            Icon(Icons.arrow_right,color: color ??  Color(0xff999999),),
         ],
       ),
     );

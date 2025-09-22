@@ -6,29 +6,51 @@ import '../../feature/profile/widgets/profile_list_tile.dart';
 import '../../custom_assets/assets.gen.dart';
 import '../../routes/app_routes.dart';
 import '../../widgets/widgets.dart';
+
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.bgColor,
+      appBar: CustomAppBar(
+        backgroundColor: AppColors.primaryColor,
+        foregroundColor: Colors.white,
+        title: 'My Account',
+      ),
       body: Column(
         children: [
           CustomContainer(
-            alignment: Alignment.bottomCenter,
-            bottomLeft: 70.r,
-            bottomRight: 70.r,
-            height: 257.h,
-            width: double.infinity,
-            color: AppColors.secondaryColor,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
+            height: 150.h,
+            child: Stack(
               children: [
-                CustomImageAvatar(
-                  radius: 44.r,
-                  image: '',
+                CustomContainer(
+                  alignment: Alignment.bottomCenter,
+                  height: 90.h,
+                  width: double.infinity,
+                  color: AppColors.primaryColor,
                 ),
-                CustomText(text: "Eva", fontSize: 18.h,fontWeight: FontWeight.w500,top: 4.h,bottom : 8.h ,color: Colors.white),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Column(
+                    children: [
+                      CustomImageAvatar(radius: 50.r, image: ''),
+                      CustomText(
+                        text: 'Tanvir Hridoy',
+                        color: AppColors.black400TextColor,
+                        fontSize: 20.sp,
+                      ),
+                      CustomText(
+                        text: 'tanvirhridoy@gmail.com',
+                        color: AppColors.black400TextColor,
+                        fontSize: 10.sp,
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -36,32 +58,42 @@ class ProfileScreen extends StatelessWidget {
           SizedBox(height: 20.h),
           // List of Options
           ProfileListTile(
-            icon: Assets.icons.profile.svg(),
-            title: "Personal Info",
+            icon: Assets.icons.profileEdit.svg(),
+            title: "Edit Profile",
             onTap: () {
-            Get.toNamed(AppRoutes.personalInfoScreen);
+              Get.toNamed(AppRoutes.editProfileScreen);
             },
           ),
           ProfileListTile(
-            icon: Assets.icons.profile.svg(),
-            title: "Edit Schedule",
+            icon: Assets.icons.favourite.svg(),
+            title: "Favourite",
             onTap: () {
-             // Get.toNamed(AppRoutes.settingScreen);
+              // Get.toNamed(AppRoutes.settingScreen);
             },
           ),
           ProfileListTile(
             icon: Assets.icons.setting.svg(),
             title: "Settings",
             onTap: () {
-             Get.toNamed(AppRoutes.settingScreen);
+              Get.toNamed(AppRoutes.settingScreen);
             },
           ),
 
-          // Log Out Button
           ProfileListTile(
+            icon: Assets.icons.support.svg(),
+            title: "Support Center",
+            onTap: () {
+              Get.toNamed(AppRoutes.settingScreen);
+            },
+          ),
+
+          Spacer(),
+          /// Log Out Button
+          ProfileListTile(
+            textColor: AppColors.errorColor,
+            color:  AppColors.errorColor,
             icon: Assets.icons.logout.svg(),
             title: "log out",
-            noIcon: true,
             onTap: () {
               showDialog(
                 context: context,
@@ -77,6 +109,7 @@ class ProfileScreen extends StatelessWidget {
               );
             },
           ),
+          SizedBox(height: 16.h),
         ],
       ),
     );

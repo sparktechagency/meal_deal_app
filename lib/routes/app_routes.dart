@@ -20,7 +20,7 @@ import '../feature/bottom_nav_bar/customtom_bottom_nav.dart';
 import '../feature/bottom_nav_bar/user_bottom_nav.dart';
 import '../feature/chat/inbox_screen.dart';
 import '../feature/onboarding_screen.dart';
-import '../feature/profile/personal_info_screen.dart';
+import '../feature/profile/edit_profile_screen.dart';
 import '../feature/profile/setting/about_screen.dart';
 import '../feature/profile/setting/change%20password/setting_change_password.dart';
 import '../feature/profile/setting/privacy_policy_screen.dart';
@@ -99,7 +99,7 @@ abstract class AppRoutes {
     policyScreen : (context) => PrivacyPolicyScreen(),
     aboutScreen : (context) => AboutScreen(),
     changePassScreen : (context) => SettingChangePassword(),
-    personalInfoScreen : (context) => PersonalInfoScreen(),
+    editProfileScreen : (context) => EditProfileScreen(),
     inboxScreen : (context) => InboxScreen(),
     onboardingScreen : (context) => OnboardingScreen(),
     loginScreen : (context) => LoginScreen(),

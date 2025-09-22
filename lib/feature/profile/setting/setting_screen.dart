@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:meal_deal_app/feature/profile/widgets/profile_list_tile.dart';
 import '../../../app/utils/app_colors.dart';
 import '../../../routes/app_routes.dart';
-
 import '../../../custom_assets/assets.gen.dart';
 import '../../../widgets/widgets.dart';
-import '../widgets/profile_list_tile.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({super.key});
@@ -14,18 +13,17 @@ class SettingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
+      paddingSide: 0,
       appBar: CustomAppBar(
-        title: 'Settings',
-          borderColor: AppColors.secondaryColor),
+        title: 'Settings'),
       body: Column(
         children: [
           SizedBox(height: 32.h),
 
 
-
-          _buildSettingTile(
+          ProfileListTile(
             icon: Assets.icons.password.svg(),
-            label: 'Change Password',
+            title: 'Change Password',
             onTap: () {
               Get.toNamed(AppRoutes.changePassScreen);
             },
@@ -33,9 +31,9 @@ class SettingScreen extends StatelessWidget {
 
 
 
-          _buildSettingTile(
+          ProfileListTile(
             icon: Assets.icons.terms.svg(),
-            label: 'Terms & Condition',
+            title: 'Terms & Condition',
             onTap: () {
               Get.toNamed(AppRoutes.termsScreen);
             },
@@ -43,9 +41,9 @@ class SettingScreen extends StatelessWidget {
 
 
 
-          _buildSettingTile(
+          ProfileListTile(
             icon: Assets.icons.policy.svg(),
-            label: 'Privacy Policy',
+            title: 'Privacy Policy',
             onTap: () {
               Get.toNamed(AppRoutes.policyScreen);
             },
@@ -53,9 +51,9 @@ class SettingScreen extends StatelessWidget {
 
 
 
-          _buildSettingTile(
+          ProfileListTile(
             icon: Assets.icons.about.svg(),
-            label: 'About Us',
+            title: 'About Us',
             onTap: () {
               Get.toNamed(AppRoutes.aboutScreen);
             },
@@ -63,9 +61,13 @@ class SettingScreen extends StatelessWidget {
 
 
 
-          _buildSettingTile(
+
+          Spacer(),
+          ProfileListTile(
+            textColor: AppColors.errorColor,
+            color:  AppColors.errorColor,
             icon: Assets.icons.delete.svg(),
-            label: 'Delete Account',
+            title: 'Delete Account',
             onTap: () {
               showDialog(
                 context: context,
@@ -83,50 +85,10 @@ class SettingScreen extends StatelessWidget {
               );
             },
           ),
+          SizedBox(height: 24.h),
         ],
       ),
     );
   }
 
-  Widget _buildSettingTile({
-    required Widget icon,
-    required String label,
-    required VoidCallback onTap,
-  }) {
-    return CustomContainer(
-      onTap: onTap,
-      marginBottom: 16.h,
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withOpacity(0.1),
-          offset: Offset(0, 6),
-          blurRadius: 4,
-        ),
-
-        BoxShadow(
-          color: Colors.black.withOpacity(0.1),
-          offset: Offset(0, -1),
-          blurRadius: 8,
-        ),
-      ],
-      radiusAll: 8.r,
-      paddingHorizontal: 10.h,
-      paddingVertical: 14.h,
-      color: Colors.white,
-      child: Row(
-        children: [
-          icon,
-          SizedBox(width: 10.w),
-          Expanded(
-            child: CustomText(
-              fontWeight: FontWeight.w500,
-              textAlign: TextAlign.start,
-              text: label,
-            ),
-          ),
-          Icon(Icons.arrow_right_sharp),
-        ],
-      ),
-    );
-  }
 }

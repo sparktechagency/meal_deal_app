@@ -38,7 +38,7 @@ class CustomDialog extends StatelessWidget {
             CustomText(
               textAlign: TextAlign.start,
               text: title,
-              fontSize: 20.sp,
+              fontSize: 18.sp,
               color: Colors.black,
               maxline: 2,
             ),
@@ -62,15 +62,16 @@ class CustomDialog extends StatelessWidget {
                   child: TextButton(
                     onPressed: onCancel ?? () => Navigator.pop(context),
                     style: TextButton.styleFrom(
-                      backgroundColor:  Color(0xff303030),
+                      backgroundColor:  Colors.transparent,
                       shape: RoundedRectangleBorder(
+                        side: BorderSide(color: AppColors.black600TextColor),
                         borderRadius: BorderRadius.circular(8.r),
                       ),
                       padding: EdgeInsets.symmetric(vertical: 12.h),
                     ),
                     child: CustomText(
                       text: cancelButtonText!,
-                      color: Colors.white,
+                      color:AppColors.black600TextColor,
                     ),
                   ),
                 ),

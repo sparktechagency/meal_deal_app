@@ -6,27 +6,25 @@ import '../../app/utils/app_colors.dart';
 import '../../custom_assets/assets.gen.dart';
 import '../../widgets/widgets.dart';
 
-class PersonalInfoScreen extends StatefulWidget {
-  const PersonalInfoScreen({super.key});
+class EditProfileScreen extends StatefulWidget {
+  const EditProfileScreen({super.key});
 
   @override
-  State<PersonalInfoScreen> createState() => _PersonalInfoScreenState();
+  State<EditProfileScreen> createState() => _EditProfileScreenState();
 }
 
-class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
+class _EditProfileScreenState extends State<EditProfileScreen> {
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _bioController = TextEditingController();
-  final TextEditingController _subjectsController = TextEditingController();
+  final TextEditingController _mobileController = TextEditingController();
 
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
       appBar: CustomAppBar(
-        borderColor: AppColors.secondaryColor,
-        title: 'General Information',
+        title: 'Edit Profile',
       ),
 
       body: SingleChildScrollView(
@@ -65,48 +63,26 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                     height: 32.h,
                   ),
                   CustomTextField(
-                    labelText: 'Email',
+                    labelText: 'Full name',
                     controller: _emailController,
-                    hintText: "Enter Email",
+                    hintText: "Enter full name",
+                  ),
+                  CustomTextField(
                     isEmail: true,
-                  ),
-                  CustomTextField(
-                    labelText: 'Name',
+                    labelText: 'Email',
                     controller: _nameController,
-                    hintText: "Enter Name",
+                    hintText: "Enter Email",
                   ),
                   CustomTextField(
-                    labelText: 'Bio',
-                    controller: _bioController,
-                    hintText: "Enter Bio",
-                  ),
-                  GestureDetector(
-                    onTapDown: (TapDownDetails details) async {
-                      final selected = await MenuShowHelper.showCustomMenu(
-                        context: context,
-                        details: details,
-                        options: MenuShowHelper.subjects,
-                      );
-                      if (selected != null) {
-                        setState(() {
-                          _subjectsController.text = selected;
-                        });
-                      }
-                    },
-                    child: AbsorbPointer(
-                      child: CustomTextField(
-                        suffixIcon: Icon(Icons.keyboard_arrow_down),
-                        readOnly: true,
-                        labelText: 'Subjects You Teach',
-                        controller: _subjectsController,
-                        //hintText: "Subjects You Teach",
-                      ),
-                    ),
+                    keyboardType: TextInputType.phone,
+                    labelText: 'Mobile number',
+                    controller: _mobileController,
+                    hintText: "Enter Mobile number",
                   ),
         
                   SizedBox(height: 60.h,),
                   CustomButton(
-                    label: "Update",
+                    label: "Save changes",
                     onPressed: _onUpdate,
                   ),
                   SizedBox(
