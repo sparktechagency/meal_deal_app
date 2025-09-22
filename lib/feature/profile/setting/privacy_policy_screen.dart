@@ -17,7 +17,8 @@ class PrivacyPolicyScreen extends StatelessWidget {
     final sizeH = MediaQuery.sizeOf(context).height;
 
     return Scaffold(
-      appBar: CustomAppBar(title:"Privacy Policy",borderColor: AppColors.secondaryColor,),
+      backgroundColor: AppColors.bgColor,
+      appBar: CustomAppBar(title:"Privacy Policy",),
 
       body:  ListView(
         padding: EdgeInsets.all(sizeH * .02),

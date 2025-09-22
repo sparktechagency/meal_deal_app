@@ -16,7 +16,8 @@ class TermsScreen extends StatelessWidget {
     final sizeH = MediaQuery.sizeOf(context).height;
 
     return Scaffold(
-      appBar: CustomAppBar(title:"Terms & Condition",borderColor: AppColors.secondaryColor),
+      backgroundColor: AppColors.bgColor,
+      appBar: CustomAppBar(title:"Terms & Condition"),
 
       body:  ListView(
         padding: EdgeInsets.all(sizeH * .02),

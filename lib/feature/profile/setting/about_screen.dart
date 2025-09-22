@@ -14,7 +14,8 @@ class AboutScreen extends StatelessWidget {
     final sizeH = MediaQuery.sizeOf(context).height;
 
     return Scaffold(
-      appBar: CustomAppBar(title:"About Us",borderColor: AppColors.secondaryColor,),
+      backgroundColor: AppColors.bgColor,
+      appBar: CustomAppBar(title:"About Us"),
       body:  ListView(
         padding: EdgeInsets.all(sizeH * .02),
         physics: const AlwaysScrollableScrollPhysics(),
