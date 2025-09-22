@@ -88,7 +88,7 @@ class ProfileScreen extends StatelessWidget {
           ),
 
           Spacer(),
-          /// Log Out Button
+          /// Log Out Button...
           ProfileListTile(
             textColor: AppColors.errorColor,
             color:  AppColors.errorColor,
