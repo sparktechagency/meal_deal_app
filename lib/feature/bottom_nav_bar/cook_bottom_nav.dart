@@ -8,7 +8,6 @@ import '../../custom_assets/fonts.gen.dart';
 import '../bottom_nav_bar/controller/custom_bottom_nav_bar_controller.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
-import '../chat/chat_screen.dart';
 import '../home/user/user_home_screen.dart';
 import '../profile/profile_screen.dart';
 
@@ -19,7 +18,6 @@ class CookBottomNavBar extends StatelessWidget {
 
   final List<Widget> _screens =  [
     UserHomeScreen(),
-    ChatScreen(),
     ProfileScreen(),
   ];
 
