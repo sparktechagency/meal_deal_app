@@ -271,6 +271,44 @@ class HelperData {
   ];
 
 
+  static final  List<Map<String, dynamic>> dummyOffers = [
+    {
+      "imageUrl": Assets.images.img.path,
+      "title": "Preparing and Selling Food",
+      "subtitle": "Meal Creator",
+      "category": "Vegan",
+      "location": "Zurich, Switzerland",
+      "discount": "20% Off",
+      "promoCode": "GET20OFF",
+    },
+    {
+      "imageUrl": Assets.images.img.path,
+      "title": "Preparing and Selling Food",
+      "subtitle": "Meal Creator",
+      "category": "Main",
+      "location": "Zurich, Switzerland",
+      "discount": "15% Off",
+      "promoCode": "GET15OFF",
+    },
+    {
+      "imageUrl": Assets.images.img.path,
+      "title": "Preparing and Selling Food",
+      "subtitle": "Meal Creator",
+      "category": "Halal",
+      "location": "Zurich, Switzerland",
+      "discount": "25% Off",
+      "promoCode": "GET25OFF",
+    },
+  ];
+
+  static final List<Map<String, dynamic>> recentOrders = [
+    {'title': 'Theresa Webb', 'image': Assets.images.cook.path, 'date': 'May 25 • 02:30 PM', 'price': '\$17.84'},
+    {'title': 'Robert Fox', 'image': Assets.images.cook.path, 'date': 'May 25 • 02:30 PM', 'price': '\$17.84'},
+    {'title': 'Arlene McCoy', 'image': Assets.images.cook.path, 'date': 'May 25 • 02:30 PM', 'price': '\$17.84'},
+    {'title': 'Ralph Edwards', 'image': Assets.images.cook.path, 'date': 'May 25 • 02:30 PM', 'price': '\$17.84'},
+  ];
+
+
 
 
   static List<CartItem> cartItems = [

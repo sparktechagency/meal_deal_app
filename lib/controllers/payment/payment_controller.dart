@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:meal_deal_app/app/helpers/toast_message_helper.dart';
 import 'package:meal_deal_app/env/config.dart';
+import 'package:meal_deal_app/feature/bottom_nav_bar/controller/custom_bottom_nav_bar_controller.dart';
 import 'package:meal_deal_app/routes/app_routes.dart';
 
 class PaymentController {
@@ -152,7 +153,8 @@ class PaymentController {
 
 
         ToastMessageHelper.showToastMessage("Payment Success");
-        Get.toNamed(AppRoutes.oderHistoryScreen);
+        Get.offAllNamed(AppRoutes.userBottomNavBar);
+        Get.find<CustomBottomNavBarController>().onChange(1);
 
         //var bodyParams = {"amount": int.parse(price), "transactionId": transactionId};
         ///API URL
