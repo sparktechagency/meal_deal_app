@@ -16,7 +16,7 @@ import '../feature/auth/otp/otp_screen.dart';
 import '../feature/auth/reset_pass/reset_password_screen.dart';
 import '../feature/auth/role/role_screen.dart';
 import '../feature/auth/sign_up/sign_up_screen.dart';
-import '../feature/bottom_nav_bar/customtom_bottom_nav.dart';
+import '../feature/bottom_nav_bar/cook_bottom_nav.dart';
 import '../feature/bottom_nav_bar/user_bottom_nav.dart';
 import '../feature/chat/inbox_screen.dart';
 import '../feature/onboarding_screen.dart';
@@ -93,7 +93,7 @@ abstract class AppRoutes {
   ///  ============= > routes < ==============
   static final routes = <String, WidgetBuilder>{
     splashScreen : (context) => SplashScreen(),
-    customBottomNavBar : (context) => CustomBottomNavBar(),
+    customBottomNavBar : (context) => CookBottomNavBar(),
     settingScreen : (context) => SettingScreen(),
     termsScreen : (context) => TermsScreen(),
     policyScreen : (context) => PrivacyPolicyScreen(),
