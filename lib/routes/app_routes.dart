@@ -18,7 +18,6 @@ import '../feature/auth/role/role_screen.dart';
 import '../feature/auth/sign_up/sign_up_screen.dart';
 import '../feature/bottom_nav_bar/cook_bottom_nav.dart';
 import '../feature/bottom_nav_bar/user_bottom_nav.dart';
-import '../feature/chat/inbox_screen.dart';
 import '../feature/onboarding_screen.dart';
 import '../feature/profile/edit_profile_screen.dart';
 import '../feature/profile/setting/about_screen.dart';
@@ -100,7 +99,6 @@ abstract class AppRoutes {
     aboutScreen : (context) => AboutScreen(),
     changePassScreen : (context) => SettingChangePassword(),
     editProfileScreen : (context) => EditProfileScreen(),
-    inboxScreen : (context) => InboxScreen(),
     onboardingScreen : (context) => OnboardingScreen(),
     loginScreen : (context) => LoginScreen(),
     forgotScreen : (context) => ForgetScreen(),
