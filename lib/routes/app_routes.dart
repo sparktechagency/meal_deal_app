@@ -27,8 +27,9 @@ import '../feature/profile/setting/change%20password/setting_change_password.dar
 import '../feature/profile/setting/privacy_policy_screen.dart';
 import '../feature/profile/setting/setting_screen.dart';
 import '../feature/profile/setting/terms_screen.dart';
-
 import '../feature/splash_screen/splash_screen.dart';
+
+
 abstract class AppRoutes {
 
   ///  ============= > initialRoute < ==============
@@ -68,10 +69,6 @@ abstract class AppRoutes {
   static const String reportDetailsScreen = '/reportDetailsScreen';
   static const String mediaScreen = '/mediaScreen';
   static const String profileDetailsScreen = '/profileDetailsScreen';
-  static const String giftsMemberScreen = '/giftsMemberScreen';
-  static const String bankInfoScreen = '/bankInfoScreen';
-  static const String joinGuestScreen = '/joinGuestScreen';
-  static const String galleryScreen = '/galleryScreen';
   static const String personalInfoScreen = '/personalInfoScreen';
   static const String inboxScreen = '/inboxScreen';
   static const String completeProfileFirstPage = '/completeProfileFirstPage';
