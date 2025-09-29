@@ -67,7 +67,7 @@ abstract class AppRoutes {
   static const String bioScreen = '/bioScreen';
   static const String interestsScreen = '/interestsScreen';
   static const String enableLocationScreen = '/enableLocationScreen';
-  static const String customBottomNavBar = '/customBottomNavBar';
+  static const String cookBottomNavBar = '/customBottomNavBar';
   static const String notificationScreen = '/notificationScreen';
   static const String commentScreen = '/commentScreen';
   static const String settingScreen = '/settingScreen';
@@ -117,7 +117,7 @@ abstract class AppRoutes {
   static const String testSalesScreen = '/TestSalesScreen';
   static const String addMoreScreen = '/AddMoreScreen';
 
-///cook role
+/// cook role
 
   static const String agreementScreen = '/AgreementScreen';
   static const String confrimScreen = '/ConfrimScreen';
@@ -125,7 +125,7 @@ abstract class AppRoutes {
   ///  ============= > routes < ==============
   static final routes = <String, WidgetBuilder>{
     splashScreen : (context) => SplashScreen(),
-    customBottomNavBar : (context) => CookBottomNavBar(),
+    cookBottomNavBar : (context) => CookBottomNav(),
     settingScreen : (context) => SettingScreen(),
     termsScreen : (context) => TermsScreen(),
     policyScreen : (context) => PrivacyPolicyScreen(),

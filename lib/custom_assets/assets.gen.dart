@@ -21,6 +21,12 @@ class $AssetsIconsGen {
   /// File path: assets/icons/about.svg
   SvgGenImage get about => const SvgGenImage('assets/icons/about.svg');
 
+  /// File path: assets/icons/add_menu.svg
+  SvgGenImage get addMenu => const SvgGenImage('assets/icons/add_menu.svg');
+
+  /// File path: assets/icons/add_menu_f.svg
+  SvgGenImage get addMenuF => const SvgGenImage('assets/icons/add_menu_f.svg');
+
   /// File path: assets/icons/apple.svg
   SvgGenImage get apple => const SvgGenImage('assets/icons/apple.svg');
 
@@ -164,6 +170,8 @@ class $AssetsIconsGen {
   /// List of all assets
   List<SvgGenImage> get values => [
     about,
+    addMenu,
+    addMenuF,
     apple,
     arrowOnboarding,
     arrowRight,
@@ -255,6 +263,10 @@ class $AssetsImagesGen {
   AssetGenImage get onboardingImage =>
       const AssetGenImage('assets/images/onboarding_image.png');
 
+  /// File path: assets/images/profile_cover.png
+  AssetGenImage get profileCover =>
+      const AssetGenImage('assets/images/profile_cover.png');
+
   /// File path: assets/images/splash_bottom.png
   AssetGenImage get splashBottom =>
       const AssetGenImage('assets/images/splash_bottom.png');
@@ -289,6 +301,7 @@ class $AssetsImagesGen {
     locationImage,
     mapResturant,
     onboardingImage,
+    profileCover,
     splashBottom,
     splashLogo,
     splashLove,

@@ -37,7 +37,7 @@ class _OfferScreenState extends State<OfferScreen> {
               validator: (_) => null,
               controller: _searchController),
 
-          CategoryItemWidget(),
+          CategoryItemWidget(categoryItem: HelperData.categoryItem,),
 
           CustomText(
             top: 8.h,

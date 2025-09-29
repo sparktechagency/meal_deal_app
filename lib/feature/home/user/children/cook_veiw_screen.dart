@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:meal_deal_app/app/helpers/helper_data.dart';
 import 'package:meal_deal_app/feature/home/widgets/category_item_widget.dart';
 import 'package:meal_deal_app/routes/app_routes.dart';
 import '../../../../app/utils/app_colors.dart';
@@ -41,7 +42,7 @@ class CookViewScreen extends StatelessWidget {
               SizedBox(height: 70.h),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
-                child: const CategoryItemWidget(),
+                child: CategoryItemWidget(categoryItem: HelperData.categoryItem,),
               ),
               ListView.builder(
                 padding: EdgeInsets.only(top: 16.h, bottom: 40.h),
