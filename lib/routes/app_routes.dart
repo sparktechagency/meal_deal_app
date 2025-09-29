@@ -20,6 +20,17 @@ import '../feature/auth/role/role_screen.dart';
 import '../feature/auth/sign_up/sign_up_screen.dart';
 import '../feature/bottom_nav_bar/cook_bottom_nav.dart';
 import '../feature/bottom_nav_bar/user_bottom_nav.dart';
+
+import '../feature/cook/registrations/agreement/agreement_screen.dart';
+import '../feature/cook/registrations/agreement/confrim_screen.dart';
+import '../feature/cook/registrations/completed/completed_screen.dart';
+import '../feature/cook/registrations/completed/compliance_screen.dart';
+import '../feature/cook/registrations/registration/business_number_screen.dart';
+import '../feature/cook/registrations/registration/digital_form_screen.dart';
+import '../feature/cook/registrations/registration/introduction_screen.dart';
+import '../feature/cook/registrations/registration/official_registration_screen.dart';
+import '../feature/cook/registrations/registration/registration_completed_screen.dart';
+import '../feature/cook/registrations/registration/registration_submitted_screen.dart';
 import '../feature/onboarding_screen.dart';
 import '../feature/profile/edit_profile_screen.dart';
 import '../feature/profile/setting/about_screen.dart';
@@ -85,9 +96,19 @@ abstract class AppRoutes {
   static const String oderHistoryScreen = '/oderHistoryScreen';
   static const String chatInboxScreen = '/chatInboxScreen';
   static const String favouriteScreen = '/favouriteScreen';
+  static const String officialRegistration = '/OfficialRegistration';
+  static const String introductionScreen = '/IntroductionScreen';
+  static const String digitalFormScreen = '/DigitalFormScreen';
+  static const String registrationSubmittedScreen = '/RegistrationSubmittedScreen';
+  static const String businessNumberScreen = '/BusinessNumberScreen';
+  static const String registrationCompletedScreen = '/RegistrationCompletedScreen';
+  static const String complianceScreen = '/ComplianceScreen';
+  static const String completedScreen = '/CompletedScreen';
 
+///cook role
 
-
+  static const String agreementScreen = '/AgreementScreen';
+  static const String confrimScreen = '/ConfrimScreen';
 
   ///  ============= > routes < ==============
   static final routes = <String, WidgetBuilder>{
@@ -120,6 +141,16 @@ abstract class AppRoutes {
     chatInboxScreen : (context) => ChatInboxScreen(),
     supportScreen : (context) => SupportScreen(),
     favouriteScreen : (context) => FavouriteScreen(),
+    agreementScreen : (context) => AgreementScreen(),
+    confrimScreen : (context) => ConfrimScreen(),
+    officialRegistration : (context) => OfficialRegistration(),
+    introductionScreen : (context) => IntroductionScreen(),
+    digitalFormScreen : (context) => DigitalFormScreen(),
+    registrationSubmittedScreen : (context) => RegistrationSubmittedScreen(),
+    businessNumberScreen : (context) => BusinessNumberScreen(),
+    registrationCompletedScreen : (context) => RegistrationCompletedScreen(),
+    complianceScreen : (context) => ComplianceScreen(),
+    completedScreen : (context) => CompletedScreen(),
 
   };
 }
