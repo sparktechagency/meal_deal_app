@@ -217,6 +217,10 @@ class $AssetsImagesGen {
   AssetGenImage get appLogo =>
       const AssetGenImage('assets/images/app_logo.png');
 
+  /// File path: assets/images/confirm_image.png
+  AssetGenImage get confirmImage =>
+      const AssetGenImage('assets/images/confirm_image.png');
+
   /// File path: assets/images/cook.png
   AssetGenImage get cook => const AssetGenImage('assets/images/cook.png');
 
@@ -267,9 +271,14 @@ class $AssetsImagesGen {
   AssetGenImage get supportImg =>
       const AssetGenImage('assets/images/support_img.png');
 
+  /// File path: assets/images/verified.png
+  AssetGenImage get verified =>
+      const AssetGenImage('assets/images/verified.png');
+
   /// List of all assets
   List<AssetGenImage> get values => [
     appLogo,
+    confirmImage,
     cook,
     cook2,
     cookImage,
@@ -284,6 +293,7 @@ class $AssetsImagesGen {
     splashLogo,
     splashLove,
     supportImg,
+    verified,
   ];
 }
 

@@ -42,6 +42,10 @@ dependencies:
   rating_summary: ^1.0.4
   timelines_plus: ^1.0.7
   flutter_stripe: ^12.0.2
+  flutter_inappwebview: ^6.1.5
+  syncfusion_flutter_pdfviewer: ^31.1.21
+  audio_session:
+
 
 
 dev_dependencies:
