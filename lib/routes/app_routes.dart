@@ -23,6 +23,12 @@ import '../feature/bottom_nav_bar/user_bottom_nav.dart';
 
 import '../feature/cook/registrations/agreement/agreement_screen.dart';
 import '../feature/cook/registrations/agreement/confrim_screen.dart';
+import '../feature/cook/registrations/become cook/add_more_screen.dart';
+import '../feature/cook/registrations/become cook/availability_screen.dart';
+import '../feature/cook/registrations/become cook/become_cook_screen.dart';
+import '../feature/cook/registrations/become cook/responsibility_contract_screen.dart';
+import '../feature/cook/registrations/become cook/test_sales_screen.dart';
+import '../feature/cook/registrations/become cook/verification_certification_screen.dart';
 import '../feature/cook/registrations/completed/completed_screen.dart';
 import '../feature/cook/registrations/completed/compliance_screen.dart';
 import '../feature/cook/registrations/registration/business_number_screen.dart';
@@ -104,6 +110,12 @@ abstract class AppRoutes {
   static const String registrationCompletedScreen = '/RegistrationCompletedScreen';
   static const String complianceScreen = '/ComplianceScreen';
   static const String completedScreen = '/CompletedScreen';
+  static const String becomeCookScreen = '/BecomeCookScreen';
+  static const String verificationCertificationScreen = '/VerificationCertificationScreen';
+  static const String availabilityScreen = '/AvailabilityScreen';
+  static const String responsibilityContractScreen = '/ResponsibilityContractScreen';
+  static const String testSalesScreen = '/TestSalesScreen';
+  static const String addMoreScreen = '/AddMoreScreen';
 
 ///cook role
 
@@ -151,6 +163,12 @@ abstract class AppRoutes {
     registrationCompletedScreen : (context) => RegistrationCompletedScreen(),
     complianceScreen : (context) => ComplianceScreen(),
     completedScreen : (context) => CompletedScreen(),
+    becomeCookScreen : (context) => BecomeCookScreen(),
+    verificationCertificationScreen : (context) => VerificationCertificationScreen(),
+    availabilityScreen : (context) => AvailabilityScreen(),
+    responsibilityContractScreen : (context) => ResponsibilityContractScreen(),
+    testSalesScreen : (context) => TestSalesScreen(),
+    addMoreScreen : (context) => AddMoreScreen(),
 
   };
 }

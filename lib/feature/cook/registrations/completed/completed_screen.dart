@@ -21,7 +21,7 @@ class CompletedScreen extends StatelessWidget {
           CustomText(text: "You have successfully read the Hygiene Guideline"),
           SizedBox(height: 30.h,),
           CustomButton(onPressed: (){
-           // Get.toNamed(AppRoutes.officialRegistration);
+           Get.toNamed(AppRoutes.becomeCookScreen);
           },label: "Next",fontSize: 16.sp,)
         ],
       ),)
