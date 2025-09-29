@@ -17,6 +17,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
 
+
+  final String role = Get.arguments as String;
+
   final _authType = [
     {'label': 'Phone', 'value': 'phone'},
     {'label': 'Email', 'value': 'email'},
@@ -142,7 +145,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _onSingUp() {
     if (!_globalKey.currentState!.validate()) return;
-    Get.offAllNamed(AppRoutes.userBottomNavBar);
+    if(role == 'user'){
+      Get.offAllNamed(AppRoutes.userBottomNavBar);
+
+    }else{
+      Get.offAllNamed(AppRoutes.cookBottomNavBar);
+
+    }
    // _authController.login();
   }
 

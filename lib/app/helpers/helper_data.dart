@@ -112,6 +112,23 @@ class HelperData {
     },
   ];
 
+
+
+  static final List<Map<String, dynamic>> categoryItemCook = [
+    {
+      "title": "New",
+      "items": ["Vegan", "Vegetarian", "Halal", "Gluten Free"]
+    },
+    {
+      "title": "In Preparation",
+      "items": ["Main", "Dessert", "Snacks", "Drinks", "Seafood"]
+    },
+    {
+      "title": "Ready for Pick Up",
+      "items": ["Protein", "Low-Carbs", "Smoothies"]
+    },
+  ];
+
   static final List<String> cuisines = [
     "Italian", "Swiss", "Asian", "Mexican", "American"
   ];

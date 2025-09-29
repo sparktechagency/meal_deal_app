@@ -6,14 +6,26 @@ import '../../../app/utils/app_colors.dart';
 import '../../../widgets/widgets.dart';
 
 class CategoryItemWidget extends StatefulWidget {
-  const CategoryItemWidget({super.key});
+  const CategoryItemWidget({super.key,  this.showChildCategory = true, required this.categoryItem, this.selectedValue = ''});
+
+
+  final bool showChildCategory;
+  final List<Map<String, dynamic>> categoryItem;
+  final   String selectedValue;
 
   @override
   State<CategoryItemWidget> createState() => _CategoryItemWidgetState();
 }
 
 class _CategoryItemWidgetState extends State<CategoryItemWidget> {
+
   String selectedValue = '';
+
+  @override
+  void initState() {
+    selectedValue = widget.selectedValue;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +46,7 @@ class _CategoryItemWidgetState extends State<CategoryItemWidget> {
         scrollDirection: Axis.horizontal,
         child: IntrinsicWidth(
           child: Row(
-            children: HelperData.categoryItem.map((item) {
+            children: widget.categoryItem.map((item) {
               return Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -57,7 +69,7 @@ class _CategoryItemWidgetState extends State<CategoryItemWidget> {
                           : AppColors.black400TextColor,
                     ),
                   ),
-                  if (selectedValue == item["title"])
+                  if (selectedValue == item["title"] && widget.showChildCategory)
                     GestureDetector(
                       onTapDown: (details) {
                         MenuShowHelper.showCustomMenu(

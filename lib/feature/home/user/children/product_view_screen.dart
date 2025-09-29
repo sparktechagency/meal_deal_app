@@ -52,7 +52,7 @@ class _ProductViewScreenState extends State<ProductViewScreen> {
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Column(
         children: [
-          CategoryItemWidget(),
+          CategoryItemWidget(categoryItem: HelperData.categoryItem,),
           Expanded(
             child: GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
