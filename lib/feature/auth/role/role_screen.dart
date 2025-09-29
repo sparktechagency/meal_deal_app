@@ -30,7 +30,7 @@ class RoleScreen extends StatelessWidget {
           Spacer(),
           CustomButton(
             onPressed: () {
-              Get.toNamed(AppRoutes.loginScreen);
+              Get.toNamed(AppRoutes.loginScreen,arguments: 'cook');
             },
             label: 'I want to Cook',
           ),
@@ -40,7 +40,7 @@ class RoleScreen extends StatelessWidget {
             bordersColor: AppColors.primaryColor,
             backgroundColor: Colors.transparent,
             onPressed: () {
-              Get.toNamed(AppRoutes.loginScreen);
+              Get.toNamed(AppRoutes.loginScreen,arguments: 'user');
             },
             label: 'I want  Food',
           ),
