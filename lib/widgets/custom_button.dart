@@ -67,11 +67,11 @@ class CustomButton extends StatelessWidget {
           /// Prefix Icon
           if (prefixIcon != null || prefixIconShow == true) ...[
             Icon(
-              size: 18.r,
+              //size: 18.r,
               prefixIcon ?? Icons.arrow_back,
 
               /// Use prefixIcon or fallback
-              color: foregroundColor ?? AppColors.darkColor,
+              color: foregroundColor ?? Colors.white,
             ),
             SizedBox(width: 8.w),
           ],

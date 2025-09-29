@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:meal_deal_app/feature/cook/add_menu/add_menu_screen.dart';
 import 'package:meal_deal_app/feature/cook/cook_home_screen.dart';
 import 'package:meal_deal_app/feature/cook/order/cook_order_screen.dart';
 import 'package:meal_deal_app/feature/cook/profile/profile_screen.dart';
@@ -34,7 +35,7 @@ class _CookBottomNavState extends State<CookBottomNav> {
   final List<Widget> _screens =  [
     CookHomeScreen(),
     CookOrderScreen(),
-    OfferScreen(),
+    AddMenuScreen(),
     CookProfileScreen(),
   ];
 
