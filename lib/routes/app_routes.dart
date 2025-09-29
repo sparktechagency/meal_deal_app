@@ -37,6 +37,13 @@ import '../feature/cook/registrations/registration/introduction_screen.dart';
 import '../feature/cook/registrations/registration/official_registration_screen.dart';
 import '../feature/cook/registrations/registration/registration_completed_screen.dart';
 import '../feature/cook/registrations/registration/registration_submitted_screen.dart';
+import '../feature/cook/registrations/verfication & approval/hygiene_course_screen.dart';
+import '../feature/cook/registrations/verfication & approval/pdf_screen.dart';
+import '../feature/cook/registrations/verfication & approval/quiz_screen.dart';
+import '../feature/cook/registrations/verfication & approval/start_course_screen.dart';
+import '../feature/cook/registrations/verfication & approval/verification_approval_screen.dart';
+import '../feature/cook/registrations/verfication & approval/video_screen.dart';
+import '../feature/cook/registrations/verfication & approval/waiting_for_approval.dart';
 import '../feature/onboarding_screen.dart';
 import '../feature/profile/edit_profile_screen.dart';
 import '../feature/profile/setting/about_screen.dart';
@@ -116,6 +123,13 @@ abstract class AppRoutes {
   static const String responsibilityContractScreen = '/ResponsibilityContractScreen';
   static const String testSalesScreen = '/TestSalesScreen';
   static const String addMoreScreen = '/AddMoreScreen';
+  static const String verificationApprovalScreen = '/VerificationApprovalScreen';
+  static const String hygieneCourseScreen = '/HygieneCourseScreen';
+  static const String startCourseScreen = '/StartCourseScreen';
+  static const String videoScreen = '/VideoScreen';
+  static const String pdfScreen = '/PdfScreen';
+  static const String quizScreen = '/QuizScreen';
+  static const String waitingApprovalScreen = '/WaitingApprovalScreen';
 
 /// cook role
 
@@ -169,6 +183,14 @@ abstract class AppRoutes {
     responsibilityContractScreen : (context) => ResponsibilityContractScreen(),
     testSalesScreen : (context) => TestSalesScreen(),
     addMoreScreen : (context) => AddMoreScreen(),
+    verificationApprovalScreen : (context) => VerificationApprovalScreen(),
+    hygieneCourseScreen : (context) => HygieneCourseScreen(),
+    startCourseScreen : (context) => StartCourseScreen(),
+    videoScreen : (context) => VideoScreen(),
+    pdfScreen : (context) => PdfScreen(),
+    quizScreen : (context) => QuizScreen(),
+    waitingApprovalScreen : (context) => WaitingApprovalScreen(),
+
 
   };
 }

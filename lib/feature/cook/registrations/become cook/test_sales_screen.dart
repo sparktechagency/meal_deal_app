@@ -177,7 +177,7 @@ class _TestSalesScreenState extends State<TestSalesScreen> {
             color: Colors.white,
             child: CustomButton(
               onPressed: () {
-                // Handle next action
+            Get.toNamed(AppRoutes.verificationApprovalScreen);
               },
               label: "Next",
               backgroundColor: Color(0xFFE67E22),
