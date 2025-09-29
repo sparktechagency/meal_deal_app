@@ -45,6 +45,7 @@ dependencies:
   flutter_inappwebview: ^6.1.5
   syncfusion_flutter_pdfviewer:
   audio_session:
+  video_player: ^2.10.0
 
 
 
