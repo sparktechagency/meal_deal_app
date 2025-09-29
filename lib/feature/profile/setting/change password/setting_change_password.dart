@@ -25,7 +25,6 @@ class _SettingChangePasswordState extends State<SettingChangePassword> {
     return CustomScaffold(
       appBar: CustomAppBar(
         title: 'Change Password',
-        borderColor: AppColors.secondaryColor,
       ),
       body: SingleChildScrollView(
         child: Form(

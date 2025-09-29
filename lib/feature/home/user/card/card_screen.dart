@@ -149,7 +149,7 @@ class _CardScreenState extends State<CardScreen> {
                           HelperData.cartItems.removeAt(index);
                         });
                       },
-                      child: Assets.icons.delete.svg(),
+                      child: Assets.icons.delete.svg(height: 14.h,width: 14.w),
                     ),
                   ],
                 ),

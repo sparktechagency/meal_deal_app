@@ -9,6 +9,8 @@ import 'package:meal_deal_app/feature/home/user/children/cook_details_screen.dar
 import 'package:meal_deal_app/feature/home/user/children/cook_veiw_screen.dart';
 import 'package:meal_deal_app/feature/home/user/children/product_details_screen.dart';
 import 'package:meal_deal_app/feature/home/user/children/product_view_screen.dart';
+import 'package:meal_deal_app/feature/profile/favourite_screen.dart';
+import 'package:meal_deal_app/feature/profile/setting/support_screen.dart';
 import '../feature/auth/complete_profile/complete_profile_first_page.dart';
 import '../feature/auth/forget/forget_screen.dart';
 import '../feature/auth/login/log_in_screen.dart';
@@ -36,8 +38,9 @@ import '../feature/profile/setting/change%20password/setting_change_password.dar
 import '../feature/profile/setting/privacy_policy_screen.dart';
 import '../feature/profile/setting/setting_screen.dart';
 import '../feature/profile/setting/terms_screen.dart';
-
 import '../feature/splash_screen/splash_screen.dart';
+
+
 abstract class AppRoutes {
 
   ///  ============= > initialRoute < ==============
@@ -77,10 +80,6 @@ abstract class AppRoutes {
   static const String reportDetailsScreen = '/reportDetailsScreen';
   static const String mediaScreen = '/mediaScreen';
   static const String profileDetailsScreen = '/profileDetailsScreen';
-  static const String giftsMemberScreen = '/giftsMemberScreen';
-  static const String bankInfoScreen = '/bankInfoScreen';
-  static const String joinGuestScreen = '/joinGuestScreen';
-  static const String galleryScreen = '/galleryScreen';
   static const String personalInfoScreen = '/personalInfoScreen';
   static const String inboxScreen = '/inboxScreen';
   static const String completeProfileFirstPage = '/completeProfileFirstPage';
@@ -96,6 +95,7 @@ abstract class AppRoutes {
   static const String allCardScreen = '/allCardScreen';
   static const String oderHistoryScreen = '/oderHistoryScreen';
   static const String chatInboxScreen = '/chatInboxScreen';
+  static const String favouriteScreen = '/favouriteScreen';
   static const String officialRegistration = '/OfficialRegistration';
   static const String introductionScreen = '/IntroductionScreen';
   static const String digitalFormScreen = '/DigitalFormScreen';
@@ -139,6 +139,8 @@ abstract class AppRoutes {
     allCardScreen : (context) => AllCardScreen(),
     oderHistoryScreen : (context) => OrderHistoryScreen(),
     chatInboxScreen : (context) => ChatInboxScreen(),
+    supportScreen : (context) => SupportScreen(),
+    favouriteScreen : (context) => FavouriteScreen(),
     agreementScreen : (context) => AgreementScreen(),
     confrimScreen : (context) => ConfrimScreen(),
     officialRegistration : (context) => OfficialRegistration(),

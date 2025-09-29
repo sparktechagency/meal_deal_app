@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:meal_deal_app/feature/home/user/offer/offer_screen.dart';
+import 'package:meal_deal_app/feature/home/user/order/order_screen.dart';
 import 'package:meal_deal_app/feature/home/user/user_home_screen.dart';
 import 'package:meal_deal_app/feature/profile/profile_screen.dart';
 import '../../app/utils/app_colors.dart';
@@ -28,8 +30,8 @@ class _UserBottomNavState extends State<UserBottomNav> {
 
   final List<Widget> _screens =  [
     UserHomeScreen(),
-    UserHomeScreen(),
-    UserHomeScreen(),
+    OrderScreen(),
+    OfferScreen(),
     ProfileScreen(),
   ];
 
