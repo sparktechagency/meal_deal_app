@@ -141,7 +141,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   CustomText(
                     onTap: () {
-                     Get.offAllNamed(AppRoutes.loginScreen);
+                     Get.offAllNamed(AppRoutes.roleScreen);
                     },
                     text: "Sign In",
                     fontSize: 14.sp,

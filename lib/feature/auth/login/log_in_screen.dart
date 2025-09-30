@@ -18,7 +18,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
 
 
-  final String role = Get.arguments as String;
+  final String? role = Get.arguments as String;
 
   final _authType = [
     {'label': 'Phone', 'value': 'phone'},
