@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:meal_deal_app/app/helpers/prefs_helper.dart';
+import 'package:meal_deal_app/app/utils/app_constants.dart';
 import '../../app/utils/app_colors.dart';
 import '../../custom_assets/assets.gen.dart';
 import '../../routes/app_routes.dart';
@@ -16,11 +18,24 @@ class _SplashScreenState extends State<SplashScreen> {
 
 
 
-  void _goNextScreen() {
+  void _goNextScreen() async{
+    String barrerTocken = await PrefsHelper.getString(AppConstants.bearerToken);
+    String role = await PrefsHelper.getString(AppConstants.role);
+
     Future.delayed(const Duration(seconds: 2), () async {
-     Get.offAllNamed(AppRoutes.onboardingScreen);
-     //Get.offAllNamed(AppRoutes.cookBottomNavBar);
+      if( barrerTocken.isNotEmpty){
+        if( role == 'user'){
+          Get.offAllNamed(AppRoutes.userBottomNavBar);
+
+        }else{
+          Get.offAllNamed(AppRoutes.cookBottomNavBar);
+        }
+      }else{
+        Get.offAllNamed(AppRoutes.onboardingScreen);
+      }
     });
+
+
   }
 
   @override

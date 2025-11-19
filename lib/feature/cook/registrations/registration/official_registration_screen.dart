@@ -90,7 +90,13 @@ class _OfficialRegistrationState extends State<OfficialRegistration> {
             // Start Registration Button
             CustomButton(
               onPressed: () {
-               Get.toNamed( currentStatus=="Not Started"? AppRoutes.introductionScreen : currentStatus=="Completed"? AppRoutes.complianceScreen:AppRoutes.businessNumberScreen);
+                Get.toNamed(
+                  currentStatus == "Not Started"
+                      ? AppRoutes.introductionScreen
+                      : currentStatus == "Completed"
+                      ? AppRoutes.complianceScreen
+                      : AppRoutes.businessNumberScreen,
+                );
               },
               label: "Start Registration",
             ),
