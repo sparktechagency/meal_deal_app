@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:meal_deal_app/feature/bottom_nav_bar/controller/custom_bottom_nav_bar_controller.dart';
 
 import '../../../controllers/auth/auth_controller.dart';
 import '../../../routes/app_routes.dart';
@@ -16,9 +17,7 @@ class OtpScreen extends StatefulWidget {
 
 class _OtpScreenState extends State<OtpScreen> {
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
-
- // final String role = Get.arguments['role'];
-
+  final String role = Get.arguments['role'];
   final AuthController _authController = Get.find<AuthController>();
 
   @override
@@ -47,20 +46,20 @@ class _OtpScreenState extends State<OtpScreen> {
             ),
 
             SizedBox(height: 80.h),
-            // GetBuilder<AuthController>(
-            //   builder: (controller) {
-            //     return controller.isLoadingOtp
-            //         ? CustomLoader()
-            //         : CustomButton(
-            //           label: "Verify",
-            //           onPressed: _onTapNextScreen,
-            //         );
-            //   },
-            // ),
-            CustomButton(
-              label: "Continue",
-              onPressed: _onTapNextScreen,
+            GetBuilder<AuthController>(
+              builder: (controller) {
+                return controller.isLoadingOtp
+                    ? CustomLoader()
+                    : CustomButton(
+                      label: "Verify",
+                      onPressed: _onTapNextScreen,
+                    );
+              },
             ),
+            // CustomButton(
+            //   label: "Continue",
+            //   onPressed: _onTapNextScreen,
+            // ),
             SizedBox(height: 18.h),
           ],
         ),
@@ -70,17 +69,20 @@ class _OtpScreenState extends State<OtpScreen> {
 
   void _onTapNextScreen() async {
     if (!_globalKey.currentState!.validate()) return;
-    Get.toNamed(AppRoutes.resetPasswordScreen);
 
-    //final bool isSuccess = await _authController.verifyOTP();
 
-    // if (isSuccess) {
-    //   if (role == 'sign_up') {
-    //     //Get.offAllNamed(AppRoutes.loginScreen);
-    //   } else {
-    //     //Get.toNamed(AppRoutes.resetPasswordScreen);
-    //   }
-    // }
+    final bool isSuccess = await _authController.verifyOTP();
+    if (isSuccess) {
+      if (role == 'cook') {
+        Get.offAllNamed(AppRoutes.cookBottomNavBar);
+        Get.find<CustomBottomNavBarController>().selectedIndex.value = 0;
+      } else if(role == 'forgot'){
+        Get.toNamed(AppRoutes.resetPasswordScreen);
+      } else {
+        Get.offAllNamed(AppRoutes.userBottomNavBar);
+        Get.find<CustomBottomNavBarController>().selectedIndex.value = 0;
+      }
+    }
   }
 
 

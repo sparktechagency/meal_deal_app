@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:meal_deal_app/app/utils/app_colors.dart';
+import 'package:meal_deal_app/controllers/auth/auth_controller.dart';
 import 'package:meal_deal_app/custom_assets/assets.gen.dart';
 import 'package:meal_deal_app/routes/app_routes.dart';
+
 import '../../../widgets/widgets.dart';
 import '../../profile/widgets/profile_list_tile.dart';
 
@@ -116,9 +118,13 @@ class CookProfileScreen extends StatelessWidget {
                     onCancel: () {
                       Get.back();
                     },
-                    onConfirm: () {
-                      //Get.offAllNamed(AppRoutes.loginScreen);
-                    },
+                    onConfirm: () =>
+                    AuthController()
+                      ..logOut(),
+                    // onConfirm: () {
+                    //
+                    //   //Get.offAllNamed(AppRoutes.loginScreen);
+                    // },
                   ),
                 );
               },
