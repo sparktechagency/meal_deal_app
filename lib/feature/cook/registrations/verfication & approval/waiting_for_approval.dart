@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:meal_deal_app/routes/app_routes.dart';
 import 'package:meal_deal_app/widgets/widgets.dart';
 import 'package:meal_deal_app/app/utils/app_colors.dart';
 
@@ -10,10 +12,7 @@ class WaitingApprovalScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[50],
-      appBar: CustomAppBar(
-        title: "",
-        backgroundColor: Colors.transparent,
-      ),
+      appBar: CustomAppBar(title: "", backgroundColor: Colors.transparent),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Column(
@@ -44,10 +43,14 @@ class WaitingApprovalScreen extends StatelessWidget {
             SizedBox(height: 60.h),
 
             // Course Card
-CustomText(text: "Waiting for Admin’s Approval..."),
+            CustomText(text: "Waiting for Admin’s Approval..."),
             SizedBox(height: 60.h),
-            CustomButton(onPressed: (){},label: "Next",),
-
+            CustomButton(
+              onPressed: () {
+                Get.offAllNamed(AppRoutes.cookBottomNavBar);
+              },
+              label: "Next",
+            ),
           ],
         ),
       ),
