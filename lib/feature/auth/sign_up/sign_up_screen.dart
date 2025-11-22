@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
 import '../../../app/utils/app_colors.dart';
 import '../../../controllers/auth/auth_controller.dart';
 import '../../../custom_assets/assets.gen.dart';
 import '../../../routes/app_routes.dart';
 import '../../../widgets/widgets.dart';
 import '../widgets/app_logo.dart';
-
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -19,12 +19,10 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
 
-
-
   final AuthController _registerController = Get.find<AuthController>();
 
+  final String role = Get.arguments as String;
 
-  String selectedValueType = 'professional';
 
   @override
   Widget build(BuildContext context) {
@@ -45,17 +43,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SizedBox(height: 24.h),
               CustomTextField(
                 labelText: 'Full Name',
-                controller: _registerController.emailController,
+                controller: _registerController.usernameController,
                 hintText: "Enter Your full name",
-                keyboardType: TextInputType.emailAddress,
-                isEmail: true,
+                keyboardType: TextInputType.text,
               ),
               CustomTextField(
                 labelText: 'Phone Number',
-                controller: _registerController.emailController,
+                controller: _registerController.phoneController,
                 hintText: "Enter Your phone Number",
-                keyboardType: TextInputType.emailAddress,
-                isEmail: true,
+                keyboardType: TextInputType.number,
               ),
               CustomTextField(
                 labelText: 'Email',
@@ -72,7 +68,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Password is required';
-                  } else if (_registerController.passwordController.text.length < 8) {
+                  } else if (_registerController
+                          .passwordController
+                          .text
+                          .length <
+                      8) {
                     return 'Password must be 8+ chars';
                   }
                   return null;
@@ -86,7 +86,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Confirm password is required';
-                  } else if (value != _registerController.passwordController.text) {
+                  } else if (value !=
+                      _registerController.passwordController.text) {
                     return 'Passwords do not match';
                   }
                   return null;
@@ -101,35 +102,40 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         onChanged: (value) => controller.onChanged(value),
                         activeColor: AppColors.primaryColor,
                       );
-                    }
+                    },
                   ),
                   CustomText(
                     text: "I accept the Terms & Conditions & Privacy Policy",
                     fontSize: 11.sp,
-                   // color: AppColors.textColor4D4D4D,
+                    // color: AppColors.textColor4D4D4D,
                   ),
                 ],
               ),
               SizedBox(height: 16.h),
               GetBuilder<AuthController>(
                 builder: (controller) {
-                  return controller.isLoadingRegister ? CustomLoader() : CustomButton(label: "Sign Up", onPressed: _onSignUp);
-                }
+                  return controller.isLoadingRegister
+                      ? CustomLoader()
+                      : CustomButton(label: "Sign Up", onPressed: _onSignUp);
+                },
               ),
               SizedBox(height: 24.h),
 
               Center(
-
-                  child: CustomText(
-                    bottom: 10.h,
-                    text: 'Or continue with',color: AppColors.appGreyColor,)),
+                child: CustomText(
+                  bottom: 10.h,
+                  text: 'Or continue with',
+                  color: AppColors.appGreyColor,
+                ),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(onPressed: (){}, icon: Assets.icons.google.svg()),
+                  IconButton(onPressed: () {}, icon: Assets.icons.google.svg()),
                   SizedBox(width: 8.w),
-                  IconButton(onPressed: (){}, icon: Assets.icons.apple.svg()),
-                ],),
+                  IconButton(onPressed: () {}, icon: Assets.icons.apple.svg()),
+                ],
+              ),
               SizedBox(height: 24.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -141,7 +147,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   CustomText(
                     onTap: () {
-                     Get.offAllNamed(AppRoutes.roleScreen);
+
+                      Get.offAllNamed(AppRoutes.loginScreen, arguments: role);
                     },
                     text: "Sign In",
                     fontSize: 14.sp,
@@ -157,19 +164,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
     );
   }
+
   void _onSignUp() {
-    if (!_globalKey.currentState!.validate()) return;
     if (!_registerController.isChecked) {
       showToast('Please accept the privacy policy');
       return;
     }
-else{
-   Get.toNamed(AppRoutes.agreementScreen);}
-    
+    if (_globalKey.currentState!.validate()) {
+      print('yess');
+      _registerController.register(role);
+    }
 
-    //_registerController.register();
+
+    // print(role);
+    //
+    // // if (!_registerController.isChecked) {
+    // //   showToast('Please accept the privacy policy');
+    // //   _registerController.register();
+    // //   return;
+    // // } else {
+    // //   Get.toNamed(AppRoutes.agreementScreen);
+    // // }
+    // _registerController.register(role);
   }
-
-
-
 }

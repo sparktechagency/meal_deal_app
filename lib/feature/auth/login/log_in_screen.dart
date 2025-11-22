@@ -88,18 +88,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               SizedBox(height: 80.h),
-              // GetBuilder<AuthController>(
-              //   builder: (controller) {
-              //     return controller.isLoadingLogin ? CustomLoader() : CustomButton(
-              //       label: "Sign In",
-              //       onPressed: _onSingUp,
-              //     );
-              //   }
-              // ),
-              CustomButton(
-                label: "Sign In",
-                onPressed: _onSingUp,
+              GetBuilder<AuthController>(
+                builder: (controller) {
+                  return controller.isLoadingLogin ? CustomLoader() : CustomButton(
+                    label: "Sign In",
+                    onPressed: _onSingUp,
+                  );
+                }
               ),
+              // CustomButton(
+              //   label: "Sign In",
+              //   onPressed: _onSingUp,
+              // ),
 
               SizedBox(height: 24.h),
 
@@ -127,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   CustomText(
                     onTap: () {
-                      Get.offAllNamed(AppRoutes.signUpScreen);
+                      Get.offAllNamed(AppRoutes.signUpScreen, arguments: role);
                     },
                     text: "Sign Up",
                     fontSize: 14.sp,
@@ -145,14 +145,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _onSingUp() {
     if (!_globalKey.currentState!.validate()) return;
-    if(role == 'user'){
-      Get.offAllNamed(AppRoutes.userBottomNavBar);
-
-    }else{
-      Get.offAllNamed(AppRoutes.cookBottomNavBar);
-
-    }
-   // _authController.login();
+    // if(role == 'user'){
+    //   Get.offAllNamed(AppRoutes.userBottomNavBar);
+    // }else{
+    //   Get.offAllNamed(AppRoutes.cookBottomNavBar);
+    // }
+   _authController.login();
   }
 
 }

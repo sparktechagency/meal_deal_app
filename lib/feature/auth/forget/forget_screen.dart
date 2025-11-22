@@ -45,19 +45,19 @@ class _ForgetScreenState extends State<ForgetScreen> {
                 //isEmail: true,
               ),
               SizedBox(height: 36.h),
-              // GetBuilder<AuthController>(
-              //   builder: (controller) {
-              //     return controller.isLoadingForgot ? CustomLoader() : CustomButton(
-              //       label: "Get Verification Code",
-              //       onPressed: _onGetVerificationCode,
-              //     );
-              //   }
-              // ),
-
-              CustomButton(
-                label: "Continue",
-                onPressed: _onGetVerificationCode,
+              GetBuilder<AuthController>(
+                builder: (controller) {
+                  return controller.isLoadingForgot ? CustomLoader() : CustomButton(
+                    label: "Continue",
+                    onPressed: _onGetVerificationCode,
+                  );
+                }
               ),
+
+              // CustomButton(
+              //   label: "Continue",
+              //   onPressed: _onGetVerificationCode,
+              // ),
               SizedBox(height: 18.h),
             ],
           ),
@@ -69,8 +69,8 @@ class _ForgetScreenState extends State<ForgetScreen> {
 
   void _onGetVerificationCode(){
     if(!_globalKey.currentState!.validate()) return;
-    Get.toNamed(AppRoutes.otpScreen);
-   // _authController.forgot();
+    // Get.toNamed(AppRoutes.otpScreen);
+    _authController.forgot();
   }
 
 }

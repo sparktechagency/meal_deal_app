@@ -190,7 +190,5 @@ abstract class AppRoutes {
     pdfScreen : (context) => PdfScreen(),
     quizScreen : (context) => QuizScreen(),
     waitingApprovalScreen : (context) => WaitingApprovalScreen(),
-
-
   };
 }

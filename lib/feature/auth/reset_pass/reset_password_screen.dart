@@ -75,21 +75,21 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         
         
               SizedBox(height: 36.h),
-              // GetBuilder<AuthController>(
-              //   builder: (controller) {
-              //     return controller.isLoadingReset ? CustomLoader() : CustomButton(
-              //       label: "Reset",
-              //       onPressed: _onResetPassword,
-              //     );
-              //   }
-              // ),
-
-
-              CustomButton(
-                label: "Reset",
-                onPressed: _onResetPassword,
+              GetBuilder<AuthController>(
+                builder: (controller) {
+                  return controller.isLoadingReset ? CustomLoader() : CustomButton(
+                    label: "Reset",
+                    onPressed: _onResetPassword,
+                  );
+                }
               ),
-              SizedBox(height: 44.h),
+
+
+              // CustomButton(
+              //   label: "Reset",
+              //   onPressed: _onResetPassword,
+              // ),
+              // SizedBox(height: 44.h),
         
             ],
           ),
@@ -102,8 +102,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
   void _onResetPassword(){
     if(!_globalKey.currentState!.validate()) return;
-    Get.offAllNamed(AppRoutes.loginScreen);
-    //_authController.resetPassword();
+    //Get.offAllNamed(AppRoutes.loginScreen);
+    _authController.resetPassword();
   }
 
 }

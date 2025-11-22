@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:meal_deal_app/controllers/auth/auth_controller.dart';
 import '../../app/utils/app_colors.dart';
 import '../../feature/profile/widgets/profile_list_tile.dart';
 import '../../custom_assets/assets.gen.dart';
@@ -102,9 +103,11 @@ class ProfileScreen extends StatelessWidget {
                   onCancel: () {
                     Get.back();
                   },
-                  onConfirm: () {
-                    //Get.offAllNamed(AppRoutes.loginScreen);
-                  },
+                  onConfirm: ()=> AuthController()..logOut(),
+                  // onConfirm: () {
+                  //   //Get.offAllNamed(AppRoutes.loginScreen);
+                  //
+                  // },
                 ),
               );
             },

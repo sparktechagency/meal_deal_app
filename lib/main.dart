@@ -35,7 +35,7 @@ class MealDealApp extends StatelessWidget {
         themeMode: ThemeMode.light,
         initialBinding: DependencyInjection(),
         routes: AppRoutes.routes,
-        builder: (context, child) => Scaffold(body: NoInternetWrapper(child: child!)),
+        // builder: (context, child) => Scaffold(body: NoInternetWrapper(child: child!)),
       ),
     );
   }
