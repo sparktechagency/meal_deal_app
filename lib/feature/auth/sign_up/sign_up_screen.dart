@@ -166,14 +166,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void _onSignUp() {
-    if (!_registerController.isChecked) {
-      showToast('Please accept the privacy policy');
-      return;
-    }
     if (_globalKey.currentState!.validate()) {
-      print('yess');
+      if (!_registerController.isChecked) {
+        showToast('Please accept the privacy policy');
+        return;
+      }
       _registerController.register(role);
     }
+
+
 
 
     // print(role);

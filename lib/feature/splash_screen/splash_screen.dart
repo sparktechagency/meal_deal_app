@@ -24,12 +24,13 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Future.delayed(const Duration(seconds: 2), () async {
       if( barrerTocken.isNotEmpty){
-        if( role == 'user'){
-          Get.offAllNamed(AppRoutes.userBottomNavBar);
-
-        }else{
-          Get.offAllNamed(AppRoutes.cookBottomNavBar);
-        }
+        // if( role == 'user'){
+        //   Get.offAllNamed(AppRoutes.userBottomNavBar);
+        //
+        // }else{
+        //   Get.offAllNamed(AppRoutes.cookBottomNavBar);
+        // }
+        Get.offAllNamed(AppRoutes.agreementScreen);
       }else{
         Get.offAllNamed(AppRoutes.onboardingScreen);
       }

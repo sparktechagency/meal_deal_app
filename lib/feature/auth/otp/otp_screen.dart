@@ -17,7 +17,7 @@ class OtpScreen extends StatefulWidget {
 
 class _OtpScreenState extends State<OtpScreen> {
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
-  final String role = Get.arguments['role'];
+  final String screenType = Get.arguments ?? 'register';
   final AuthController _authController = Get.find<AuthController>();
 
   @override
@@ -52,7 +52,7 @@ class _OtpScreenState extends State<OtpScreen> {
                     ? CustomLoader()
                     : CustomButton(
                       label: "Verify",
-                      onPressed: _onTapNextScreen,
+                      onPressed:  _onTapNextScreen,
                     );
               },
             ),
@@ -70,20 +70,20 @@ class _OtpScreenState extends State<OtpScreen> {
   void _onTapNextScreen() async {
     if (!_globalKey.currentState!.validate()) return;
 
-
     final bool isSuccess = await _authController.verifyOTP();
+
     if (isSuccess) {
-      if (role == 'cook') {
-        Get.offAllNamed(AppRoutes.cookBottomNavBar);
-        Get.find<CustomBottomNavBarController>().selectedIndex.value = 0;
-      } else if(role == 'forgot'){
+      if (screenType == 'forgot') {
         Get.toNamed(AppRoutes.resetPasswordScreen);
+        return;
+      }
+      if (_authController.role == 'cook') {
+        Get.toNamed(AppRoutes.agreementScreen);
       } else {
         Get.offAllNamed(AppRoutes.userBottomNavBar);
         Get.find<CustomBottomNavBarController>().selectedIndex.value = 0;
       }
     }
   }
-
 
 }

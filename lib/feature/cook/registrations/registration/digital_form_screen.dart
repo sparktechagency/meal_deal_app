@@ -26,6 +26,14 @@ class _DigitalFormScreenState extends State<DigitalFormScreen> {
           children: [
             Expanded(
               child: InAppWebView(
+                initialSettings: InAppWebViewSettings(
+                  javaScriptEnabled: true,                 // ✅ JavaScript Allow
+                  javaScriptCanOpenWindowsAutomatically: true,
+                  useShouldOverrideUrlLoading: true,
+                  allowFileAccessFromFileURLs: true,
+                  allowUniversalAccessFromFileURLs: true,
+                  mediaPlaybackRequiresUserGesture: false,
+                ),
                 initialUrlRequest: URLRequest(
                   url: WebUri(
                     "https://www.zh.ch/content/dam/zhweb/bilder-dokumente/themen/gesundheit/lebensmittelkontrollen/MD-00029.pdf",

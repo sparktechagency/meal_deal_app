@@ -69,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Password is required';
-                  } else if (_authController.loginPasswordController.text.length < 8) {
+                  } else if (_authController.loginPasswordController.text.length < 6) {
                     return 'Password must be 8+ chars';
                   }
                   return null;

@@ -43,9 +43,12 @@ dependencies:
   timelines_plus: ^1.0.7
   flutter_stripe: ^12.0.2
   flutter_inappwebview: ^6.1.5
-  syncfusion_flutter_pdfviewer:
   audio_session:
   video_player: ^2.10.0
+  dio: ^5.9.0
+  syncfusion_flutter_pdfviewer:
+  path_provider:
+  pdf: ^3.11.3
 
 
 

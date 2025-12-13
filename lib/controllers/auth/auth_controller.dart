@@ -54,16 +54,9 @@ class AuthController extends GetxController {
 
     final responseBody = response.body;
     if (response.statusCode == 200) {
-      await PrefsHelper.setString(
-        AppConstants.bearerToken,
-        responseBody['data']?['token'] ?? '',
-      );
-      await PrefsHelper.setString(
-        AppConstants.email,
-        requestBody['email'] ?? '',
-      );
-      Get.toNamed(AppRoutes.otpScreen, arguments: {'role': role});
-      showToast(responseBody['message']);
+      await PrefsHelper.setString(AppConstants.bearerToken, responseBody['data']?['token'] ?? '');
+      await PrefsHelper.setString(AppConstants.email, requestBody['email'] ?? '');
+      Get.toNamed(AppRoutes.otpScreen);
       cleanFieldRegister();
     } else {
       showToast(responseBody['message']);
@@ -88,12 +81,11 @@ class AuthController extends GetxController {
     final responseBody = response.body;
 
     if (response.statusCode == 200) {
-      success = true;
-      await PrefsHelper.setString(
-        AppConstants.bearerToken,
-        responseBody['data']?['accessToken'] ?? '',
+      role = responseBody['data']?['role'] ?? '';
+      await PrefsHelper.setString(AppConstants.bearerToken, responseBody['data']?['accessToken'] ?? '',
       );
-      showToast(responseBody['message']);
+      success = true;
+
       otpController.clear();
     } else {
       showToast(responseBody['message']);
@@ -107,10 +99,10 @@ class AuthController extends GetxController {
   /// <======================= login ===========================>
   bool isLoadingLogin = false;
   final TextEditingController loginEmailController = TextEditingController(
-    text: kDebugMode ? 'xesid99075@fermiro.com' : '',
+    text: kDebugMode ? 'tajegep835@naqulu.com' : '',
   );
   final TextEditingController loginPasswordController = TextEditingController(
-    text: kDebugMode ? '12345678' : '',
+    text: kDebugMode ? '1qazxsw2' : '',
   );
 
   void cleanFieldLogin() {
@@ -151,7 +143,7 @@ class AuthController extends GetxController {
     } else {
       if (responseBody['message'] ==
           "We've sent an OTP to your email to verify your profile.") {
-        Get.toNamed(AppRoutes.otpScreen, arguments: {'role': 'sign_up'});
+        Get.toNamed(AppRoutes.otpScreen);
       }
       showToast(responseBody['message']);
     }
@@ -181,7 +173,7 @@ class AuthController extends GetxController {
     final responseBody = response.body;
 
     if (response.statusCode == 200) {
-      Get.toNamed(AppRoutes.otpScreen, arguments: {'role': 'forgot'});
+      Get.toNamed(AppRoutes.otpScreen, arguments: 'forgot');
       showToast(responseBody['message']);
       cleanFieldForgot();
     } else {
