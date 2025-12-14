@@ -18,7 +18,7 @@ class RegistrationCompletedScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           spacing: 15.h,
           children: [
-            Image.asset(Assets.images.verified.path,height: 150.h,),
+            Image.asset(Assets.images.verified.path,height: 150.h),
             CustomText(text: "Verified",fontSize: 25.sp,),
             CustomText(text: "Thank you. Your registration with the health authorities is now complete and verified.",),
             // SizedBox(height: 60.h,),

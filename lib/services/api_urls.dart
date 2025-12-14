@@ -17,6 +17,7 @@ class ApiUrls {
   static  const String  resetPassword = '/auth/reset-password';
   static const String forgetPassword = '/auth/forget-password';
   static const String freelanceRules = '/freelance';
+  static const String trackMe = '/users/track-me';
 
 
 

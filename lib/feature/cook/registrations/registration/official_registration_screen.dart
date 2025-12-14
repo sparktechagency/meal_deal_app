@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:meal_deal_app/app/utils/app_colors.dart';
+import 'package:meal_deal_app/controllers/auth/auth_controller.dart';
 import 'package:meal_deal_app/routes/app_routes.dart';
 import 'package:meal_deal_app/widgets/widgets.dart';
 
@@ -13,7 +14,23 @@ class OfficialRegistration extends StatefulWidget {
 }
 
 class _OfficialRegistrationState extends State<OfficialRegistration> {
-  String? currentStatus = "Not Started";
+  late final AuthController _authController;
+  late String currentStatus;
+
+  @override
+  void initState() {
+    super.initState();
+    _authController = Get.find<AuthController>();
+    _updateStatus();
+  }
+
+  void _updateStatus() {
+    setState(() {
+      currentStatus = _authController.cookUseModelData?.user?.isKlzhRegistered == true
+          ? "Pending Confirmation"
+          : "Not Started";
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,74 +46,39 @@ class _OfficialRegistrationState extends State<OfficialRegistration> {
           children: [
             CustomText(
               text: "Your Current Status",
-              fontSize: 16.sp, // Responsive font size
+              fontSize: 16.sp,
               fontWeight: FontWeight.w500,
             ),
             SizedBox(height: 20.h),
-
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Radio<String>(
-                      value: "Not Started",
-                      groupValue: currentStatus,
-                      onChanged: (String? value) {
-                        setState(() {
-                          currentStatus = value;
-                        });
-                      },
-                      activeColor: AppColors.primaryColor,
-                    ),
-                    CustomText(text: "Not Started", fontSize: 14.sp),
-                  ],
-                ),
-
-                Row(
-                  children: [
-                    Radio<String>(
-                      value: "Pending Confirmation",
-                      groupValue: currentStatus,
-                      onChanged: (String? value) {
-                        setState(() {
-                          currentStatus = value;
-                        });
-                      },
-                      activeColor: AppColors.primaryColor,
-                    ),
-                    CustomText(text: "Pending Confirmation", fontSize: 14.sp),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Radio<String>(
-                      value: "Completed",
-                      groupValue: currentStatus,
-                      onChanged: (String? value) {
-                        setState(() {
-                          currentStatus = value;
-                        });
-                      },
-                      activeColor: AppColors.primaryColor,
-                    ),
-                    CustomText(text: "Completed", fontSize: 14.sp),
-                  ],
-                ),
+                _buildStatusOption("Not Started"),
+                _buildStatusOption("Pending Confirmation"),
+                _buildStatusOption("Completed"),
               ],
             ),
-            Spacer(),
 
-            // Start Registration Button
+            if(currentStatus == 'Pending Confirmation')...[
+              CustomText(
+                top: 44.h,
+                textAlign: TextAlign.start,
+                text: "Perfect! The MD-00029 form has been sent to KLZH. You will receive a confirmation email from us shortly. Now, please wait for an email from KLZH containing your official business number. This can take a few weeks.",color: AppColors.black04TextColor,),
+              CustomText(
+                top: 10.h,
+                textAlign: TextAlign.start,
+                text: "⚠ Important: Once you receive your business number from KLZH, you have 7 days to enter it in this section. Your account will be temporarily blocked if the number is not added in time.",),
+
+            ],
+            const Spacer(),
             CustomButton(
               onPressed: () {
-                Get.toNamed(
-                  currentStatus == "Not Started"
-                      ? AppRoutes.introductionScreen
-                      : currentStatus == "Completed"
-                      ? AppRoutes.complianceScreen
-                      : AppRoutes.businessNumberScreen,
-                );
+                String route = currentStatus == "Not Started"
+                    ? AppRoutes.introductionScreen
+                    : currentStatus == "Completed"
+                    ? AppRoutes.complianceScreen
+                    : AppRoutes.businessNumberScreen;
+                Get.toNamed(route);
               },
               label: "Start Registration",
             ),
@@ -104,6 +86,27 @@ class _OfficialRegistrationState extends State<OfficialRegistration> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildStatusOption(String status) {
+    return Row(
+      children: [
+        Radio<String>(
+          value: status,
+          groupValue: currentStatus,
+          onChanged: (String? value) {
+            setState(() {
+              currentStatus = value ?? currentStatus;
+            });
+          },
+          activeColor: AppColors.primaryColor,
+        ),
+        CustomText(text: status, fontSize: 14.sp),
+        // CustomText(
+        //   left: 4.r,
+        //     text: 'completed',color: Colors.green,fontSize: 8.sp),
+      ],
     );
   }
 }

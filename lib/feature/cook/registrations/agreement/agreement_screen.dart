@@ -93,13 +93,22 @@ class _AgreementScreenState extends State<AgreementScreen> {
               ],
             ),
             SizedBox(height: 15.h,),
-            CustomButton(onPressed: (){
-              if(Get.find<AuthController>().isChecked == false){
-                showToast('Please accept the Agreement');
-                return;
+            GetBuilder<AuthController>(
+              builder: (controller) {
+                return controller.isLoadingTrack ? CustomLoader() : CustomButton(onPressed: ()async{
+                  if(Get.find<AuthController>().isChecked == false){
+                    showToast('Please accept the Agreement');
+                    return;
+                  }
+                  final bool success = await controller.trackMe();
+
+                  if(success){
+                    showToast('You have successfully signed the Freelancer Agreement');
+                    Get.offAllNamed(AppRoutes.officialRegistration);
+                  }
+                },label: "Continue Freelancing Agreement",fontSize: 16.sp,);
               }
-              Get.toNamed(AppRoutes.confrimScreen);
-            },label: "Continue Freelancing Agreement",fontSize: 16.sp,)
+            )
           ],
         ),),
       )

@@ -38,8 +38,10 @@ class BusinessNumberScreen extends StatelessWidget {
             Spacer(),
             CustomButton(
               onPressed: () {
-                Get.toNamed(AppRoutes.registrationCompletedScreen);
-              },
+                showToast('Thank you. Your registration with the health authorities is now complete and verified.');
+                //Get.toNamed(AppRoutes.registrationCompletedScreen);
+                Navigator.pop(context);
+                },
               label: "Submit and Complete Registration",
             ),
             SizedBox(height: 30.h,)
