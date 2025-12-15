@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:meal_deal_app/app/utils/app_colors.dart';
 import 'package:meal_deal_app/controllers/auth/auth_controller.dart';
+import 'package:meal_deal_app/controllers/auth/user_controller.dart';
 import 'package:meal_deal_app/routes/app_routes.dart';
 import 'package:meal_deal_app/widgets/widgets.dart';
 
@@ -14,26 +15,31 @@ class OfficialRegistration extends StatefulWidget {
 }
 
 class _OfficialRegistrationState extends State<OfficialRegistration> {
-  late final AuthController _authController;
-  late String currentStatus;
+  late final UserController _userController;
 
   @override
   void initState() {
     super.initState();
-    _authController = Get.find<AuthController>();
-    _updateStatus();
+    _userController = Get.find<UserController>();
   }
 
-  void _updateStatus() {
-    setState(() {
-      currentStatus = _authController.cookUseModelData?.user?.isKlzhRegistered == true
-          ? "Pending Confirmation"
-          : "Not Started";
-    });
+  String _getCurrentStatus() {
+    final isKlzhRegistered = _userController.cookUseModelData?.isKlzhRegistered ?? false;
+    final pdfSent = _userController.cookUseModelData?.pdfSent ?? false;
+
+    if (isKlzhRegistered && pdfSent) {
+      return "Completed";
+    } else if (pdfSent && !isKlzhRegistered) {
+      return "Pending Confirmation";
+    } else {
+      return "Not Started";
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('=============>>>> ${_userController.cookUseModelData?.isKlzhRegistered ?? false}');
+    debugPrint('=============>>>> ${_userController.cookUseModelData?.pdfSent ?? false}');
     return Scaffold(
       appBar: CustomAppBar(
         title: "Official Registration",
@@ -50,37 +56,60 @@ class _OfficialRegistrationState extends State<OfficialRegistration> {
               fontWeight: FontWeight.w500,
             ),
             SizedBox(height: 20.h),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildStatusOption("Not Started"),
-                _buildStatusOption("Pending Confirmation"),
-                _buildStatusOption("Completed"),
-              ],
+            GetBuilder<UserController>(
+                builder: (controller) {
+                  final currentStatus = _getCurrentStatus();
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildStatusOption("Not Started", controller.cookUseModelData?.pdfSent == true),
+                      _buildStatusOption("Pending Confirmation", controller.cookUseModelData?.isKlzhRegistered == true),
+                      _buildStatusOption("Completed", false),
+                    ],
+                  );
+                }
             ),
 
-            if(currentStatus == 'Pending Confirmation')...[
-              CustomText(
-                top: 44.h,
-                textAlign: TextAlign.start,
-                text: "Perfect! The MD-00029 form has been sent to KLZH. You will receive a confirmation email from us shortly. Now, please wait for an email from KLZH containing your official business number. This can take a few weeks.",color: AppColors.black04TextColor,),
-              CustomText(
-                top: 10.h,
-                textAlign: TextAlign.start,
-                text: "⚠ Important: Once you receive your business number from KLZH, you have 7 days to enter it in this section. Your account will be temporarily blocked if the number is not added in time.",),
+            GetBuilder<UserController>(
+                builder: (controller) {
+                  final currentStatus = _getCurrentStatus();
+                  if(currentStatus == 'Pending Confirmation') {
+                    return Column(
+                      children: [
+                        CustomText(
+                          top: 44.h,
+                          textAlign: TextAlign.start,
+                          text: "Perfect! The MD-00029 form has been sent to KLZH. You will receive a confirmation email from us shortly. Now, please wait for an email from KLZH containing your official business number. This can take a few weeks.",
+                          color: AppColors.black04TextColor,
+                        ),
+                        CustomText(
+                          top: 10.h,
+                          textAlign: TextAlign.start,
+                          text: "⚠ Important: Once you receive your business number from KLZH, you have 7 days to enter it in this section. Your account will be temporarily blocked if the number is not added in time.",
+                        ),
+                      ],
+                    );
+                  }
+                  return SizedBox.shrink();
+                }
+            ),
 
-            ],
             const Spacer(),
-            CustomButton(
-              onPressed: () {
-                String route = currentStatus == "Not Started"
-                    ? AppRoutes.introductionScreen
-                    : currentStatus == "Completed"
-                    ? AppRoutes.complianceScreen
-                    : AppRoutes.businessNumberScreen;
-                Get.toNamed(route);
-              },
-              label: "Start Registration",
+            GetBuilder<UserController>(
+                builder: (controller) {
+                  final currentStatus = _getCurrentStatus();
+                  return CustomButton(
+                    onPressed: () {
+                      String route = currentStatus == "Not Started"
+                          ? AppRoutes.introductionScreen
+                          : currentStatus == "Completed"
+                          ? AppRoutes.complianceScreen
+                          : AppRoutes.businessNumberScreen;
+                      Get.toNamed(route);
+                    },
+                    label: "Start Registration",
+                  );
+                }
             ),
             SizedBox(height: 30.h),
           ],
@@ -89,23 +118,27 @@ class _OfficialRegistrationState extends State<OfficialRegistration> {
     );
   }
 
-  Widget _buildStatusOption(String status) {
+  Widget _buildStatusOption(String status, bool isCompleted) {
     return Row(
       children: [
         Radio<String>(
           value: status,
-          groupValue: currentStatus,
-          onChanged: (String? value) {
-            setState(() {
-              currentStatus = value ?? currentStatus;
-            });
-          },
+          groupValue: _getCurrentStatus(),
+          onChanged: null,
           activeColor: AppColors.primaryColor,
         ),
-        CustomText(text: status, fontSize: 14.sp),
-        // CustomText(
-        //   left: 4.r,
-        //     text: 'completed',color: Colors.green,fontSize: 8.sp),
+        CustomText(
+          text: status,
+          fontSize: 14.sp,
+          decoration: isCompleted ? TextDecoration.lineThrough : null,
+        ),
+        if(isCompleted)
+          CustomText(
+            left: 4.r,
+            text: 'completed',
+            color: Colors.green,
+            fontSize: 8.sp,
+          ),
       ],
     );
   }

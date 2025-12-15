@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:meal_deal_app/widgets/widgets.dart';
 import 'package:meal_deal_app/app/utils/app_colors.dart';
+import 'package:meal_deal_app/controllers/auth/cook_registrations_controller.dart';
+import 'dart:io';
 
 class VerificationCertificationScreen extends StatefulWidget {
   const VerificationCertificationScreen({super.key});
@@ -12,17 +16,21 @@ class VerificationCertificationScreen extends StatefulWidget {
 
 class _VerificationCertificationScreenState extends State<VerificationCertificationScreen> {
   bool? hasCertification;
-  String? kitchenImagePath;
-  String? selfImagePath;
+  final ImagePicker _imagePicker = ImagePicker();
+  late CookRegistrationsController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = Get.find<CookRegistrationsController>();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: AppColors.bgColor,
       appBar: CustomAppBar(
         title: "Verification & Certification",
-        backgroundColor: Colors.transparent,
-        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -66,6 +74,7 @@ class _VerificationCertificationScreenState extends State<VerificationCertificat
                             onPressed: () {
                               setState(() {
                                 hasCertification = false;
+                                _controller.certificates = null;
                               });
                             },
                             label: "No",
@@ -107,7 +116,7 @@ class _VerificationCertificationScreenState extends State<VerificationCertificat
                       ],
                     ),
 
-                    // Certificate Upload Options (shown when Yes is selected)
+                    // Certificate Upload Options
                     if (hasCertification == true) ...[
                       SizedBox(height: 20.h),
                       Row(
@@ -116,9 +125,7 @@ class _VerificationCertificationScreenState extends State<VerificationCertificat
                             child: _buildUploadOption(
                               icon: Icons.camera_alt_outlined,
                               label: "Take Photo",
-                              onTap: () {
-                                // Handle camera
-                              },
+                              onTap: () => _pickCertificateFromCamera(),
                             ),
                           ),
                           SizedBox(width: 12.w),
@@ -126,13 +133,20 @@ class _VerificationCertificationScreenState extends State<VerificationCertificat
                             child: _buildUploadOption(
                               icon: Icons.image_outlined,
                               label: "Upload from Gallery",
-                              onTap: () {
-                                // Handle gallery
-                              },
+                              onTap: () => _pickCertificateFromGallery(),
                             ),
                           ),
                         ],
                       ),
+                      if (_controller.certificates != null) ...[
+                        SizedBox(height: 12.h),
+                        CustomText(
+                          text: "✓ Certificate uploaded",
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.green,
+                        ),
+                      ],
                     ],
                   ],
                 ),
@@ -166,20 +180,83 @@ class _VerificationCertificationScreenState extends State<VerificationCertificat
                     ),
                     SizedBox(height: 16.h),
 
-                    // Kitchen Images Grid
+                    // Kitchen Images Preview
+                    if (_controller.kitchenImages != null && _controller.kitchenImages!.isNotEmpty)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomText(
+                            text: "Uploaded Images",
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.darkColor,
+                          ),
+                          SizedBox(height: 8.h),
+                          Wrap(
+                            spacing: 8.w,
+                            runSpacing: 8.h,
+                            children: _controller.kitchenImages!.map((kitchen) {
+                              int index = _controller.kitchenImages!.indexOf(kitchen);
+                              return Stack(
+                                children: [
+                                  Container(
+                                    height: 80.h,
+                                    width: 80.h,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8.r),
+                                      border: Border.all(color: Colors.grey[300]!),
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(8.r),
+                                      child: Image.file(
+                                        kitchen,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: 0.h,
+                                    right: 0.h,
+                                    child: GestureDetector(
+                                      onTap: () => _removeKitchenImage(index),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.red,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        padding: EdgeInsets.all(4.w),
+                                        child: Icon(
+                                          Icons.close,
+                                          color: Colors.white,
+                                          size: 16.sp,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }).toList(),
+                          ),
+                          SizedBox(height: 16.h),
+                        ],
+                      ),
+
+                    // Kitchen Images Upload Options
                     Row(
                       children: [
                         Expanded(
-                          child: _buildKitchenImageBox(
-                            imagePath: 'assets/images/kitchen1.jpg', // Replace with actual image
-                            onTap: () {},
+                          child: _buildUploadOption(
+                            icon: Icons.camera_alt_outlined,
+                            label: "Take Photo",
+                            onTap: () => _pickKitchenImage(ImageSource.camera),
                           ),
                         ),
                         SizedBox(width: 12.w),
                         Expanded(
-                          child: _buildKitchenImageBox(
-                            imagePath: 'assets/images/kitchen2.jpg', // Replace with actual image
-                            onTap: () {},
+                          child: _buildUploadOption(
+                            icon: Icons.image_outlined,
+                            label: "Upload from Gallery",
+                            onTap: () => _pickKitchenImage(ImageSource.gallery),
                           ),
                         ),
                       ],
@@ -223,15 +300,15 @@ class _VerificationCertificationScreenState extends State<VerificationCertificat
                         color: Colors.grey[300],
                         shape: BoxShape.circle,
                       ),
-                      child: selfImagePath == null
+                      child: _controller.profileImage == null
                           ? Icon(
                         Icons.camera_alt_outlined,
                         size: 40.sp,
                         color: Colors.grey[600],
                       )
                           : ClipOval(
-                        child: Image.asset(
-                          selfImagePath!,
+                        child: Image.file(
+                          _controller.profileImage!,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -259,9 +336,7 @@ class _VerificationCertificationScreenState extends State<VerificationCertificat
 
                     // Take Photo Button
                     CustomButton(
-                      onPressed: () {
-                        // Handle take photo
-                      },
+                      onPressed: () => _pickProfileImageFromCamera(),
                       label: "Take Photo",
                       backgroundColor: const Color(0xFFE67E22),
                       foregroundColor: Colors.white,
@@ -275,9 +350,7 @@ class _VerificationCertificationScreenState extends State<VerificationCertificat
 
                     // Choose from Camera Roll Button
                     CustomButton(
-                      onPressed: () {
-                        // Handle gallery selection
-                      },
+                      onPressed: () => _pickProfileImageFromGallery(),
                       label: "Choose From Camera Roll",
                       backgroundColor: Colors.white,
                       foregroundColor: AppColors.darkColor,
@@ -292,15 +365,103 @@ class _VerificationCertificationScreenState extends State<VerificationCertificat
               ),
 
               SizedBox(height: 30.h),
-
-
-
-
             ],
           ),
         ),
       ),
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SafeArea(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
+              child: GetBuilder<CookRegistrationsController>(
+                builder: (controller) {
+                  return CustomButton(
+                    onPressed: controller.isLoadingBecome ? null : () => _submitBecomeCook(),
+                    label: controller.isLoadingBecome ? "Processing..." : "Submit",
+                    backgroundColor: controller.isLoadingBecome ? Colors.grey : const Color(0xFFE67E22),
+                    foregroundColor: Colors.white,
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
     );
+  }
+
+  // Image picker functions
+  Future<void> _pickCertificateFromCamera() async {
+    final XFile? pickedFile = await _imagePicker.pickImage(source: ImageSource.camera);
+    if (pickedFile != null) {
+      _controller.certificates = File(pickedFile.path);
+      setState(() {});
+    }
+  }
+
+  Future<void> _pickCertificateFromGallery() async {
+    final XFile? pickedFile = await _imagePicker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      _controller.certificates = File(pickedFile.path);
+      setState(() {});
+    }
+  }
+
+  Future<void> _pickKitchenImage(ImageSource source) async {
+    final XFile? pickedFile = await _imagePicker.pickImage(source: source);
+    if (pickedFile != null) {
+      _controller.kitchenImages ??= [];
+      _controller.kitchenImages!.add(File(pickedFile.path));
+      setState(() {});
+    }
+  }
+
+  void _removeKitchenImage(int index) {
+    if (_controller.kitchenImages != null && index < _controller.kitchenImages!.length) {
+      _controller.kitchenImages!.removeAt(index);
+      setState(() {});
+    }
+  }
+
+  Future<void> _pickProfileImageFromCamera() async {
+    final XFile? pickedFile = await _imagePicker.pickImage(source: ImageSource.camera);
+    if (pickedFile != null) {
+      _controller.profileImage = File(pickedFile.path);
+      setState(() {});
+    }
+  }
+
+  Future<void> _pickProfileImageFromGallery() async {
+    final XFile? pickedFile = await _imagePicker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      _controller.profileImage = File(pickedFile.path);
+      setState(() {});
+    }
+  }
+
+  // Validation
+  bool _validateInputs() {
+    if (_controller.kitchenImages == null || _controller.kitchenImages!.isEmpty) {
+      Get.snackbar('Error', 'Please upload at least one kitchen image');
+      return false;
+    }
+    if (_controller.profileImage == null) {
+      Get.snackbar('Error', 'Please upload your profile picture');
+      return false;
+    }
+    if (hasCertification == true && _controller.certificates == null) {
+      Get.snackbar('Error', 'Please upload your certification');
+      return false;
+    }
+    return true;
+  }
+
+  // Submit API call
+  Future<void> _submitBecomeCook() async {
+    if (!_validateInputs()) return;
+    await _controller.becomeCook();
   }
 
   Widget _buildUploadOption({
@@ -330,57 +491,6 @@ class _VerificationCertificationScreenState extends State<VerificationCertificat
               fontSize: 12.sp,
               fontWeight: FontWeight.w500,
               color: AppColors.darkColor,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildKitchenImageBox({
-    String? imagePath,
-    required VoidCallback onTap,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(8.r),
-      child: Container(
-        height: 100.h,
-        decoration: BoxDecoration(
-          color: Colors.grey[200],
-          borderRadius: BorderRadius.circular(8.r),
-          image: imagePath != null
-              ? DecorationImage(
-            image: AssetImage(imagePath),
-            fit: BoxFit.cover,
-          )
-              : null,
-        ),
-        child: imagePath == null
-            ? Center(
-          child: Icon(
-            Icons.camera_alt_outlined,
-            size: 32.sp,
-            color: Colors.grey[600],
-          ),
-        )
-            : Stack(
-          children: [
-            Positioned(
-              top: 8.h,
-              right: 8.w,
-              child: Container(
-                padding: EdgeInsets.all(4.w),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.9),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.camera_alt_outlined,
-                  size: 16.sp,
-                  color: AppColors.darkColor,
-                ),
-              ),
             ),
           ],
         ),

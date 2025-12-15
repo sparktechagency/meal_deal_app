@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meal_deal_app/controllers/auth/user_controller.dart';
 import 'package:meal_deal_app/models/cooks/cook_user_model_data.dart';
 import 'package:meal_deal_app/routes/app_routes.dart';
 
@@ -16,7 +17,9 @@ class AuthController extends GetxController {
   bool isChecked = false;
 
   final TextEditingController usernameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController emailController = TextEditingController(
+    text: 'titegiy278@roastic.com',
+  );
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPassController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
@@ -55,8 +58,14 @@ class AuthController extends GetxController {
 
     final responseBody = response.body;
     if (response.statusCode == 200) {
-      await PrefsHelper.setString(AppConstants.bearerToken, responseBody['data']?['token'] ?? '');
-      await PrefsHelper.setString(AppConstants.email, requestBody['email'] ?? '');
+      await PrefsHelper.setString(
+        AppConstants.bearerToken,
+        responseBody['data']?['token'] ?? '',
+      );
+      await PrefsHelper.setString(
+        AppConstants.email,
+        requestBody['email'] ?? '',
+      );
       Get.toNamed(AppRoutes.otpScreen);
       cleanFieldRegister();
     } else {
@@ -83,7 +92,9 @@ class AuthController extends GetxController {
 
     if (response.statusCode == 200) {
       role = responseBody['data']?['role'] ?? '';
-      await PrefsHelper.setString(AppConstants.bearerToken, responseBody['data']?['accessToken'] ?? '',
+      await PrefsHelper.setString(
+        AppConstants.bearerToken,
+        responseBody['data']?['accessToken'] ?? '',
       );
       success = true;
 
@@ -106,8 +117,6 @@ class AuthController extends GetxController {
     text: kDebugMode ? '1qazxsw2' : '',
   );
 
-  CookUseModelData? cookUseModelData;
-
   void cleanFieldLogin() {
     loginEmailController.clear();
     loginPasswordController.clear();
@@ -126,16 +135,31 @@ class AuthController extends GetxController {
     final responseBody = response.body;
 
     if (response.statusCode == 200) {
+      final user = responseBody['data']['user'];
 
-      final data = responseBody['data'];
+      Get.find<UserController>().cookUseModelData = CookUseModelData.fromJson(
+        user,
+      );
 
-      cookUseModelData = CookUseModelData.fromJson(data);
+      Get.find<UserController>().refresh();
 
-      await PrefsHelper.setString(AppConstants.bearerToken, responseBody['data']?['accessToken'] ?? '');
-      await PrefsHelper.setString(AppConstants.role, responseBody['data']?['role'] ?? '',);
+      debugPrint(
+        '=============>>>> ${Get.find<UserController>().cookUseModelData?.pdfSent}',
+      );
+      debugPrint(
+        '=============>>>> ${Get.find<UserController>().cookUseModelData?.isKlzhRegistered}',
+      );
 
+      await PrefsHelper.setString(
+        AppConstants.bearerToken,
+        responseBody['data']?['accessToken'] ?? '',
+      );
+      await PrefsHelper.setString(
+        AppConstants.role,
+        responseBody['data']?['role'] ?? '',
+      );
 
-      if(cookUseModelData?.user?.isVerified == false){
+      if (Get.find<UserController>().cookUseModelData?.isVerified == false) {
         Get.toNamed(AppRoutes.otpScreen);
         return;
       }
@@ -143,12 +167,17 @@ class AuthController extends GetxController {
       if (responseBody['data']?['role'] == 'user') {
         Get.offAllNamed(AppRoutes.userBottomNavBar);
       } else {
-        if(cookUseModelData?.user?.trackStep == 0){
+        if (Get.find<UserController>().cookUseModelData?.trackStep == 0) {
           Get.toNamed(AppRoutes.agreementScreen);
-        }else if(cookUseModelData?.user?.trackStep == 1){
+        } else if (Get.find<UserController>().cookUseModelData?.trackStep ==
+                1 ||
+            Get.find<UserController>().cookUseModelData?.trackStep == 2) {
           Get.toNamed(AppRoutes.officialRegistration);
-        }
-        else{
+        } else if (Get.find<UserController>().cookUseModelData?.trackStep ==
+                3 &&
+            Get.find<UserController>().cookUseModelData?.isHygiened == true) {
+          Get.offAllNamed(AppRoutes.becomeCookScreen);
+        } else {
           Get.offAllNamed(AppRoutes.cookBottomNavBar);
         }
       }
@@ -186,8 +215,9 @@ class AuthController extends GetxController {
     final responseBody = response.body;
 
     if (response.statusCode == 200) {
+      await PrefsHelper.setString(AppConstants.email,forgotEmailController.text.trim());
       Get.toNamed(AppRoutes.otpScreen, arguments: 'forgot');
-      showToast(responseBody['message']);
+      //showToast(responseBody['message']);
       cleanFieldForgot();
     } else {
       showToast(responseBody['message']);
@@ -234,35 +264,27 @@ class AuthController extends GetxController {
     update();
   }
 
-
-
   /// <======================= track me ===========================>
   bool isLoadingTrack = false;
 
-
-  Future<bool> trackMe() async {
+  Future<bool> trackMe({String? type}) async {
     isLoadingTrack = true;
     update();
 
     bool isSuccess = false;
 
-    final response = await ApiClient.patch(
-      ApiUrls.trackMe,{},
-    );
+    final response = await ApiClient.patch(ApiUrls.trackMe, {
+      if (type != null && type.isNotEmpty) 'type': type,
+    });
     if (response.statusCode == 200) {
       isSuccess = true;
       update();
-    } else {
-    }
+    } else {}
     isLoadingTrack = false;
     update();
 
     return isSuccess;
   }
-
-
-
-
 
   /// <======================= Log out related work are here ===========================>
   void logOut() async {

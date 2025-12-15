@@ -18,6 +18,10 @@ class ApiUrls {
   static const String forgetPassword = '/auth/forget-password';
   static const String freelanceRules = '/freelance';
   static const String trackMe = '/users/track-me';
+  static const String userMe = '/users/me';
+  static const String businessNumber = '/klzh/verify-klzh';
+  static const String compliance = '/hygiene-compliance/';
+  static const String become = '/cook/become-a-cook';
 
 
 

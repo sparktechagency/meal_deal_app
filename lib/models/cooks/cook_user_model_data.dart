@@ -1,27 +1,5 @@
+
 class CookUseModelData {
-  String? role;
-  String? accessToken;
-  String? refreshToken;
-  String? onboardingUrl;
-  User? user;
-
-  CookUseModelData(
-      {this.role,
-        this.accessToken,
-        this.refreshToken,
-        this.onboardingUrl,
-        this.user});
-
-  CookUseModelData.fromJson(Map<String, dynamic> json) {
-    role = json['role'];
-    accessToken = json['accessToken'];
-    refreshToken = json['refreshToken'];
-    onboardingUrl = json['onboardingUrl'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
-  }
-}
-
-class User {
   String? sId;
   String? name;
   String? email;
@@ -34,6 +12,7 @@ class User {
   int? trackStep;
   bool? isCookOtpVerified;
   bool? isKlzhRegistered;
+  bool? pdfSent;
   String? klzhNumberExpiry;
   bool? isSelfResContract;
   bool? isHygiened;
@@ -43,7 +22,7 @@ class User {
   String? updatedAt;
   int? iV;
 
-  User(
+  CookUseModelData(
       {this.sId,
         this.name,
         this.email,
@@ -58,6 +37,7 @@ class User {
         this.isKlzhRegistered,
         this.klzhNumberExpiry,
         this.isSelfResContract,
+        this.pdfSent,
         this.isHygiened,
         this.isCookIdVerified,
         this.expiresAt,
@@ -65,7 +45,7 @@ class User {
         this.updatedAt,
         this.iV});
 
-  User.fromJson(Map<String, dynamic> json) {
+  CookUseModelData.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     name = json['name'];
     email = json['email'];
@@ -78,6 +58,7 @@ class User {
     trackStep = json['trackStep'];
     isCookOtpVerified = json['isCookOtpVerified'];
     isKlzhRegistered = json['isKlzhRegistered'];
+    pdfSent = json['pdfSent'];
     klzhNumberExpiry = json['klzhNumberExpiry'];
     isSelfResContract = json['isSelfResContract'];
     isHygiened = json['isHygiened'];

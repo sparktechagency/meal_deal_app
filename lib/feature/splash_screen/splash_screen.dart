@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:meal_deal_app/app/helpers/prefs_helper.dart';
 import 'package:meal_deal_app/app/utils/app_constants.dart';
 import 'package:meal_deal_app/controllers/auth/auth_controller.dart';
+import 'package:meal_deal_app/controllers/auth/user_controller.dart';
 import '../../app/utils/app_colors.dart';
 import '../../custom_assets/assets.gen.dart';
 import '../../routes/app_routes.dart';
@@ -29,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
           Get.offAllNamed(AppRoutes.userBottomNavBar);
 
         }else{
-          if(Get.find<AuthController>().cookUseModelData?.user?.isCookIdVerified == true){
+          if(Get.find<UserController>().cookUseModelData?.isCookIdVerified == true){
             Get.offAllNamed(AppRoutes.cookBottomNavBar);
           }else{
             Get.offAllNamed(AppRoutes.roleScreen);
