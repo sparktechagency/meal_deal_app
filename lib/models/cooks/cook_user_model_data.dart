@@ -16,6 +16,7 @@ class CookUseModelData {
   String? klzhNumberExpiry;
   bool? isSelfResContract;
   bool? isHygiened;
+  bool? isBecomeCook;
   bool? isCookIdVerified;
   String? expiresAt;
   String? createdAt;
@@ -39,6 +40,7 @@ class CookUseModelData {
         this.isSelfResContract,
         this.pdfSent,
         this.isHygiened,
+        this.isBecomeCook,
         this.isCookIdVerified,
         this.expiresAt,
         this.createdAt,
@@ -62,6 +64,7 @@ class CookUseModelData {
     klzhNumberExpiry = json['klzhNumberExpiry'];
     isSelfResContract = json['isSelfResContract'];
     isHygiened = json['isHygiened'];
+    isHygiened = json['isBecomeCook'];
     isCookIdVerified = json['isCookIdVerified'];
     expiresAt = json['expiresAt'];
     createdAt = json['createdAt'];

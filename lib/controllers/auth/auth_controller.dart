@@ -174,9 +174,10 @@ class AuthController extends GetxController {
             Get.find<UserController>().cookUseModelData?.trackStep == 2) {
           Get.toNamed(AppRoutes.officialRegistration);
         } else if (Get.find<UserController>().cookUseModelData?.trackStep ==
-                3 &&
-            Get.find<UserController>().cookUseModelData?.isHygiened == true) {
+            3 && Get.find<UserController>().cookUseModelData?.isHygiened == true) {
           Get.offAllNamed(AppRoutes.becomeCookScreen);
+        } else if (Get.find<UserController>().cookUseModelData?.isBecomeCook == true) {
+          Get.offAllNamed(AppRoutes.responsibilityContractScreen);
         } else {
           Get.offAllNamed(AppRoutes.cookBottomNavBar);
         }
