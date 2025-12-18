@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:meal_deal_app/controllers/add_meal_controller.dart';
 import 'package:meal_deal_app/controllers/auth/cook_registrations_controller.dart';
 import 'package:meal_deal_app/controllers/auth/user_controller.dart';
 import '../controllers/auth/auth_controller.dart';
@@ -10,5 +11,6 @@ class DependencyInjection implements Bindings {
     Get.put(AuthController());
     Get.put(CookRegistrationsController());
     Get.put(UserController());
+    Get.put(AddMealController());
 
   }}

@@ -22,6 +22,10 @@ class ApiUrls {
   static const String businessNumber = '/klzh/verify-klzh';
   static const String compliance = '/hygiene-compliance/';
   static const String become = '/cook/become-a-cook';
+  static const String contracts = '/contracts/';
+  static const String mealTest = '/meal/';
+  static const String category = '/category/';
+  static const String addMeal = '/meal/add-meal';
 
 
 

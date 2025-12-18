@@ -64,7 +64,7 @@ class CookUseModelData {
     klzhNumberExpiry = json['klzhNumberExpiry'];
     isSelfResContract = json['isSelfResContract'];
     isHygiened = json['isHygiened'];
-    isHygiened = json['isBecomeCook'];
+    isBecomeCook = json['isBecomeCook'];
     isCookIdVerified = json['isCookIdVerified'];
     expiresAt = json['expiresAt'];
     createdAt = json['createdAt'];

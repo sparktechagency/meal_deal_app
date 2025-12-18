@@ -120,7 +120,7 @@ abstract class AppRoutes {
   static const String becomeCookScreen = '/BecomeCookScreen';
   static const String verificationCertificationScreen = '/VerificationCertificationScreen';
   static const String availabilityScreen = '/AvailabilityScreen';
-  static const String responsibilityContractScreen = '/ResponsibilityContractScreen';
+  static const String responsibilityContractScreen = '/responsibilityContractScreen';
   static const String testSalesScreen = '/TestSalesScreen';
   static const String addMoreScreen = '/AddMoreScreen';
   static const String verificationApprovalScreen = '/VerificationApprovalScreen';

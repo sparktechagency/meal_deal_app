@@ -166,18 +166,23 @@ class AuthController extends GetxController {
 
       if (responseBody['data']?['role'] == 'user') {
         Get.offAllNamed(AppRoutes.userBottomNavBar);
-      } else {
-        if (Get.find<UserController>().cookUseModelData?.trackStep == 0) {
+      }
+      else {
+        final userController = Get.find<UserController>();
+        final cookData = userController.cookUseModelData;
+
+        debugPrint('==============>>>> ${cookData?.trackStep } =======>>> ${cookData?.isBecomeCook }');
+
+        if (cookData?.trackStep == 0) {
           Get.toNamed(AppRoutes.agreementScreen);
-        } else if (Get.find<UserController>().cookUseModelData?.trackStep ==
-                1 ||
-            Get.find<UserController>().cookUseModelData?.trackStep == 2) {
+        } else if (cookData?.trackStep == 1 || cookData?.trackStep == 2) {
           Get.toNamed(AppRoutes.officialRegistration);
-        } else if (Get.find<UserController>().cookUseModelData?.trackStep ==
-            3 && Get.find<UserController>().cookUseModelData?.isHygiened == true) {
+        } else if (cookData?.isHygiened == true && cookData?.isBecomeCook == false) {
           Get.offAllNamed(AppRoutes.becomeCookScreen);
-        } else if (Get.find<UserController>().cookUseModelData?.isBecomeCook == true) {
+        }  else if (cookData?.isBecomeCook == true && cookData?.isSelfResContract == false) {
           Get.offAllNamed(AppRoutes.responsibilityContractScreen);
+        } else if (cookData?.isSelfResContract == true) {
+          Get.offAllNamed(AppRoutes.testSalesScreen);
         } else {
           Get.offAllNamed(AppRoutes.cookBottomNavBar);
         }

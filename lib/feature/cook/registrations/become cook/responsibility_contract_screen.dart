@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:meal_deal_app/controllers/auth/auth_controller.dart';
+import 'package:meal_deal_app/controllers/auth/cook_registrations_controller.dart';
 import 'package:meal_deal_app/routes/app_routes.dart';
 import 'package:meal_deal_app/widgets/widgets.dart';
 import 'package:meal_deal_app/app/utils/app_colors.dart';
@@ -15,105 +17,133 @@ class ResponsibilityContractScreen extends StatefulWidget {
 
 class _ResponsibilityContractScreenState
     extends State<ResponsibilityContractScreen> {
-  bool isAgreed = false;
+  final CookRegistrationsController _registrationsController =
+      Get.find<CookRegistrationsController>();
 
-  final List<String> responsibilities = [
-    "First, you will need to upload accurate listings for the food items you offer, including clear descriptions, prices, and high-quality images.",
-    "It is also your responsibility to comply with health and safety regulations related to food preparation and ensure that all necessary standards are met.",
-    "Food should be handled by staff with clean hands and gloves, and proper training should be provided on food safety.",
-    "Ensure that the packaging is sealed securely to prevent contamination and spillage.",
-    "Delivery staff should wear gloves and masks, and maintain cleanliness to avoid contamination during the delivery process.",
-    "Provide clear information about allergens in your food items, so customers with allergies can make informed decisions.",
-  ];
+  @override
+  void initState() {
+    _registrationsController.getSelfContract();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[50],
+    return CustomScaffold(
       appBar: CustomAppBar(
         title: "Self Responsibility Contract",
-        backgroundColor: Colors.transparent,
         centerTitle: true,
       ),
       body: SingleChildScrollView(
+        child: GetBuilder<CookRegistrationsController>(
+          builder: (controller) {
+            if (controller.isLoadingSelf) {
+              return Center(child: CustomLoader());
+            }
+            if (controller.selfContractModelData == null) {
+              return CustomText(text: 'self contract not found yet.');
+            }
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Introduction Paragraph
+                CustomText(
+                  text: controller.selfContractModelData?.title ?? '',
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w400,
+                  textAlign: TextAlign.left,
+                  color: Colors.grey[700],
+                  maxline: 6,
+                ),
+
+                SizedBox(height: 24.h),
+
+                /// Agreement Header
+                CustomText(
+                  text:
+                      "${controller.selfContractModelData?.noticeLine ?? ''} :",
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w600,
+                  textAlign: TextAlign.left,
+                  color: AppColors.darkColor,
+                ),
+
+                SizedBox(height: 20.h),
+
+                if (controller.selfContractModelData?.descriptions != null &&
+                    controller.selfContractModelData!.descriptions!.isNotEmpty)
+                  ...controller.selfContractModelData!.descriptions!.asMap().entries.map((entry) {
+                    int index = entry.key;
+                    String responsibility = entry.value;
+
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: 20.h),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Number Circle
+                          Container(
+                            width: 28.w,
+                            height: 28.h,
+                            margin: EdgeInsets.only(top: 2.h),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: AppColors.primaryColor,
+                                width: 1.5,
+                              ),
+                            ),
+                            child: Center(
+                              child: CustomText(
+                                text: "${index + 1}.",
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.primaryColor,
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 12.w),
+                          /// Responsibility Text
+                          Expanded(
+                            child: CustomText(
+                              text: responsibility,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w400,
+                              textAlign: TextAlign.left,
+                              color: Colors.grey[700],
+                              maxline: 5,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
+
+                SizedBox(height: 20.h),
+              ],
+            );
+          },
+        ),
+      ),
+
+      bottomNavigationBar: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(20.w),
+          padding:  EdgeInsets.symmetric(horizontal:24.w,vertical: 10.h),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              // Introduction Paragraph
-              CustomText(
-                text:
-                    'As a seller in a food app, your role involves several key responsibilities to ensure smooth operations and customer satisfaction.By tapping "I AGREE" you assume the responsibility of "Host" and confirm that you have and agree to our "MealDeal" self responsibility.',
-                fontSize: 15.sp,
-                fontWeight: FontWeight.w400,
-                textAlign: TextAlign.left,
-                color: Colors.grey[700],
-                maxline: 6,
+              GetBuilder<AuthController>(
+                builder: (controller) {
+                  return controller.isLoadingTrack ? CustomLoader() : CustomButton(
+                    label: 'I Agree',
+                      onPressed: ()async{
+                      final bool  success = await controller.trackMe(type: 'selfres');
+
+                      if(success){
+                        Get.toNamed(AppRoutes.testSalesScreen);
+                      }
+                  });
+                }
               ),
-
-              SizedBox(height: 24.h),
-
-              // Agreement Header
-              CustomText(
-                text: "As Host , you agree and confirm that :",
-                fontSize: 17.sp,
-                fontWeight: FontWeight.w600,
-                textAlign: TextAlign.left,
-                color: AppColors.darkColor,
-              ),
-
-              SizedBox(height: 20.h),
-
-              // Responsibilities List
-              ...responsibilities.asMap().entries.map((entry) {
-                int index = entry.key;
-                String responsibility = entry.value;
-
-                return Padding(
-                  padding: EdgeInsets.only(bottom: 20.h),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Number Circle
-                      Container(
-                        width: 28.w,
-                        height: 28.h,
-                        margin: EdgeInsets.only(top: 2.h),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Color(0xFFE67E22),
-                            width: 1.5,
-                          ),
-                        ),
-                        child: Center(
-                          child: CustomText(
-                            text: "${index + 1}.",
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFFE67E22),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 12.w),
-                      // Responsibility Text
-                      Expanded(
-                        child: CustomText(
-                          text: responsibility,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w400,
-                          textAlign: TextAlign.left,
-                          color: Colors.grey[700],
-                          maxline: 5,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }).toList(),
-
-              SizedBox(height: 20.h),
             ],
           ),
         ),
