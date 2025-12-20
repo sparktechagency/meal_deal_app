@@ -26,6 +26,7 @@ class ApiUrls {
   static const String mealTest = '/meal/';
   static const String category = '/category/';
   static const String addMeal = '/meal/add-meal';
+  static const String cookVerify = '/cook-verify/verify-cook-id';
 
 
 

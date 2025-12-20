@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:meal_deal_app/controllers/auth/user_controller.dart';
 import 'package:meal_deal_app/models/cooks/category_model_data.dart';
 import 'package:meal_deal_app/models/cooks/cook_user_model_data.dart';
@@ -185,6 +186,129 @@ class CookRegistrationsController extends GetxController {
     isLoadingBecome = false;
     update();
 
+  }
+
+
+
+
+
+
+
+
+  /// ===============>>> Verification ==============>>>
+
+
+  final businessController = TextEditingController();
+  final _picker = ImagePicker();
+
+  File? selectedIdDocument;
+  File? selectedSelfieOrVideo;
+  String idType = 'passport';
+  String selfieVideoType = 'selfie';
+  bool isLoadingVerification = false;
+
+  static const idOptions = {
+    'passport': 'Passport / Resident Permit',
+    'nationalId': 'National ID',
+  };
+
+  static const selfieOptions = {
+    'selfie': 'Selfie',
+    'video': 'Video',
+  };
+
+  @override
+  void onClose() {
+    businessController.dispose();
+    super.onClose();
+  }
+
+  Future<void> captureIdDocument(ImageSource source) async {
+    try {
+      final ImagePicker picker = ImagePicker();
+      final XFile? pickedFile = await picker.pickImage(source: source);
+
+      if (pickedFile != null) {
+        selectedIdDocument = File(pickedFile.path);
+        update();
+      }
+    } catch (e) {
+      print('Error picking ID document: $e');
+    }
+  }
+
+// Selfie/Video capture করার জন্য
+  Future<void> captureSelfieOrVideo(ImageSource source, bool isVideo) async {
+    try {
+      final ImagePicker picker = ImagePicker();
+
+      if (isVideo) {
+        final XFile? pickedFile = await picker.pickVideo(source: source);
+        if (pickedFile != null) {
+          selectedSelfieOrVideo = File(pickedFile.path);
+          update();
+        }
+      } else {
+        final XFile? pickedFile = await picker.pickImage(source: source);
+        if (pickedFile != null) {
+          selectedSelfieOrVideo = File(pickedFile.path);
+          update();
+        }
+      }
+    } catch (e) {
+      print('Error picking selfie/video: $e');
+    }
+  }
+  Future<void> verification() async {
+    if (!_validateForm()) return;
+
+    isLoadingVerification = true;
+    update();
+
+    final requestBody = {
+      'data': jsonEncode({
+        "businessNumber": businessController.text.trim(),
+        "validIdType": idType,
+        "selfIdType": selfieVideoType,
+      }),
+    };
+
+    final List<MultipartBody> multipartBodyList = [];
+
+    if (selectedIdDocument != null) {
+      multipartBodyList.add(
+        MultipartBody('validIdImage', selectedIdDocument!),
+      );
+    }
+    if (selectedSelfieOrVideo != null) {
+      multipartBodyList.add(
+        MultipartBody('selfieImage', selectedSelfieOrVideo!),
+      );
+    }
+
+
+      final response = await ApiClient.postMultipartData(
+        ApiUrls.cookVerify,
+        requestBody,
+        multipartBody: multipartBodyList,
+      );
+
+      if (response.statusCode == 200) {
+       // Get.toNamed(AppRoutes.hygieneCourseScreen);
+      } else {
+        showToast(response.body['message']);
+      }
+      isLoadingVerification = false;
+      update();
+
+  }
+
+  bool _validateForm() {
+    if (selectedIdDocument == null) {
+      showToast('Please upload ID document');
+      return false;
+    }
+    return true;
   }
 
 
