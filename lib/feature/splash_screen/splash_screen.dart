@@ -28,15 +28,13 @@ class _SplashScreenState extends State<SplashScreen> {
       if( barrerTocken.isNotEmpty){
         if( role == 'user'){
           Get.offAllNamed(AppRoutes.userBottomNavBar);
-
         }else{
-          if(Get.find<UserController>().cookUseModelData?.isCookIdVerified == true){
+          if(Get.find<UserController>().useModelData?.isCookfullyVerified == true){
             Get.offAllNamed(AppRoutes.cookBottomNavBar);
           }else{
             Get.offAllNamed(AppRoutes.roleScreen);
           }
         }
-       // Get.offAllNamed(AppRoutes.agreementScreen);
       }else{
         Get.offAllNamed(AppRoutes.onboardingScreen);
       }

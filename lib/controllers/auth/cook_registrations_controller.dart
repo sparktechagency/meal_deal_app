@@ -114,11 +114,11 @@ class CookRegistrationsController extends GetxController {
     if (response.statusCode == 200) {
       final data = responseBody['data']['user'];
 
-      Get.find<UserController>().cookUseModelData = CookUseModelData.fromJson(data);
+      Get.find<UserController>().useModelData = CookUseModelData.fromJson(data);
 
       Get.find<UserController>().refresh();
 
-      debugPrint('+++++++++++++>>>>> ${Get.find<UserController>().cookUseModelData?.isKlzhRegistered}');
+      debugPrint('+++++++++++++>>>>> ${Get.find<UserController>().useModelData?.isKlzhRegistered}');
 
       showToast('Thank you. Your registration with the health authorities is now complete and verified.');
       //Get.toNamed(AppRoutes.registrationCompletedScreen);

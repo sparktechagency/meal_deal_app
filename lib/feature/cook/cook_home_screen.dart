@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:meal_deal_app/app/helpers/helper_data.dart';
+import 'package:meal_deal_app/controllers/auth/user_controller.dart';
 import 'package:meal_deal_app/custom_assets/assets.gen.dart';
 import 'package:meal_deal_app/feature/home/widgets/category_item_widget.dart';
 import 'package:meal_deal_app/routes/app_routes.dart';
@@ -26,14 +27,18 @@ class _CookHomeScreenState extends State<CookHomeScreen> {
     return CustomScaffold(
       paddingSide: 0,
       appBar: CustomAppBar(
-        titleWidget: CustomListTile(
-          imageRadius: 18.r,
-          contentPaddingHorizontal: 16.w,
-          titleColor: AppColors.black600TextColor,
-          title: 'Hi Serah!',
-          titleFontSize: 15.sp,
-          subTitle: 'Having a busy day? Let us take care of your meal.',
-          statusColor: AppColors.black800TextColor,
+        titleWidget: GetBuilder<UserController>(
+          builder: (controller) {
+            return CustomListTile(
+              imageRadius: 18.r,
+              image: controller.useModelData?.profileImage ?? '',
+              contentPaddingHorizontal: 16.w,
+              titleColor: AppColors.black600TextColor,
+              title: 'Hi ${controller.useModelData?.name ?? 'N/A'}!',
+              titleFontSize: 15.sp,
+              statusColor: AppColors.black800TextColor,
+            );
+          }
         ),
         actions: [
           IconButton(onPressed: (){

@@ -24,8 +24,8 @@ class _OfficialRegistrationState extends State<OfficialRegistration> {
   }
 
   String _getCurrentStatus() {
-    final isKlzhRegistered = _userController.cookUseModelData?.isKlzhRegistered ?? false;
-    final pdfSent = _userController.cookUseModelData?.pdfSent ?? false;
+    final isKlzhRegistered = _userController.useModelData?.isKlzhRegistered ?? false;
+    final pdfSent = _userController.useModelData?.pdfSent ?? false;
 
     if (isKlzhRegistered && pdfSent) {
       return "Completed";
@@ -38,8 +38,8 @@ class _OfficialRegistrationState extends State<OfficialRegistration> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('=============>>>> ${_userController.cookUseModelData?.isKlzhRegistered ?? false}');
-    debugPrint('=============>>>> ${_userController.cookUseModelData?.pdfSent ?? false}');
+    debugPrint('=============>>>> ${_userController.useModelData?.isKlzhRegistered ?? false}');
+    debugPrint('=============>>>> ${_userController.useModelData?.pdfSent ?? false}');
     return Scaffold(
       appBar: CustomAppBar(
         title: "Official Registration",
@@ -62,8 +62,8 @@ class _OfficialRegistrationState extends State<OfficialRegistration> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _buildStatusOption("Not Started", controller.cookUseModelData?.pdfSent == true),
-                      _buildStatusOption("Pending Confirmation", controller.cookUseModelData?.isKlzhRegistered == true),
+                      _buildStatusOption("Not Started", controller.useModelData?.pdfSent == true),
+                      _buildStatusOption("Pending Confirmation", controller.useModelData?.isKlzhRegistered == true),
                       _buildStatusOption("Completed", false),
                     ],
                   );

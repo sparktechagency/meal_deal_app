@@ -34,7 +34,7 @@ class _StartCourseScreenState extends State<StartCourseScreen> with RouteAware {
 
   void _checkCompletionStatus() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final quizzesCompleted = _userController.cookUseModelData?.isCookQuiz ?? false;
+      final quizzesCompleted = _userController.useModelData?.isCookQuiz ?? false;
       if (quizzesCompleted) {
         Get.offAllNamed(AppRoutes.waitingApprovalScreen);
       }
@@ -84,9 +84,9 @@ class _StartCourseScreenState extends State<StartCourseScreen> with RouteAware {
                 // Course Options
                 GetBuilder<UserController>(
                     builder: (userController) {
-                      final videoCompleted = userController.cookUseModelData?.isCookVideo ?? false;
-                      final pdfCompleted = userController.cookUseModelData?.isCookPdf ?? false;
-                      final quizzesCompleted = userController.cookUseModelData?.isCookQuiz ?? false;
+                      final videoCompleted = userController.useModelData?.isCookVideo ?? false;
+                      final pdfCompleted = userController.useModelData?.isCookPdf ?? false;
+                      final quizzesCompleted = userController.useModelData?.isCookQuiz ?? false;
 
                       return Column(
                         children: [

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:meal_deal_app/app/utils/app_colors.dart';
 import 'package:meal_deal_app/controllers/auth/auth_controller.dart';
+import 'package:meal_deal_app/controllers/auth/user_controller.dart';
 import 'package:meal_deal_app/custom_assets/assets.gen.dart';
 import 'package:meal_deal_app/routes/app_routes.dart';
 
@@ -35,20 +36,25 @@ class CookProfileScreen extends StatelessWidget {
                     bottom: 0,
                     left: 0,
                     right: 0,
-                    child: Column(
-                      children: [
-                        CustomImageAvatar(radius: 50.r, image: ''),
-                        CustomText(
-                          text: 'Tanvir Hridoy',
-                          color: AppColors.black400TextColor,
-                          fontSize: 20.sp,
-                        ),
-                        CustomText(
-                          text: 'tanvirhridoy@gmail.com',
-                          color: AppColors.black400TextColor,
-                          fontSize: 10.sp,
-                        ),
-                      ],
+                    child: GetBuilder<UserController>(
+                      builder: (controller) {
+                        final userData = controller.useModelData;
+                        return Column(
+                          children: [
+                            CustomImageAvatar(radius: 50.r, image: userData?.profileImage ?? ''),
+                            CustomText(
+                              text: userData?.name ?? 'N/A',
+                              color: AppColors.black400TextColor,
+                              fontSize: 20.sp,
+                            ),
+                            CustomText(
+                              text: userData?.email ?? 'N/A',
+                              color: AppColors.black400TextColor,
+                              fontSize: 10.sp,
+                            ),
+                          ],
+                        );
+                      }
                     ),
                   ),
                 ],

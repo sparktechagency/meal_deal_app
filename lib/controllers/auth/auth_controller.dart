@@ -137,17 +137,17 @@ class AuthController extends GetxController {
     if (response.statusCode == 200) {
       final user = responseBody['data']['user'];
 
-      Get.find<UserController>().cookUseModelData = CookUseModelData.fromJson(
+      Get.find<UserController>().useModelData = CookUseModelData.fromJson(
         user,
       );
 
       Get.find<UserController>().refresh();
 
       debugPrint(
-        '=============>>>> ${Get.find<UserController>().cookUseModelData?.pdfSent}',
+        '=============>>>> ${Get.find<UserController>().useModelData?.pdfSent}',
       );
       debugPrint(
-        '=============>>>> ${Get.find<UserController>().cookUseModelData?.isKlzhRegistered}',
+        '=============>>>> ${Get.find<UserController>().useModelData?.isKlzhRegistered}',
       );
 
       await PrefsHelper.setString(
@@ -159,7 +159,7 @@ class AuthController extends GetxController {
         responseBody['data']?['role'] ?? '',
       );
 
-      if (Get.find<UserController>().cookUseModelData?.isVerified == false) {
+      if (Get.find<UserController>().useModelData?.isVerified == false) {
         Get.toNamed(AppRoutes.otpScreen);
         return;
       }
@@ -169,7 +169,7 @@ class AuthController extends GetxController {
       }
       else {
         final userController = Get.find<UserController>();
-        final cookData = userController.cookUseModelData;
+        final cookData = userController.useModelData;
 
         debugPrint('==============>>>> ${cookData?.trackStep } =======>>> ${cookData?.isBecomeCook }');
 
@@ -293,7 +293,7 @@ class AuthController extends GetxController {
 
     if (response.statusCode == 200) {
       if(user){
-        Get.find<UserController>().cookUseModelData = CookUseModelData.fromJson(responseBody['data']);
+        Get.find<UserController>().useModelData = CookUseModelData.fromJson(responseBody['data']);
         Get.find<UserController>().refresh();
       }
       isSuccess = true;
