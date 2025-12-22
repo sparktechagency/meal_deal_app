@@ -72,10 +72,10 @@ class _QuizScreenState extends State<QuizScreen> {
                     final option = entry.value;
                     final optionLabel = String.fromCharCode(65 + index);
 
-                    return _buildOption(
+                    return  _buildOption(
                       optionLabel,
                       option.optionText ?? "",
-                      option.sId ?? optionLabel,
+                      option.optionText ?? "",
                     );
                   }).toList()
                 else
@@ -127,7 +127,7 @@ class _QuizScreenState extends State<QuizScreen> {
             color: Colors.grey[800],
             textAlign: TextAlign.start,
           ),
-          value: value,
+          value: text,
           groupValue: controller.userAnswers[controller.currentQuestionIndex],
           onChanged: (selectedValue) {
             controller.selectAnswer(selectedValue!);
@@ -141,7 +141,6 @@ class _QuizScreenState extends State<QuizScreen> {
 
 
 
-
   void submitQuiz() {
     if (_registrationsController.userAnswers.length != quizzes.length) {
       showToast(
@@ -151,10 +150,10 @@ class _QuizScreenState extends State<QuizScreen> {
     }
     List<Map<String, dynamic>> formattedAnswers = [];
 
-    _registrationsController.userAnswers.forEach((questionIndex, selectedAnswerId) {
+    _registrationsController.userAnswers.forEach((questionIndex, selectedAnswer) {
       formattedAnswers.add({
         "questionId": quizzes[questionIndex].sId,
-        "selectedAnswer": selectedAnswerId,
+        "selectedAnswer": selectedAnswer,
       });
     });
 

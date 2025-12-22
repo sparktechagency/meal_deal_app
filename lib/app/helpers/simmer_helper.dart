@@ -113,4 +113,59 @@ class ShimmerHelper {
       ),
     );
   }
+
+
+
+  static Widget productListSimmer() {
+    return ListView.builder(
+      itemCount: 3,
+      itemBuilder: (context, index) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8.r)
+          ),
+          margin: EdgeInsets.symmetric(horizontal: 16.h,vertical: 8.h),
+          padding: EdgeInsets.symmetric(horizontal: 8.h,vertical: 8.h),
+          child: Row(
+            children: [
+              Container(
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      height: 16,
+                      color: Colors.grey[300],
+                    ),
+                    SizedBox(height: 8),
+                    Container(
+                      width: 100,
+                      height: 14,
+                      color: Colors.grey[300],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+
+
+
+
+
 }

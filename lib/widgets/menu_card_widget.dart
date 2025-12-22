@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:meal_deal_app/app/helpers/time_format.dart';
 import 'package:meal_deal_app/app/utils/app_colors.dart';
 import 'package:meal_deal_app/widgets/widgets.dart';
 
@@ -29,7 +30,7 @@ class MenuCardWidget extends StatelessWidget {
         ),
       ],
       verticalMargin: 6.h,
-      horizontalMargin: 6.w,
+      horizontalMargin: 16.w,
       paddingAll: 10.w,
       color: Colors.white,
       radiusAll: 12.r,
@@ -65,7 +66,7 @@ class MenuCardWidget extends StatelessWidget {
                         children: [
                           Flexible(
                             child: CustomText(
-                              text: day ?? "Today",
+                              text: TimeFormatHelper.getDayName(day ?? 'N/A'),
                               fontSize: 12.sp,
                               color: AppColors.primaryColor,
                             ),
@@ -73,7 +74,7 @@ class MenuCardWidget extends StatelessWidget {
                           SizedBox(width: 4.w),
                           Flexible(
                             child: CustomText(
-                              text: dateTime ?? 'N/A',
+                              text: TimeFormatHelper.formatDate(DateTime.parse(dateTime ?? 'N/A'))  ?? 'N/A',
                               fontSize: 10.sp,
                               color: AppColors.black300TextColor,
                             ),
@@ -84,6 +85,7 @@ class MenuCardWidget extends StatelessWidget {
                       CustomText(text: des ?? ''),
                     if(onTap != null)
                     CustomContainer(
+                      onTap: onTap,
                       height: 22.h,
                       width: 60.w,
                       bordersColor: AppColors.primaryColor,

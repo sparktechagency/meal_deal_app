@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:meal_deal_app/app/helpers/helper_data.dart';
+import 'package:meal_deal_app/app/helpers/simmer_helper.dart';
+import 'package:meal_deal_app/app/helpers/time_format.dart';
 import 'package:meal_deal_app/controllers/auth/user_controller.dart';
+import 'package:meal_deal_app/controllers/orders/order_controller.dart';
 import 'package:meal_deal_app/custom_assets/assets.gen.dart';
 import 'package:meal_deal_app/feature/home/widgets/category_item_widget.dart';
 import 'package:meal_deal_app/routes/app_routes.dart';
@@ -20,7 +23,37 @@ class CookHomeScreen extends StatefulWidget {
 
 class _CookHomeScreenState extends State<CookHomeScreen> {
 
-  final TextEditingController _searchController = TextEditingController();
+  final OrderController _orderController = Get.find<OrderController>();
+
+  String selectedStatus = 'New';
+
+  @override
+  void initState() {
+    if(_orderController.orderData.isEmpty){
+      _orderController.getOrder('new');
+    }
+    super.initState();
+  }
+
+  String getBackendStatus(String uiStatus) {
+    Map<String, String> statusMapping = {
+      'New': 'new',
+      'In Preparation': 'in_preparation',
+      'Ready for Pickup': 'ready_for_pickup',
+      'Completed': 'completed',
+      'Cancelled': 'cancelled',
+    };
+    return statusMapping[uiStatus] ?? 'new';
+  }
+
+  void handleStatusChange(String newStatus) {
+    setState(() {
+      selectedStatus = newStatus;
+    });
+
+    String backendStatus = getBackendStatus(newStatus);
+    _orderController.getOrder(backendStatus);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,42 +84,73 @@ class _CookHomeScreenState extends State<CookHomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 10.h),
-          Padding(
-            padding:  EdgeInsets.symmetric(horizontal: 16.w),
-            child: CustomTextField(
-              prefixIcon: Icon(Icons.search,color: AppColors.appGreyColor,),
-              hintText: 'What would you like to order today?',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.r),
-                borderSide: BorderSide(color: AppColors.black500TextColor)
-              ),
-              validator: (_) => null,
-                controller: _searchController),
-          ),
+
 
 
           Padding(
             padding:  EdgeInsets.symmetric(horizontal: 16.w),
             child: CategoryItemWidget(
-              selectedValue: 'New',
+              selectedValue: selectedStatus,
               categoryItem: HelperData.categoryItemCook,
               showChildCategory: false,
+              onStatusChanged: (newStatus) {
+                handleStatusChange(newStatus);
+              },
             ),
           ),
 
 
-          LabelTitleWidget(
-            isSeeShow: false,
-              title: 'Your Today’s Orders'),
-
-          Expanded(
-            child: ListView.builder(
-                itemCount: 2,
-                itemBuilder: (context, index) {
-                return MenuCardWidget();
-              }),
+          GetBuilder<OrderController>(
+            builder: (controller) {
+              return LabelTitleWidget(
+                isSeeShow: false,
+                  title: 'Your Orders ${controller.orderData.length}');
+            }
           ),
 
+          Expanded(
+            child: RefreshIndicator(
+                onRefresh: () async {
+                  String backendStatus = getBackendStatus(selectedStatus);
+                  await _orderController.getOrder(backendStatus);
+                },
+              child: GetBuilder<OrderController>(
+                  builder: (controller) {
+                    if (controller.isLoadingOrder) {
+                      return ShimmerHelper.productListSimmer();
+                    }else if(controller.orderData.isEmpty){
+                      return Center(
+                        child: CustomText(
+                          text: 'No Orders Found',
+                          fontSize: 16.sp,
+                          color: AppColors.black400TextColor,
+                        ),
+                      );
+                    }
+                    return ListView.builder(
+                      itemCount: controller.orderData.length,
+                      itemBuilder: (context, index) {
+                        return MenuCardWidget(
+                          imageUrl: controller.orderData[index].meal?.image ?? '',
+                          title: controller.orderData[index].meal?.name ?? 'N/A',
+                          subtitle: '\$ ${controller.orderData[index].meal?.price.toString() ?? '0'}',
+                          dateTime: controller.orderData[index].createdAt ?? '',
+                          day: controller.orderData[index].createdAt ?? '',
+                          onTap: () {
+                            Get.toNamed(
+                              AppRoutes.cookOrderDetailsScreen,
+                              // arguments: {
+                              //   'orderId': controller.orderData[index].orderId,
+                              // },
+                            );
+                          },
+                        );
+                      },
+                    );
+                  }
+              ),
+            ),
+          ),
 
 
         ],

@@ -102,3 +102,52 @@ class Meal {
     pricePerPortion = json['pricePerPortion'];
   }
 }
+
+
+
+
+class OrderHistoryModelData {
+  String? profileName;
+  String? profileImage;
+  String? createdAt;
+  String? status;
+  LastStatusUpdate? lastStatusUpdate;
+  int? totalQuantity;
+  int? price;
+
+  OrderHistoryModelData(
+      {this.profileName,
+        this.profileImage,
+        this.createdAt,
+        this.status,
+        this.lastStatusUpdate,
+        this.totalQuantity,
+        this.price});
+
+  OrderHistoryModelData.fromJson(Map<String, dynamic> json) {
+    profileName = json['profileName'];
+    profileImage = json['profileImage'];
+    createdAt = json['createdAt'];
+    status = json['status'];
+    lastStatusUpdate = json['lastStatusUpdate'] != null
+        ? new LastStatusUpdate.fromJson(json['lastStatusUpdate'])
+        : null;
+    totalQuantity = json['totalQuantity'];
+    price = json['price'];
+  }
+}
+
+class LastStatusUpdate {
+  String? status;
+  String? changedAt;
+  String? sId;
+
+  LastStatusUpdate({this.status, this.changedAt, this.sId});
+
+  LastStatusUpdate.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    changedAt = json['changedAt'];
+    sId = json['_id'];
+  }
+}
+

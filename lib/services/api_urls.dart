@@ -24,7 +24,9 @@ class ApiUrls {
   static const String become = '/cook/become-a-cook';
   static const String contracts = '/contracts/';
   static const String mealTest = '/meal/';
+  static  String order(String status) => '/order/current-orders?status=$status';
   static const String courses = '/courses/';
+  static const String orderHistory = '/order/recent-orders';
   static const String category = '/category/';
   static  String submitQuizUrl(String quizID) => '/courses/submit-quiz/$quizID/';
   static const String addMeal = '/meal/add-meal';

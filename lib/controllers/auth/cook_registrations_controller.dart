@@ -382,7 +382,7 @@ class CookRegistrationsController extends GetxController {
         showToast('Quiz submitted successfully!');
         currentQuestionIndex = 0;
         userAnswers.clear();
-        Get.back();
+        Get.offAllNamed(AppRoutes.waitingApprovalScreen);
       } else {
         showToast(response.body['message'] ?? 'Failed to submit quiz');
       }
