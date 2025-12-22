@@ -14,15 +14,30 @@ class StartCourseScreen extends StatefulWidget {
   State<StartCourseScreen> createState() => _StartCourseScreenState();
 }
 
-class _StartCourseScreenState extends State<StartCourseScreen> {
+class _StartCourseScreenState extends State<StartCourseScreen> with RouteAware {
   final CookRegistrationsController _registrationsController = Get.find<CookRegistrationsController>();
-   final UserController _userController = Get.find<UserController>();
+  final UserController _userController = Get.find<UserController>();
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _registrationsController.hygieneCourse();
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _checkCompletionStatus();
+  }
+
+  void _checkCompletionStatus() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final quizzesCompleted = _userController.cookUseModelData?.isCookQuiz ?? false;
+      if (quizzesCompleted) {
+        Get.offAllNamed(AppRoutes.waitingApprovalScreen);
+      }
     });
   }
 
@@ -68,57 +83,61 @@ class _StartCourseScreenState extends State<StartCourseScreen> {
 
                 // Course Options
                 GetBuilder<UserController>(
-                  builder: (controller) {
-                    final videoCompleted = controller.cookUseModelData?.isCookVideo ?? false;
-                    final pdfCompleted = controller.cookUseModelData?.isCookPdf ?? false;
-                    final quizzesCompleted = controller.cookUseModelData?.isCookQuiz ?? false;
-                    return Column(
-                      children: [
-                        _buildCourseOption(
-                          title: "Video",
-                          icon: Icons.play_circle_outline,
-                          isCompleted: videoCompleted,
-                          isEnabled: true,
-                          onTap: () {
-                            Get.toNamed(AppRoutes.videoScreen, arguments: videos);
-                          },
-                        ),
+                    builder: (userController) {
+                      final videoCompleted = userController.cookUseModelData?.isCookVideo ?? false;
+                      final pdfCompleted = userController.cookUseModelData?.isCookPdf ?? false;
+                      final quizzesCompleted = userController.cookUseModelData?.isCookQuiz ?? false;
 
-                        SizedBox(height: 16.h),
+                      return Column(
+                        children: [
+                          _buildCourseOption(
+                            title: "Video",
+                            icon: Icons.play_circle_outline,
+                            isCompleted: videoCompleted,
+                            isEnabled: true,
+                            onTap: () {
+                              Get.toNamed(AppRoutes.videoScreen, arguments: videos);
+                            },
+                          ),
 
-                        _buildCourseOption(
-                          title: "Pdf",
-                          icon: Icons.picture_as_pdf_outlined,
-                          isCompleted: pdfCompleted,
-                          isEnabled: videoCompleted,
-                          onTap: () {
-                            if (videoCompleted && pdf.isNotEmpty) {
-                              Get.toNamed(AppRoutes.pdfScreen, arguments: pdf.first.fileUrl);
-                            }
-                          },
-                        ),
+                          SizedBox(height: 16.h),
 
-                        SizedBox(height: 16.h),
+                          _buildCourseOption(
+                            title: "Pdf",
+                            icon: Icons.picture_as_pdf_outlined,
+                            isCompleted: pdfCompleted,
+                            isEnabled: videoCompleted,
+                            onTap: () {
+                              if (videoCompleted && pdf.isNotEmpty) {
+                                Get.toNamed(AppRoutes.pdfScreen, arguments: pdf.first.fileUrl);
+                              }
+                            },
+                          ),
 
-                        _buildCourseOption(
-                          title: "Quizzes",
-                          icon: Icons.quiz_outlined,
-                          isCompleted: quizzesCompleted,
-                          isEnabled: videoCompleted && pdfCompleted,
-                          onTap: () {
-                            if (videoCompleted && pdfCompleted) {
-                              Get.toNamed(
-                                  AppRoutes.quizScreen,
-                                  arguments: {
-                                    'quizzes': quiz.first.quizzes,
-                                    'quizID': quiz.first.sId
-                                  }
-                              );                            }
-                          },
-                        ),
-                      ],
-                    );
-                  }
+                          SizedBox(height: 16.h),
+
+                          _buildCourseOption(
+                            title: "Quizzes",
+                            icon: Icons.quiz_outlined,
+                            isCompleted: quizzesCompleted,
+                            isEnabled: videoCompleted && pdfCompleted,
+                            onTap: () {
+                              if (videoCompleted && pdfCompleted) {
+                                Get.toNamed(
+                                    AppRoutes.quizScreen,
+                                    arguments: {
+                                      'quizzes': quiz.first.quizzes,
+                                      'quizID': quiz.first.sId
+                                    }
+                                )?.then((_) {
+                                  _checkCompletionStatus();
+                                });
+                              }
+                            },
+                          ),
+                        ],
+                      );
+                    }
                 ),
 
               ],
