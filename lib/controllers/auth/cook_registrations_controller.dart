@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:meal_deal_app/controllers/auth/user_controller.dart';
 import 'package:meal_deal_app/models/cooks/category_model_data.dart';
 import 'package:meal_deal_app/models/cooks/cook_user_model_data.dart';
+import 'package:meal_deal_app/models/cooks/hygiene_course_model_data.dart';
 import 'package:meal_deal_app/models/cooks/meal_model_data.dart';
 import 'package:meal_deal_app/models/cooks/self_contract_model_data.dart';
 import 'package:meal_deal_app/routes/app_routes.dart';
@@ -199,7 +200,6 @@ class CookRegistrationsController extends GetxController {
 
 
   final businessController = TextEditingController();
-  final _picker = ImagePicker();
 
   File? selectedIdDocument;
   File? selectedSelfieOrVideo;
@@ -294,7 +294,7 @@ class CookRegistrationsController extends GetxController {
       );
 
       if (response.statusCode == 200) {
-       // Get.toNamed(AppRoutes.hygieneCourseScreen);
+        Get.toNamed(AppRoutes.startCourseScreen);
       } else {
         showToast(response.body['message']);
       }
@@ -315,6 +315,80 @@ class CookRegistrationsController extends GetxController {
 
 
 
+  /// ===============>>> hygiene course  ==============>>>
+
+
+  bool isLoadingHygiene = false;
+  List<HygieneCoursesModelData> hygieneCoursesData = [];
+  Future<void> hygieneCourse() async {
+    hygieneCoursesData.clear();
+    isLoadingHygiene = true;
+    update();
+    final response = await ApiClient.getData(
+      ApiUrls.courses,
+    );
+    final responseBody = response.body;
+
+    if (response.statusCode == 200) {
+
+      final List data = responseBody['data'] ?? [];
+
+      final hygieneData = data.map((json) => HygieneCoursesModelData.fromJson(json)).toList();
+
+      hygieneCoursesData.addAll(hygieneData);
+    }
+    isLoadingHygiene = false;
+    update();
+  }
+
+
+
+  /// Add this method in CookRegistrationsController
+
+  bool isLoadingQuiz = false;
+
+  int currentQuestionIndex = 0;
+  Map<int, String> userAnswers = {};
+  void selectAnswer(String answer) {
+    userAnswers[currentQuestionIndex] = answer;
+    update();
+  }
+
+  void nextQuestion(int totalQuestions) {
+    if (currentQuestionIndex < totalQuestions - 1) {
+      currentQuestionIndex++;
+      update();
+    }
+  }
+
+  void previousQuestion() {
+    if (currentQuestionIndex > 0) {
+      currentQuestionIndex--;
+      update();
+    }
+  }
+
+  Future<void> submitQuiz({required List<Map<String, dynamic>> answers, required String quizID,}) async {
+    isLoadingQuiz = true;
+    update();
+      final response = await ApiClient.postData(
+        ApiUrls.submitQuizUrl(quizID),
+        {
+          "answers": answers,
+        },
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        showToast('Quiz submitted successfully!');
+        currentQuestionIndex = 0;
+        userAnswers.clear();
+        Get.back();
+      } else {
+        showToast(response.body['message'] ?? 'Failed to submit quiz');
+      }
+      isLoadingQuiz = false;
+      update();
+    }
 
 
 }

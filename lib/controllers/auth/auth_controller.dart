@@ -181,8 +181,12 @@ class AuthController extends GetxController {
           Get.offAllNamed(AppRoutes.becomeCookScreen);
         }  else if (cookData?.isBecomeCook == true && cookData?.isSelfResContract == false) {
           Get.offAllNamed(AppRoutes.responsibilityContractScreen);
-        } else if (cookData?.isSelfResContract == true) {
+        } else if (cookData?.isSelfResContract == true && cookData?.isCookIdVerified == false) {
           Get.offAllNamed(AppRoutes.testSalesScreen);
+        } else if (cookData?.isCookIdVerified == true && cookData?.isCookQuiz == false) {
+          Get.offAllNamed(AppRoutes.startCourseScreen);
+        } else if (cookData?.isCookQuiz == true && cookData?.isCookfullyVerified == false) {
+          Get.offAllNamed(AppRoutes.waitingApprovalScreen);
         } else {
           Get.offAllNamed(AppRoutes.cookBottomNavBar);
         }
@@ -273,16 +277,25 @@ class AuthController extends GetxController {
   /// <======================= track me ===========================>
   bool isLoadingTrack = false;
 
-  Future<bool> trackMe({String? type}) async {
+  Future<bool> trackMe({String? type,bool user = false}) async {
     isLoadingTrack = true;
     update();
 
     bool isSuccess = false;
 
+
+
     final response = await ApiClient.patch(ApiUrls.trackMe, {
       if (type != null && type.isNotEmpty) 'type': type,
     });
+
+    final responseBody = response.body;
+
     if (response.statusCode == 200) {
+      if(user){
+        Get.find<UserController>().cookUseModelData = CookUseModelData.fromJson(responseBody['data']);
+        Get.find<UserController>().refresh();
+      }
       isSuccess = true;
       update();
     } else {}

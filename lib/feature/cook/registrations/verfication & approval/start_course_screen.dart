@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:meal_deal_app/controllers/auth/cook_registrations_controller.dart';
+import 'package:meal_deal_app/controllers/auth/user_controller.dart';
 import 'package:meal_deal_app/routes/app_routes.dart';
 import 'package:meal_deal_app/widgets/widgets.dart';
 import 'package:meal_deal_app/app/utils/app_colors.dart';
@@ -13,97 +15,115 @@ class StartCourseScreen extends StatefulWidget {
 }
 
 class _StartCourseScreenState extends State<StartCourseScreen> {
-  // Track completion status
-  bool videoCompleted = false;
-  bool pdfCompleted = false;
-  bool quizzesCompleted = false;
+  final CookRegistrationsController _registrationsController = Get.find<CookRegistrationsController>();
+   final UserController _userController = Get.find<UserController>();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _registrationsController.hygieneCourse();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[50],
-      appBar: CustomAppBar(
-        title: "",
-        backgroundColor: Colors.transparent,
-      ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 20.h),
+    return CustomScaffold(
+      appBar: CustomAppBar(),
+      body: GetBuilder<CookRegistrationsController>(
+          builder: (controller) {
+            final videos = controller.hygieneCoursesData.where((course) => course.fileType == 'video').toList();
+            final pdf = controller.hygieneCoursesData.where((course) => course.fileType == 'pdf').toList();
+            final quiz = controller.hygieneCoursesData.where((course) => course.fileType == 'quiz').toList();
 
-            // Title
-            CustomText(
-              text: "Short online hygiene course",
-              fontSize: 18.sp,
-              fontWeight: FontWeight.w600,
-              textAlign: TextAlign.left,
-              color: AppColors.darkColor,
-            ),
 
-            CustomText(
-              text: "(Mandatory)",
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w600,
-              textAlign: TextAlign.left,
-              color: AppColors.darkColor,
-            ),
-
-            SizedBox(height: 40.h),
-
-            // Course Options
-            _buildCourseOption(
-              title: "Video",
-              icon: Icons.play_circle_outline,
-              isCompleted: videoCompleted,
-              onTap: () {
-           Get.toNamed(AppRoutes.videoScreen);
-              },
-            ),
-
-            SizedBox(height: 16.h),
-
-            _buildCourseOption(
-              title: "Pdf",
-              icon: Icons.picture_as_pdf_outlined,
-              isCompleted: pdfCompleted,
-              onTap: () {
-                Get.toNamed(AppRoutes.pdfScreen);
-              },
-            ),
-
-            SizedBox(height: 16.h),
-
-            _buildCourseOption(
-              title: "Quizzes",
-              icon: Icons.quiz_outlined,
-              isCompleted: quizzesCompleted,
-              onTap: () {
-                Get.toNamed(AppRoutes.quizScreen);
-              },
-            ),
-
-            Spacer(),
-
-            // Optional: Continue button (shown when all completed)
-            if (videoCompleted && pdfCompleted && quizzesCompleted)
-              Padding(
-                padding: EdgeInsets.only(bottom: 30.h),
-                child: CustomButton(
-                  onPressed: () {
-                    // Navigate to next screen
-                  },
-                  label: "Continue",
-                  backgroundColor: Color(0xFFE67E22),
-                  foregroundColor: Colors.white,
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
-                  radius: 25.r,
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Title
+                CustomText(
+                  text: "Verification & Approval",
+                  textAlign: TextAlign.left,
+                  color: AppColors.darkColor,
+                  fontSize: 20.sp,
+                  bottom: 6.h,
                 ),
-              ),
-          ],
-        ),
+
+                // Subtitle
+                CustomText(
+                  bottom: 6.h,
+                  text: "Get verified for unlimited dish uploads & sales",
+                  textAlign: TextAlign.left,
+                  color: AppColors.darkColor,
+                ),
+
+                CustomText(
+                  text: "Short online hygiene course (Mandatory)",
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w600,
+                  textAlign: TextAlign.left,
+                  color: AppColors.darkColor,
+                ),
+                SizedBox(height: 40.h),
+
+                // Course Options
+                GetBuilder<UserController>(
+                  builder: (controller) {
+                    final videoCompleted = controller.cookUseModelData?.isCookVideo ?? false;
+                    final pdfCompleted = controller.cookUseModelData?.isCookPdf ?? false;
+                    final quizzesCompleted = controller.cookUseModelData?.isCookQuiz ?? false;
+                    return Column(
+                      children: [
+                        _buildCourseOption(
+                          title: "Video",
+                          icon: Icons.play_circle_outline,
+                          isCompleted: videoCompleted,
+                          isEnabled: true,
+                          onTap: () {
+                            Get.toNamed(AppRoutes.videoScreen, arguments: videos);
+                          },
+                        ),
+
+                        SizedBox(height: 16.h),
+
+                        _buildCourseOption(
+                          title: "Pdf",
+                          icon: Icons.picture_as_pdf_outlined,
+                          isCompleted: pdfCompleted,
+                          isEnabled: videoCompleted,
+                          onTap: () {
+                            if (videoCompleted && pdf.isNotEmpty) {
+                              Get.toNamed(AppRoutes.pdfScreen, arguments: pdf.first.fileUrl);
+                            }
+                          },
+                        ),
+
+                        SizedBox(height: 16.h),
+
+                        _buildCourseOption(
+                          title: "Quizzes",
+                          icon: Icons.quiz_outlined,
+                          isCompleted: quizzesCompleted,
+                          isEnabled: videoCompleted && pdfCompleted,
+                          onTap: () {
+                            if (videoCompleted && pdfCompleted) {
+                              Get.toNamed(
+                                  AppRoutes.quizScreen,
+                                  arguments: {
+                                    'quizzes': quiz.first.quizzes,
+                                    'quizID': quiz.first.sId
+                                  }
+                              );                            }
+                          },
+                        ),
+                      ],
+                    );
+                  }
+                ),
+
+              ],
+            );
+          }
       ),
     );
   }
@@ -112,18 +132,23 @@ class _StartCourseScreenState extends State<StartCourseScreen> {
     required String title,
     required IconData icon,
     required bool isCompleted,
+    required bool isEnabled,
     required VoidCallback onTap,
   }) {
     return InkWell(
-      onTap: onTap,
+      onTap: isEnabled ? onTap : null,
       borderRadius: BorderRadius.circular(12.r),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: isEnabled ? Colors.white : Colors.grey.shade100,
           borderRadius: BorderRadius.circular(12.r),
           border: Border.all(
-            color: isCompleted ? Colors.green : Color(0xFFE67E22),
+            color: isCompleted
+                ? Colors.green
+                : isEnabled
+                ? Color(0xFFE67E22)
+                : Colors.grey.shade300,
             width: 1.5,
           ),
         ),
@@ -132,22 +157,31 @@ class _StartCourseScreenState extends State<StartCourseScreen> {
           children: [
             CustomText(
               text: title,
-
               fontWeight: FontWeight.w500,
-              color: AppColors.darkColor,
+              color: isEnabled ? AppColors.darkColor : Colors.grey.shade400,
             ),
             Container(
               width: 36.w,
-              height: 20.h,
+              height: 36.h,
               decoration: BoxDecoration(
                 color: isCompleted
                     ? Colors.green.withOpacity(0.1)
-                    : Color(0xFFE67E22).withOpacity(0.1),
+                    : isEnabled
+                    ? Color(0xFFE67E22).withOpacity(0.1)
+                    : Colors.grey.shade200,
                 shape: BoxShape.circle,
               ),
               child: Icon(
-                isCompleted ? Icons.check : icon,
-                color: isCompleted ? Colors.green : Color(0xFFE67E22),
+                isCompleted
+                    ? Icons.check
+                    : isEnabled
+                    ? icon
+                    : Icons.lock_outline,
+                color: isCompleted
+                    ? Colors.green
+                    : isEnabled
+                    ? Color(0xFFE67E22)
+                    : Colors.grey.shade400,
                 size: 20.sp,
               ),
             ),

@@ -58,7 +58,7 @@ class _OfficialRegistrationState extends State<OfficialRegistration> {
             SizedBox(height: 20.h),
             GetBuilder<UserController>(
                 builder: (controller) {
-                  final currentStatus = _getCurrentStatus();
+                  //final currentStatus = _getCurrentStatus();
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

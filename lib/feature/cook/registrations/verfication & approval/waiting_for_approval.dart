@@ -11,8 +11,7 @@ class WaitingApprovalScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
-      appBar: CustomAppBar(title: "", backgroundColor: Colors.transparent),
+      appBar: CustomAppBar(),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Column(
@@ -41,16 +40,7 @@ class WaitingApprovalScreen extends StatelessWidget {
             ),
 
             SizedBox(height: 60.h),
-
-            // Course Card
             CustomText(text: "Waiting for Admin’s Approval..."),
-            SizedBox(height: 60.h),
-            CustomButton(
-              onPressed: () {
-                Get.offAllNamed(AppRoutes.cookBottomNavBar);
-              },
-              label: "Next",
-            ),
           ],
         ),
       ),

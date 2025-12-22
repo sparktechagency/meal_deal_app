@@ -17,6 +17,10 @@ class CookUseModelData {
   bool? isSelfResContract;
   bool? isHygiened;
   bool? isBecomeCook;
+  bool? isCookPdf;
+  bool? isCookVideo;
+  bool? isCookQuiz;
+  bool? isCookfullyVerified;
   bool? isCookIdVerified;
   String? expiresAt;
   String? createdAt;
@@ -40,7 +44,11 @@ class CookUseModelData {
         this.isSelfResContract,
         this.pdfSent,
         this.isHygiened,
+        this.isCookfullyVerified,
         this.isBecomeCook,
+        this.isCookVideo,
+        this.isCookPdf,
+        this.isCookQuiz,
         this.isCookIdVerified,
         this.expiresAt,
         this.createdAt,
@@ -64,7 +72,11 @@ class CookUseModelData {
     klzhNumberExpiry = json['klzhNumberExpiry'];
     isSelfResContract = json['isSelfResContract'];
     isHygiened = json['isHygiened'];
+    isCookfullyVerified = json['isCookfullyVerified'];
     isBecomeCook = json['isBecomeCook'];
+    isCookVideo = json['isCookVideo'];
+    isCookQuiz = json['isCookQuiz'];
+    isCookPdf = json['isCookPdf'];
     isCookIdVerified = json['isCookIdVerified'];
     expiresAt = json['expiresAt'];
     createdAt = json['createdAt'];

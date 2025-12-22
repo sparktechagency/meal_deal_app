@@ -1,116 +1,158 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:meal_deal_app/widgets/widgets.dart';
-import 'package:meal_deal_app/app/utils/app_colors.dart';
-import 'package:video_player/video_player.dart';  // Import video_player
+import 'package:get/get.dart';
+import 'package:meal_deal_app/controllers/auth/auth_controller.dart';
+import 'package:meal_deal_app/controllers/auth/user_controller.dart';
+import 'package:meal_deal_app/custom_assets/assets.gen.dart';
+import 'package:meal_deal_app/models/cooks/cook_user_model_data.dart';
+import 'package:meal_deal_app/models/cooks/hygiene_course_model_data.dart';
+import 'package:meal_deal_app/widgets/custom_button.dart';
+import 'package:meal_deal_app/widgets/custom_tost_message.dart';
+import 'package:story_view/story_view.dart';
 
 class VideoScreen extends StatefulWidget {
-  const VideoScreen({super.key});
+  const VideoScreen({
+    super.key,
+  });
 
   @override
-  _VideoScreenState createState() => _VideoScreenState();
+  State<VideoScreen> createState() => _VideoScreenState();
 }
 
 class _VideoScreenState extends State<VideoScreen> {
-  late VideoPlayerController _controller;
+  final List<HygieneCoursesModelData> videoCourses = Get.arguments ?? [];
+  final StoryController _storyController = StoryController();
 
-  @override
-  void initState() {
-    super.initState();
-    // Initialize the video player controller with the video URL (converted to Uri)
-    _controller = VideoPlayerController.network(
-        'https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4'
-    )
-
-      ..initialize().then((_) {
-        // Ensure the first frame is shown after the video is initialized
-        setState(() {});
-      });
+  void _showCannotSkipMessage() {
+    showToast('Please watch the complete video to continue');
   }
 
   @override
   void dispose() {
+    _storyController.dispose();
     super.dispose();
-    _controller.dispose(); // Dispose of the controller when the screen is destroyed
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[50],
-      appBar: CustomAppBar(
-        title: "Video",
-        backgroundColor: Colors.transparent,
-        centerTitle: true,
-      ),
-      body: Column(
-        children: [
-          // Video/Illustration Section
-          Container(
-            height: 280.h,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: Colors.grey[100],
-            ),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                // Video player widget to show the video
-                _controller.value.isInitialized
-                    ? GestureDetector(
-                  onTap: () {
-                    // Toggle play/pause when tapping the video
-                    setState(() {
-                      if (_controller.value.isPlaying) {
-                        _controller.pause();
-                      } else {
-                        _controller.play();
-                      }
-                    });
-                  },
-                  child: AspectRatio(
-                    aspectRatio: _controller.value.aspectRatio,
-                    child: VideoPlayer(_controller),
-                  ),
-                )
-                    : Center(child: CircularProgressIndicator()),
+    List<StoryItem> storyItems = [];
 
-                // Play Button Overlay
-                Container(
-                  width: 60.w,
-                  height: 60.h,
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.9),
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        blurRadius: 10,
-                        offset: Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: Icon(
-                    Icons.play_arrow,
-                    color: Color(0xFFE67E22),
-                    size: 32.sp,
+    for (var course in videoCourses) {
+      if (course.fileUrl != null && course.fileUrl!.isNotEmpty) {
+        storyItems.add(
+          StoryItem.pageVideo(
+            course.fileUrl!,
+            controller: _storyController,
+            caption: Text(
+              course.title ?? '',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w600,
+                backgroundColor: Colors.black.withOpacity(0.5),
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
+      }
+    }
+
+    if (storyItems.isEmpty) {
+      return Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.videocam_off_outlined,
+                color: Colors.white,
+                size: 64.sp,
+              ),
+              SizedBox(height: 16.h),
+              Text(
+                'No videos available',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(height: 32.h),
+              CustomButton(
+                onPressed: () => Get.back(),
+                label:
+                  'Go Back',
+
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return Scaffold(
+      body: Stack(
+        children: [
+          // Story View
+          StoryView(
+            storyItems: storyItems,
+            controller: _storyController,
+            onComplete: ()async {
+             final bool success = await Get.find<AuthController>().trackMe(type:'course-video',user: true);
+             if(success){
+             }
+              Get.back();
+            },
+            onVerticalSwipeComplete: (direction) {
+              if (direction == Direction.down) {
+                Get.back();
+              }
+            },
+            repeat: false,
+          ),
+
+          // Transparent overlay to intercept taps
+          Positioned.fill(
+            child: Row(
+              children: [
+                // Left third - block skip
+                Expanded(
+                  flex: 1,
+                  child: GestureDetector(
+                    onTap: () {
+                      _showCannotSkipMessage();
+                    },
+                    child: Container(
+                      color: Colors.transparent,
+                    ),
                   ),
                 ),
-
-                // Timer Display
-                Positioned(
-                  bottom: 16.h,
-                  left: 16.w,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-                    decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.6),
-                      borderRadius: BorderRadius.circular(4.r),
+                // Middle third - pause/play
+                Expanded(
+                  flex: 1,
+                  child: GestureDetector(
+                    onTap: () {
+                      if (_storyController.playbackNotifier.value == PlaybackState.pause) {
+                        _storyController.play();
+                      } else {
+                        _storyController.pause();
+                      }
+                    },
+                    child: Container(
+                      color: Colors.transparent,
                     ),
-                    child: CustomText(
-                      text: "00:00 / 10:20",
-                      fontSize: 12.sp,
-                      color: Colors.white,
+                  ),
+                ),
+                // Right third - block skip
+                Expanded(
+                  flex: 1,
+                  child: GestureDetector(
+                    onTap: () {
+                      _showCannotSkipMessage();
+                    },
+                    child: Container(
+                      color: Colors.transparent,
                     ),
                   ),
                 ),
@@ -118,34 +160,20 @@ class _VideoScreenState extends State<VideoScreen> {
             ),
           ),
 
-          // Content Section
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.all(20.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomText(
-                        text: "Mastering Kitchen Hygiene",
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.darkColor,
-                        textAlign: TextAlign.left,
-                      ),
-                      CustomText(
-                        text: "Total 10 Videos",
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.grey[600],
-                      ),
-                    ],
-                  ),
-
-
-                ],
+          // Close button (top right)
+          Positioned(
+            top: 70.h,
+            right: 16.w,
+            child: IconButton(
+              onPressed: () {
+                Get.back();
+              },
+              icon: Assets.icons.cleanIcon.svg(
+                width: 24.w,
+                height: 24.h,
+                color: Colors.white,
               ),
+              tooltip: 'Close',
             ),
           ),
         ],
