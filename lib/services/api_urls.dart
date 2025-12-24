@@ -23,10 +23,10 @@ class ApiUrls {
   static const String compliance = '/hygiene-compliance/';
   static const String become = '/cook/become-a-cook';
   static const String contracts = '/contracts/';
-  static const String mealTest = '/meal/';
-  static  String order(String status) => '/order/current-orders?status=$status';
+  static  String mealTest (int page,int limit) => '/meal?limit=$limit&page=$page';
+  static  String order(String status,int page,int limit) => '/order/current-orders?status=$status&limit=$limit&page=$page';
   static const String courses = '/courses/';
-  static const String orderHistory = '/order/recent-orders';
+  static  String orderHistory (int page,int limit) => '/order/recent-orders?limit=$limit&page=$page';
   static const String category = '/category/';
   static  String submitQuizUrl(String quizID) => '/courses/submit-quiz/$quizID/';
   static const String addMeal = '/meal/add-meal';

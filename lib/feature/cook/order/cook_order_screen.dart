@@ -21,11 +21,13 @@ class CookOrderScreen extends StatefulWidget {
 class _CookOrderScreenState extends State<CookOrderScreen> {
 
 final OrderController _orderController = Get.find<OrderController>();
+final ScrollController _scrollController = ScrollController();
 
 
 
 @override
   void initState() {
+  _addScrollListener();
     if(_orderController.orderHistoryData.isEmpty){
       _orderController.getOrderHistory();
     }
@@ -50,8 +52,14 @@ final OrderController _orderController = Get.find<OrderController>();
             }
             return ListView.builder(
               physics: AlwaysScrollableScrollPhysics(),
-              itemCount: controller.orderHistoryData.length,
+              itemCount: controller.orderHistoryData.length + (controller.isLoadingOrderHistoryMore ? 1 : 0),
               itemBuilder: (context, index) {
+                if(index == controller.orderHistoryData.length){
+                  return Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10.h),
+                    child: Center(child: CustomLoader()),
+                  );
+                }
                 final data = controller.orderHistoryData[index];
                 return OrderHistoryWidget(item: data);
               },
@@ -60,6 +68,16 @@ final OrderController _orderController = Get.find<OrderController>();
         ),
       ),
     );
+  }
+
+
+  void _addScrollListener() {
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        _orderController.loadMoreOrderHistory();
+      }
+    });
   }
   
 }

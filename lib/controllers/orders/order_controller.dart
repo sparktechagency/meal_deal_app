@@ -17,44 +17,94 @@ class OrderController extends GetxController {
   
   /// Get orders
   bool isLoadingOrder = false;
+  bool isLoadingOrderMore = false;
+  int orderPage = 1;
+  int orderTotalPage = -1;
+  int orderLimitPage = 10;
   List<OrderModelData> orderData = [];
 
-  Future<void> getOrder(String status) async {
-    orderData.clear();
+  Future<void> getOrder(String status,{bool isInitialLoad = true}) async {
+    if(isInitialLoad){
+      orderData.clear();
+      orderPage = 1;
+      orderTotalPage = -1;
       isLoadingOrder = true;
+      isLoadingOrderMore = false;
       update();
+    }
 
-      final response = await ApiClient.getData(ApiUrls.order(status));
+      final response = await ApiClient.getData(ApiUrls.order(status, orderPage,orderLimitPage));
 
       if (response.statusCode == 200) {
         final responseBody = response.body;
         final List data = responseBody['data'] ?? [];
         final testData = data.map((json) => OrderModelData.fromJson(json)).toList();
         orderData.addAll(testData);
+        orderTotalPage = responseBody['meta']['totalPage'] ?? orderTotalPage;
       }
       isLoadingOrder = false;
+      isLoadingOrderMore = false;
       update();
     }
 
 
+  Future<void> loadMoreOrders(String status) async {
+    if(orderPage < orderTotalPage && !isLoadingOrderMore){
+      orderPage += 1;
+      isLoadingOrderMore = true;
+      update();
+      await getOrder(status,isInitialLoad: false);
+
+      debugPrint('============> Page++ $orderPage \n=============> totalPage $orderTotalPage');
+
+          }
+  }
+
+
     /// Get orders
   bool isLoadingOrderHistory = false;
+  bool isLoadingOrderHistoryMore = false;
+  int orderHistoryPage = 1;
+  int orderHistoryTotalPage = -1;
+  int orderHistoryLimitPage = 10;
   List<OrderHistoryModelData> orderHistoryData = [];
 
-  Future<void> getOrderHistory() async {
-    orderHistoryData.clear();
-    isLoadingOrderHistory = true;
+  Future<void> getOrderHistory({isInitialLoad = true}) async {
+    if(isInitialLoad){
+      orderHistoryData.clear();
+      orderHistoryPage = 1;
+      orderHistoryTotalPage = -1;
+      isLoadingOrderHistory = true;
+      isLoadingOrderHistoryMore = false;
       update();
+    }
 
-      final response = await ApiClient.getData(ApiUrls.orderHistory);
+      final response = await ApiClient.getData(ApiUrls.orderHistory(orderHistoryPage,orderHistoryLimitPage));
 
       if (response.statusCode == 200) {
         final responseBody = response.body;
         final List data = responseBody['data'] ?? [];
         final testData = data.map((json) => OrderHistoryModelData.fromJson(json)).toList();
         orderHistoryData.addAll(testData);
+
+       // orderHistoryTotalPage = responseBody['meta']['totalPage'] ?? orderHistoryTotalPage;
       }
     isLoadingOrderHistory = false;
+    isLoadingOrderHistoryMore = false;
       update();
     }
+
+
+
+  Future<void> loadMoreOrderHistory() async {
+    if(orderHistoryPage < orderHistoryTotalPage && !isLoadingOrderHistoryMore){
+      orderHistoryPage += 1;
+      isLoadingOrderHistoryMore = true;
+      update();
+      await getOrderHistory(isInitialLoad: false);
+
+      debugPrint('============> Page++ $orderHistoryPage \n=============> totalPage $orderHistoryTotalPage');
+
+          }
+  }
 }

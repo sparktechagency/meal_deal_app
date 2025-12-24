@@ -137,6 +137,8 @@ class AuthController extends GetxController {
     if (response.statusCode == 200) {
       final user = responseBody['data']['user'];
 
+      //Get.find<UserController>().userGet();
+
       Get.find<UserController>().useModelData = CookUseModelData.fromJson(
         user,
       );
@@ -309,6 +311,7 @@ class AuthController extends GetxController {
   void logOut() async {
     await PrefsHelper.remove(AppConstants.bearerToken);
     await PrefsHelper.remove(AppConstants.role);
+    Get.find<UserController>().useModelData = null;
     Get.offAllNamed(AppRoutes.roleScreen);
   }
 

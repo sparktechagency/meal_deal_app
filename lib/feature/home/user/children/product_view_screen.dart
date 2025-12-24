@@ -64,7 +64,7 @@ class _ProductViewScreenState extends State<ProductViewScreen> {
               itemCount: HelperData.products.length,
               itemBuilder: (context, index) {
                 final data = HelperData.products[index];
-                return ProductsCardWidget(item: data);
+                return ProductsCardWidget();
               },
             ),
           ),

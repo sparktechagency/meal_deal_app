@@ -22,9 +22,10 @@ class _TestSalesScreenState extends State<TestSalesScreen> {
 
   @override
   void initState() {
-    _registrationsController.getTestSales();
     super.initState();
+    _registrationsController.getTestSales();
   }
+
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
@@ -56,26 +57,46 @@ class _TestSalesScreenState extends State<TestSalesScreen> {
 
             // Dishes List
             GetBuilder<AddMealController>(
-              builder: (controller) {
-                if(controller.isLoadingTestSales){
-                  return CustomLoader();
-                }else if(controller.testMealData.isEmpty){
-                  return CustomText(text: 'Meal not found yet.');
-                }
-                return ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: controller.testMealData.length,
-                  shrinkWrap: true,
-                    itemBuilder: (context,index) {
-                      final data = controller.testMealData[index];
-                      return MenuCardWidget(
-                        imageUrl: data.imageUrls?.first ?? '',
-                    title: data.mealName,
-                        subtitle: data.category ?? '',
-                        des: '\$ ${data.pricePerPortion.toString()}',
+                builder: (controller) {
+                  if(controller.isLoadingTestSales){
+                    return const Center(child: CustomLoader());
+                  }
+
+                  // Null safety check
+                  if(controller.mealData == null ||
+                      controller.mealData!.meals == null ||
+                      controller.mealData!.meals!.isEmpty){
+                    return Center(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 20.h),
+                        child: CustomText(text: 'Meal not found yet.'),
+                      ),
+                    );
+                  }
+
+                  final meals = controller.mealData!.meals!;
+
+                  return ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: meals.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        // Additional index check
+                        if(index >= meals.length) {
+                          return const SizedBox.shrink();
+                        }
+
+                        final data = meals[index];
+
+                        return MenuCardWidget(
+                          imageUrl: data.imageUrls?.firstOrNull ?? '',
+                          title: data.mealName ?? 'N/A',
+                          subtitle: data.category ?? 'N/A',
+                          des: '\$ ${data.pricePerPortion?.toString() ?? '0.00'}',
+                        );
+                      }
                   );
-                });
-              }
+                }
             ),
 
             SizedBox(height: 24.h),
@@ -112,7 +133,7 @@ class _TestSalesScreenState extends State<TestSalesScreen> {
         color: AppColors.bgColor,
         child: SafeArea(
           child: Padding(
-            padding:  EdgeInsets.symmetric(horizontal: 24.w,vertical: 10.h),
+            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
             child: CustomButton(
               onPressed: () {
                 Get.toNamed(AppRoutes.verificationApprovalScreen);
@@ -120,7 +141,6 @@ class _TestSalesScreenState extends State<TestSalesScreen> {
               label: "Next",
               fontSize: 18.sp,
               fontWeight: FontWeight.w600,
-            
             ),
           ),
         ),

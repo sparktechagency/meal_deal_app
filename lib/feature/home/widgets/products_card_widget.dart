@@ -9,22 +9,35 @@ import '../../../widgets/widgets.dart';
 class ProductsCardWidget extends StatelessWidget {
   const ProductsCardWidget({
     super.key,
-    required this.item,  this.index,
+    this.image,
+    this.title,
+    this.authorImage,
+    this.author,
+    this.rating,
+    this.distance,
+    this.kcal,
+    this.portions,
+    this.index,
   });
 
-  final Map<String, dynamic> item;
-  final int?  index;
+  final String? image;
+  final String? title;
+  final String? authorImage;
+  final String? author;
+  final String? rating;
+  final String? distance;
+  final String? kcal;
+  final int? portions;
+  final int? index;
 
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
-      onTap: (){
+      onTap: () {
         Get.toNamed(AppRoutes.productDetailsScreen);
       },
-      marginRight: index == null  ? 0 : 14.w,
-      marginLeft: (index == null)
-          ? 0
-          : (index == 0 ? 14.w : 0),
+      marginRight: index == null ? 0 : 14.w,
+      marginLeft: (index == null) ? 0 : (index == 0 ? 14.w : 0),
       radiusAll: 8.r,
       height: 265.h,
       width: 166.w,
@@ -36,10 +49,16 @@ class ProductsCardWidget extends StatelessWidget {
           SizedBox(
             height: 136.h,
             width: double.infinity,
-            child: item['image'],
+            child: CustomNetworkImage(
+              borderRadius: 8.r,
+                backgroundColor: AppColors.bgColor,
+                height: 136.h,
+                width: double.infinity,
+                fit: BoxFit.contain,
+                imageUrl: image ?? ''),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal:  10.w),
+            padding: EdgeInsets.symmetric(horizontal: 10.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -47,7 +66,7 @@ class ProductsCardWidget extends StatelessWidget {
                     textAlign: TextAlign.start,
                     maxline: 1,
                     textOverflow: TextOverflow.ellipsis,
-                    text: item["title"],
+                    text: title ?? '',
                     bottom: 6.h,
                     fontSize: 14.sp),
 
@@ -55,13 +74,14 @@ class ProductsCardWidget extends StatelessWidget {
                 Row(
                   children: [
                     CustomImageAvatar(
-                        radius: 11.r, image: item["authorImage"]),
+                        radius: 11.r,
+                        image: authorImage ?? ''),
                     SizedBox(width: 6.w),
                     Flexible(
                       child: CustomText(
                           maxline: 1,
                           textOverflow: TextOverflow.ellipsis,
-                          text: item["author"],
+                          text: author ?? '',
                           fontSize: 12.sp),
                     ),
                   ],
@@ -72,12 +92,12 @@ class ProductsCardWidget extends StatelessWidget {
                 // Rating + Distance
                 Row(
                   children: [
-                    Assets.icons.star.svg(height: 14.h,width: 14.w),
+                    Assets.icons.star.svg(height: 14.h, width: 14.w),
                     Flexible(
                       child: FittedBox(
                         child: CustomText(
                             left: 2.w,
-                            text:"${item["rating"]} (${item["reviews"]})   •",
+                            text: " ${rating ?? '0.0'}   •",
                             fontSize: 11.sp),
                       ),
                     ),
@@ -86,7 +106,8 @@ class ProductsCardWidget extends StatelessWidget {
                         size: 14.sp, color: AppColors.black600TextColor),
                     Flexible(
                       child: FittedBox(
-                        child: CustomText(text: item["distance"],
+                        child: CustomText(
+                            text: distance ?? '',
                             fontSize: 11.sp),
                       ),
                     ),
@@ -101,13 +122,16 @@ class ProductsCardWidget extends StatelessWidget {
                     Icon(Icons.local_fire_department,
                         size: 14.sp, color: AppColors.primaryColor),
                     Flexible(
-                      child: CustomText(text:"${item["kcal"]} kcal",
-                          fontSize: 11.sp,color: AppColors.primaryColor),
+                      child: CustomText(
+                          text: "${kcal ?? '0.0'} kcal",
+                          fontSize: 11.sp,
+                          color: AppColors.primaryColor),
                     ),
                     SizedBox(width: 8.w),
                     Flexible(
                       child: FittedBox(
-                        child: CustomText(text:"${item["portions"]} portions left",
+                        child: CustomText(
+                            text: "${portions ?? '0.0'} portions left",
                             fontSize: 11.sp),
                       ),
                     ),
@@ -115,7 +139,8 @@ class ProductsCardWidget extends StatelessWidget {
                 ),
               ],
             ),
-          ),                    ],
+          ),
+        ],
       ),
     );
   }

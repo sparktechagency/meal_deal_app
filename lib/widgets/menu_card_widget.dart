@@ -30,7 +30,7 @@ class MenuCardWidget extends StatelessWidget {
         ),
       ],
       verticalMargin: 6.h,
-      horizontalMargin: 16.w,
+      horizontalMargin: 6.w,
       paddingAll: 10.w,
       color: Colors.white,
       radiusAll: 12.r,

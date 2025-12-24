@@ -24,12 +24,14 @@ class CookHomeScreen extends StatefulWidget {
 class _CookHomeScreenState extends State<CookHomeScreen> {
 
   final OrderController _orderController = Get.find<OrderController>();
+  final ScrollController _scrollController = ScrollController();
 
   String selectedStatus = 'New';
 
   @override
   void initState() {
-    if(_orderController.orderData.isEmpty){
+    _addScrollListener();
+    if (_orderController.orderData.isEmpty) {
       _orderController.getOrder('new');
     }
     super.initState();
@@ -61,21 +63,24 @@ class _CookHomeScreenState extends State<CookHomeScreen> {
       paddingSide: 0,
       appBar: CustomAppBar(
         titleWidget: GetBuilder<UserController>(
-          builder: (controller) {
-            return CustomListTile(
-              imageRadius: 18.r,
-              image: controller.useModelData?.profileImage ?? '',
-              contentPaddingHorizontal: 16.w,
-              titleColor: AppColors.black600TextColor,
-              title: 'Hi ${controller.useModelData?.name ?? 'N/A'}!',
-              titleFontSize: 15.sp,
-              statusColor: AppColors.black800TextColor,
-            );
-          }
+            builder: (controller) {
+              return CustomListTile(
+                imageRadius: 18.r,
+                image: controller.useModelData?.profileImage ?? '',
+                contentPaddingHorizontal: 16.w,
+                titleColor: AppColors.black600TextColor,
+                title: 'Welcome!',
+                subTitle: controller.useModelData?.name ?? 'N/A',
+                subtitleFontSize: 14.sp,
+                titleFontSize: 15.sp,
+                statusColor: AppColors.black800TextColor,
+              );
+            }
         ),
         actions: [
-          IconButton(onPressed: (){
-          }, icon: Icon(Icons.notifications_none_outlined,color: AppColors.primaryColor,)),
+          IconButton(onPressed: () {},
+              icon: Icon(Icons.notifications_none_outlined,
+                color: AppColors.primaryColor,)),
         ],
       ),
 
@@ -86,9 +91,8 @@ class _CookHomeScreenState extends State<CookHomeScreen> {
           SizedBox(height: 10.h),
 
 
-
           Padding(
-            padding:  EdgeInsets.symmetric(horizontal: 16.w),
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
             child: CategoryItemWidget(
               selectedValue: selectedStatus,
               categoryItem: HelperData.categoryItemCook,
@@ -101,24 +105,24 @@ class _CookHomeScreenState extends State<CookHomeScreen> {
 
 
           GetBuilder<OrderController>(
-            builder: (controller) {
-              return LabelTitleWidget(
-                isSeeShow: false,
-                  title: 'Your Orders ${controller.orderData.length}');
-            }
+              builder: (controller) {
+                return LabelTitleWidget(
+                    isSeeShow: false,
+                    title: 'Your Orders ${controller.orderData.length}');
+              }
           ),
 
           Expanded(
             child: RefreshIndicator(
-                onRefresh: () async {
-                  String backendStatus = getBackendStatus(selectedStatus);
-                  await _orderController.getOrder(backendStatus);
-                },
+              onRefresh: () async {
+                String backendStatus = getBackendStatus(selectedStatus);
+                await _orderController.getOrder(backendStatus);
+              },
               child: GetBuilder<OrderController>(
                   builder: (controller) {
                     if (controller.isLoadingOrder) {
                       return ShimmerHelper.productListSimmer();
-                    }else if(controller.orderData.isEmpty){
+                    } else if (controller.orderData.isEmpty) {
                       return Center(
                         child: CustomText(
                           text: 'No Orders Found',
@@ -128,12 +132,25 @@ class _CookHomeScreenState extends State<CookHomeScreen> {
                       );
                     }
                     return ListView.builder(
-                      itemCount: controller.orderData.length,
+                      controller: _scrollController,
+                      padding: EdgeInsets.symmetric(horizontal: 10.w),
+                      itemCount: controller.orderData.length +
+                          (controller.isLoadingOrderMore ? 1 : 0),
+                      physics: AlwaysScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
+                        if (index == controller.orderData.length) {
+                          return Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10.h),
+                            child: Center(child: CustomLoader()),
+                          );
+                        }
                         return MenuCardWidget(
-                          imageUrl: controller.orderData[index].meal?.image ?? '',
-                          title: controller.orderData[index].meal?.name ?? 'N/A',
-                          subtitle: '\$ ${controller.orderData[index].meal?.price.toString() ?? '0'}',
+                          imageUrl: controller.orderData[index].meal?.image ??
+                              '',
+                          title: controller.orderData[index].meal?.name ??
+                              'N/A',
+                          subtitle: '\$ ${controller.orderData[index].meal
+                              ?.price.toString() ?? '0'}',
                           dateTime: controller.orderData[index].createdAt ?? '',
                           day: controller.orderData[index].createdAt ?? '',
                           onTap: () {
@@ -159,8 +176,18 @@ class _CookHomeScreenState extends State<CookHomeScreen> {
   }
 
 
+  void _addScrollListener() {
+    _scrollController.addListener((){
+        if (_scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent) {
+          String backendStatus = getBackendStatus(selectedStatus);
+          _orderController.loadMoreOrders(backendStatus);
+          debugPrint("load more true");
+        }
+      },
+    );
+
+  }
+
 
 }
-
-
-
