@@ -29,6 +29,7 @@ class ApiUrls {
   static  String orderHistory (int page,int limit) => '/order/recent-orders?limit=$limit&page=$page';
   static const String category = '/category/';
   static  String submitQuizUrl(String quizID) => '/courses/submit-quiz/$quizID/';
+  static  String orderDetails(String orderID) => '/order/$orderID';
   static const String addMeal = '/meal/add-meal';
   static const String cookVerify = '/cook-verify/verify-cook-id';
 

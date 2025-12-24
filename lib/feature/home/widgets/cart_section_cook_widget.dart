@@ -8,11 +8,14 @@ import '../../../widgets/widgets.dart';
 
 class CartSectionCookWidget extends StatelessWidget {
   const CartSectionCookWidget({
-    super.key, this.chatAction, this.radiusAll,
+    super.key, this.chatAction, this.radiusAll, this.cookName, this.cookRating, this.profileImage,
   });
 
   final VoidCallback? chatAction;
   final double? radiusAll;
+  final String? cookName;
+  final String? cookRating;
+  final String? profileImage;
 
   @override
   Widget build(BuildContext context) {
@@ -34,14 +37,16 @@ class CartSectionCookWidget extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Assets.images.cook.image(height: 60.h,width: 60.w),
+          CustomNetworkImage(
+            borderRadius: radiusAll ?? 12.r,
+              imageUrl: profileImage ?? '',height: 60.h,width: 60.w),
           SizedBox(width: 12.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomText(
-                  text: 'Jacob Jones',
+                  text: cookName ?? "N/A",
                   fontSize: 16.sp,
                 ),
                 Row(
@@ -50,7 +55,7 @@ class CartSectionCookWidget extends StatelessWidget {
                     SizedBox(width: 4.w),
                     Flexible(
                       child: CustomText(
-                        text: "${4.2} (${208})",
+                        text: cookRating ?? '0.0',
                         fontSize: 12.sp,
                         color: AppColors.colorA0A0A0,
                       ),

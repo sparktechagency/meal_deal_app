@@ -151,3 +151,77 @@ class LastStatusUpdate {
   }
 }
 
+
+
+class OrderDetailsModelData {
+  String? orderId;
+  String? orderNo;
+  int? totalAmount;
+  int? tip;
+  String? promoCode;
+  String? status;
+  String? createdAt;
+  Cook? cook;
+  List<Carts>? carts;
+
+  OrderDetailsModelData(
+      {this.orderId,
+        this.orderNo,
+        this.totalAmount,
+        this.tip,
+        this.promoCode,
+        this.status,
+        this.createdAt,
+        this.cook,
+        this.carts});
+
+  OrderDetailsModelData.fromJson(Map<String, dynamic> json) {
+    orderId = json['orderId'];
+    orderNo = json['orderNo'];
+    totalAmount = json['totalAmount'];
+    tip = json['tip'];
+    promoCode = json['promoCode'];
+    status = json['status'];
+    createdAt = json['createdAt'];
+    cook = json['cook'] != null ? new Cook.fromJson(json['cook']) : null;
+    if (json['carts'] != null) {
+      carts = <Carts>[];
+      json['carts'].forEach((v) {
+        carts!.add(new Carts.fromJson(v));
+      });
+    }
+  }
+}
+
+class Cook {
+  String? cookId;
+  String? cookName;
+  String? image;
+  int? rating;
+
+  Cook({this.cookId, this.cookName, this.image, this.rating});
+
+  Cook.fromJson(Map<String, dynamic> json) {
+    cookId = json['cookId'];
+    cookName = json['cookName'];
+    image = json['image'];
+    rating = json['rating'];
+  }
+}
+
+class Carts {
+  int? quantity;
+  int? totalPrice;
+  Meal? meal;
+
+  Carts({this.quantity, this.totalPrice, this.meal});
+
+  Carts.fromJson(Map<String, dynamic> json) {
+    quantity = json['quantity'];
+    totalPrice = json['totalPrice'];
+    meal = json['meal'] != null ? new Meal.fromJson(json['meal']) : null;
+  }
+}
+
+
+

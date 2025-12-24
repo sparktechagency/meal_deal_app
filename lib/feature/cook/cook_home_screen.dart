@@ -156,9 +156,7 @@ class _CookHomeScreenState extends State<CookHomeScreen> {
                           onTap: () {
                             Get.toNamed(
                               AppRoutes.cookOrderDetailsScreen,
-                              // arguments: {
-                              //   'orderId': controller.orderData[index].orderId,
-                              // },
+                              arguments: controller.orderData[index].orderId,
                             );
                           },
                         );

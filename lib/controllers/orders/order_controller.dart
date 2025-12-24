@@ -107,4 +107,27 @@ class OrderController extends GetxController {
 
           }
   }
+
+
+
+
+  /// Get order Details
+  bool isLoadingOrderDetails = false;
+  OrderDetailsModelData? orderDetailsData;
+
+  Future<void> getOrderDetails(String orderID) async {
+    orderDetailsData = null;
+    isLoadingOrderDetails = true;
+      update();
+
+      final response = await ApiClient.getData(ApiUrls.orderDetails(orderID));
+
+      if (response.statusCode == 200) {
+        final responseBody = response.body;
+        final  data = responseBody['data'] ?? {};
+        orderDetailsData = OrderDetailsModelData.fromJson(data);
+      }
+    isLoadingOrderDetails = false;
+      update();
+    }
 }
