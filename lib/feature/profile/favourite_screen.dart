@@ -53,7 +53,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
               itemCount: HelperData.products.length,
               itemBuilder: (context, index) {
                 final data = HelperData.products[index];
-                return ProductsCardWidget(item: data);
+                return ProductsCardWidget();
               },
             ),
           ),
@@ -70,7 +70,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                 itemCount: HelperData.restaurants.length,
                 itemBuilder: (context, index) {
                   final data = HelperData.restaurants[index];
-                  return CooksCardWidget(item: data);
+                  return CooksCardWidget();
                 },
               ),
             ),

@@ -15,8 +15,14 @@ class UserController extends GetxController {
   /// ===============>>> user ==============>>>
 
 
+  @override
+  void onInit() {
+    userGet();
+    super.onInit();
+  }
+
   bool isLoadingUser = false;
-  CookUseModelData? cookUseModelData;
+  CookUseModelData? useModelData;
   Future<void> userGet() async {
     isLoadingUser = true;
     update();
@@ -29,7 +35,7 @@ class UserController extends GetxController {
 
       final data = responseBody['data'];
 
-      cookUseModelData = CookUseModelData.fromJson(data);
+      useModelData = CookUseModelData.fromJson(data);
 
     }
     isLoadingUser = false;

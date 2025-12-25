@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../app/helpers/helper_data.dart';
 import '../../../app/helpers/menu_show_helper.dart';
 import '../../../app/utils/app_colors.dart';
 import '../../../widgets/widgets.dart';
 
 class CategoryItemWidget extends StatefulWidget {
-  const CategoryItemWidget({super.key,  this.showChildCategory = true, required this.categoryItem, this.selectedValue = ''});
-
+  const CategoryItemWidget({
+    super.key,
+    this.showChildCategory = true,
+    required this.categoryItem,
+    this.selectedValue = '',
+    this.onStatusChanged,
+  });
 
   final bool showChildCategory;
   final List<Map<String, dynamic>> categoryItem;
-  final   String selectedValue;
+  final String selectedValue;
+  final Function(String)? onStatusChanged;
 
   @override
   State<CategoryItemWidget> createState() => _CategoryItemWidgetState();
 }
 
 class _CategoryItemWidgetState extends State<CategoryItemWidget> {
-
   String selectedValue = '';
 
   @override
@@ -54,6 +58,10 @@ class _CategoryItemWidgetState extends State<CategoryItemWidget> {
                     onTap: () {
                       selectedValue = item["title"];
                       setState(() {});
+
+                      if (widget.onStatusChanged != null) {
+                        widget.onStatusChanged!(selectedValue);
+                      }
                     },
                     horizontalMargin: 4.w,
                     paddingVertical: 4.h,

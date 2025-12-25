@@ -9,23 +9,32 @@ import '../../../widgets/widgets.dart';
 class CooksCardWidget extends StatelessWidget {
   const CooksCardWidget({
     super.key,
-    required this.item,  this.index,
+    this.image,
+    this.time,
+    this.name,
+    this.rating,
+    this.reviews,
+    this.distance,
+    this.index,
   });
 
-  final Map<String, dynamic> item;
-  final int?  index;
+  final String? image;
+  final String? time;
+  final String? name;
+  final double? rating;
+  final int? reviews;
+  final String? distance;
+  final int? index;
 
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
-      onTap: (){
+      onTap: () {
         Get.toNamed(AppRoutes.cookViewScreen);
       },
       paddingVertical: 6.h,
-      marginRight: index == null  ? 0 : 14.w,
-      marginLeft: (index == null)
-          ? 0
-          : (index == 0 ? 14.w : 0),
+      marginRight: index == null ? 0 : 14.w,
+      marginLeft: (index == null) ? 0 : (index == 0 ? 14.w : 0),
       radiusAll: 8.r,
       height: 210.h,
       width: 160.w,
@@ -37,37 +46,43 @@ class CooksCardWidget extends StatelessWidget {
           SizedBox(
             height: 136.h,
             width: double.infinity,
-            child: item['image'],
+            child: CustomNetworkImage(
+              backgroundColor: AppColors.bgColor,
+                height: 136.h,
+                width: double.infinity,
+                fit: BoxFit.contain,
+                imageUrl: image ?? ''),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal:  10.w),
+            padding: EdgeInsets.symmetric(horizontal: 10.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // CustomText(
+                //     top: 4.h,
+                //     textAlign: TextAlign.start,
+                //     text: 'Open : ${time ?? ''}',
+                //     color: AppColors.primaryColor,
+                //     fontSize: 10.sp),
                 CustomText(
                   top: 4.h,
-                    textAlign: TextAlign.start,
-                    text: 'Open : ${item["time"]}',
-                    color: AppColors.primaryColor,
-                    fontSize: 10.sp),
-                CustomText(
-                    textAlign: TextAlign.start,
-                    maxline: 1,
-                    textOverflow: TextOverflow.ellipsis,
-                    text: item["name"],
-                    fontSize: 14.sp,
+                  textAlign: TextAlign.start,
+                  maxline: 1,
+                  textOverflow: TextOverflow.ellipsis,
+                  text: name ?? '',
+                  fontSize: 14.sp,
                   bottom: 4.h,
                 ),
 
                 // Rating + Distance
                 Row(
                   children: [
-                    Assets.icons.star.svg(height: 14.h,width: 14.w),
+                    Assets.icons.star.svg(height: 14.h, width: 14.w),
                     Flexible(
                       child: FittedBox(
                         child: CustomText(
                             left: 2.w,
-                            text:"${item["rating"]} (${item["reviews"]})   •",
+                            text: "${rating ?? 0.0} (${reviews ?? 0})   •",
                             fontSize: 11.sp),
                       ),
                     ),
@@ -76,16 +91,17 @@ class CooksCardWidget extends StatelessWidget {
                         size: 14.sp, color: AppColors.black600TextColor),
                     Flexible(
                       child: FittedBox(
-                        child: CustomText(text: item["distance"],
+                        child: CustomText(
+                            text: distance ?? '',
                             fontSize: 11.sp),
                       ),
                     ),
                   ],
                 ),
-
               ],
             ),
-          ),                    ],
+          ),
+        ],
       ),
     );
   }

@@ -1,88 +1,166 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:meal_deal_app/routes/app_routes.dart';
-import 'package:meal_deal_app/widgets/widgets.dart';  // Assuming you're using custom widgets
-
+import 'package:meal_deal_app/controllers/auth/cook_registrations_controller.dart';
+import 'package:meal_deal_app/models/cooks/hygiene_course_model_data.dart';
+import 'package:meal_deal_app/widgets/widgets.dart';
 import 'package:meal_deal_app/app/utils/app_colors.dart';
 
 class QuizScreen extends StatefulWidget {
   const QuizScreen({super.key});
 
   @override
-  _QuizScreenState createState() => _QuizScreenState();
+  State<QuizScreen> createState() => _QuizScreenState();
 }
 
 class _QuizScreenState extends State<QuizScreen> {
-  String? selectedAnswer;
+  final List<Quizzes> quizzes = Get.arguments['quizzes'] as List<Quizzes>;
+  final String quizID = Get.arguments['quizID'] as String;
+  final CookRegistrationsController  _registrationsController = Get.find<CookRegistrationsController>();
+
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
+
+    return CustomScaffold(
+      appBar: CustomAppBar(
         centerTitle: true,
-        title: CustomText(
-          text: "Quiz",
-          fontSize: 20.sp,
-          fontWeight: FontWeight.w600,
-          color: AppColors.darkColor,
-        ),
+        title: "Quiz",
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(20.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Quiz Description
-              CustomText(
-                text: "Lorem ipsum dolor sit amet consectetur. Neque blandit faucibus neque quam. Condimentum et feugiat bibendum feugiat consequat sagittis fames volutpat nisl.",
-                fontSize: 14.sp,
-                color: Colors.grey[800],
-                textAlign: TextAlign.start,
+      body: GetBuilder<CookRegistrationsController>(
+        builder: (ctrl) {
+          if(quizzes.isEmpty){
+            return Center(
+              child: CustomText(
+                text: "No quiz available",
+                fontSize: 16.sp,
+                color: Colors.grey[600],
               ),
-              SizedBox(height: 16.h),
+            );
+          }
+          final currentQuiz = quizzes[ctrl.currentQuestionIndex];
+          bool  isLastQuestion = ctrl.currentQuestionIndex == quizzes.length - 1;
+          bool  hasAnswered = ctrl.userAnswers.containsKey(ctrl.currentQuestionIndex);
 
-              // Question Options
-              _buildOption("A", "Lorem ipsum dolor sit amet consectetur."),
-              _buildOption("B", "Lorem ipsum dolor sit amet consectetur."),
-              _buildOption("C", "Lorem ipsum dolor sit amet consectetur."),
-              _buildOption("D", "Lorem ipsum dolor sit amet consectetur."),
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Question Progress
+                CustomText(
+                  text: "Question ${ctrl.currentQuestionIndex + 1} of ${quizzes.length}",
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.primaryColor,
+                ),
+                SizedBox(height: 16.h),
 
-              SizedBox(height: 100.h),
+                // Question Text
+                CustomText(
+                  text: currentQuiz.question ?? "No question available",
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.darkColor,
+                  textAlign: TextAlign.start,
+                ),
+                SizedBox(height: 16.h),
 
-              // Submit Button
-              CustomButton(
-                onPressed: () {
-                 Get.toNamed(AppRoutes.waitingApprovalScreen);
-                },
-                label: "Submit",
+                // Question Options
+                if (currentQuiz.options != null && currentQuiz.options!.isNotEmpty)
+                  ...currentQuiz.options!.asMap().entries.map((entry) {
+                    final index = entry.key;
+                    final option = entry.value;
+                    final optionLabel = String.fromCharCode(65 + index);
 
-              ),
-            ],
+                    return  _buildOption(
+                      optionLabel,
+                      option.optionText ?? "",
+                      option.optionText ?? "",
+                    );
+                  }).toList()
+                else
+                  CustomText(
+                    text: "No options available",
+                    fontSize: 14.sp,
+                    color: Colors.grey[600],
+                  ),
+
+                SizedBox(height: 40.h),
+
+                Row(
+                  children: [
+                    if (ctrl.currentQuestionIndex > 0)
+                      Expanded(
+                        child: CustomButton(
+                          onPressed: () => ctrl.previousQuestion(),
+                          label: "Previous",
+                        ),
+                      ),
+                    if (ctrl.currentQuestionIndex > 0) SizedBox(width: 16.w),
+                    Expanded(
+                      child: CustomButton(
+                        onPressed: hasAnswered
+                            ? (isLastQuestion
+                            ? () => submitQuiz()
+                            : () => ctrl.nextQuestion(quizzes.length))
+                            : null,
+                        label: ctrl.isLoadingQuiz ? 'Loading...' : isLastQuestion ? "Submit" : "Next",
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildOption(String optionLabel, String text, String value) {
+    return GetBuilder<CookRegistrationsController>(
+      builder: (controller) {
+        return RadioListTile<String>(
+          title: CustomText(
+            text: "$optionLabel. $text",
+            fontSize: 14.sp,
+            color: Colors.grey[800],
+            textAlign: TextAlign.start,
           ),
-        ),
-      ),
+          value: text,
+          groupValue: controller.userAnswers[controller.currentQuestionIndex],
+          onChanged: (selectedValue) {
+            controller.selectAnswer(selectedValue!);
+          },
+          activeColor: AppColors.primaryColor,
+          contentPadding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+        );
+      },
     );
   }
 
-  Widget _buildOption(String option, String text) {
-    return RadioListTile<String>(
-      title: CustomText(
-        text: "$option. $text",
-        fontSize: 14.sp,
-        color: Colors.grey[800],
-        textAlign: TextAlign.start,
-      ),
-      value: option,
-      groupValue: selectedAnswer,
-      onChanged: (value) {
-        setState(() {
-          selectedAnswer = value;
-        });
-      },
-      activeColor: AppColors.primaryColor,
+
+
+  void submitQuiz() {
+    if (_registrationsController.userAnswers.length != quizzes.length) {
+      showToast(
+        "Please answer all questions before submitting",
+      );
+      return;
+    }
+    List<Map<String, dynamic>> formattedAnswers = [];
+
+    _registrationsController.userAnswers.forEach((questionIndex, selectedAnswer) {
+      formattedAnswers.add({
+        "questionId": quizzes[questionIndex].sId,
+        "selectedAnswer": selectedAnswer,
+      });
+    });
+
+    _registrationsController.submitQuiz(
+      answers: formattedAnswers,
+      quizID: quizID,
     );
   }
+
 }

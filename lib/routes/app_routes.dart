@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meal_deal_app/feature/cook/order/order_details_screen.dart';
 import 'package:meal_deal_app/feature/home/user/card/all_card_screen.dart';
 import 'package:meal_deal_app/feature/home/user/card/card_screen.dart';
 import 'package:meal_deal_app/feature/home/user/card/checkout_screen.dart';
@@ -130,6 +131,7 @@ abstract class AppRoutes {
   static const String pdfScreen = '/PdfScreen';
   static const String quizScreen = '/QuizScreen';
   static const String waitingApprovalScreen = '/WaitingApprovalScreen';
+  static const String cookOrderDetailsScreen = '/cookOrderDetailsScreen';
 
 /// cook role
 
@@ -190,5 +192,6 @@ abstract class AppRoutes {
     pdfScreen : (context) => PdfScreen(),
     quizScreen : (context) => QuizScreen(),
     waitingApprovalScreen : (context) => WaitingApprovalScreen(),
+    cookOrderDetailsScreen : (context) => CookOrderDetailsScreen(),
   };
 }

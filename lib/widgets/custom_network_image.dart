@@ -18,46 +18,46 @@ class CustomNetworkImage extends StatelessWidget {
 
   const CustomNetworkImage({
     super.key,
-    this.child,
-    this.colorFilter,
     required this.imageUrl,
-    this.backgroundColor,
     this.height,
     this.width,
     this.border,
     this.borderRadius,
     this.boxShape = BoxShape.rectangle,
+    this.backgroundColor,
+    this.child,
+    this.colorFilter,
     this.boxShadow,
-    this.elevation = false,
-    this.fit,
+    this.elevation = false, this.fit,
   });
 
   @override
   Widget build(BuildContext context) {
+    if (imageUrl.trim().isEmpty) {
+      return _buildPlaceholder();
+    }
+
     return CachedNetworkImage(
-      fit: fit ?? BoxFit.cover,
-      imageUrl: imageUrl,
+      imageUrl: imageUrl.trim(),
       imageBuilder: (context, imageProvider) => Container(
         height: height,
         width: width,
         decoration: BoxDecoration(
-          boxShadow:
-              boxShadow ??
+          color: backgroundColor,
+          border: border,
+          borderRadius:
+          borderRadius != null ? BorderRadius.circular(borderRadius!) : null,
+          shape: boxShape,
+          boxShadow: boxShadow ??
               (elevation
                   ? [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.06),
-                        blurRadius: 20,
-                        spreadRadius: 6,
-                      ),
-                    ]
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.06),
+                  blurRadius: 20,
+                  spreadRadius: 6,
+                ),
+              ]
                   : null),
-          border: border,
-          borderRadius: borderRadius != null
-              ? BorderRadius.circular(borderRadius ?? 0)
-              : null,
-          shape: boxShape,
-          color: backgroundColor,
           image: DecorationImage(
             image: imageProvider,
             fit: fit ?? BoxFit.cover,
@@ -73,49 +73,53 @@ class CustomNetworkImage extends StatelessWidget {
           height: height,
           width: width,
           decoration: BoxDecoration(
-            boxShadow:
-                boxShadow ??
+            color: Colors.grey.withOpacity(0.6),
+            border: border,
+            borderRadius:
+            borderRadius != null ? BorderRadius.circular(borderRadius!) : null,
+            shape: boxShape,
+            boxShadow: boxShadow ??
                 (elevation
                     ? [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.06),
-                          blurRadius: 20,
-                          spreadRadius: 6,
-                        ),
-                      ]
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.06),
+                    blurRadius: 20,
+                    spreadRadius: 6,
+                  ),
+                ]
                     : null),
-            border: border,
-            color: Colors.grey.withOpacity(0.6),
-            borderRadius: borderRadius != null
-                ? BorderRadius.circular(borderRadius ?? 0)
-                : null,
-            shape: boxShape,
           ),
         ),
       ),
-      errorWidget: (context, url, error) => Container(
-        height: height,
-        width: width,
-        decoration: BoxDecoration(
-          boxShadow:
-              boxShadow ??
-              (elevation
-                  ? [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.06),
-                        blurRadius: 20,
-                        spreadRadius: 6,
-                      ),
-                    ]
-                  : null),
-          border: border,
-          color: Colors.grey.withOpacity(0.6),
-          borderRadius: borderRadius != null
-              ? BorderRadius.circular(borderRadius ?? 0)
-              : null,
-          shape: boxShape,
-        ),
-        child: const Icon(Icons.error),
+      errorWidget: (context, url, error) => _buildPlaceholder(),
+    );
+  }
+
+  Widget _buildPlaceholder() {
+    return Container(
+      height: height,
+      width: width,
+      decoration: BoxDecoration(
+        color: backgroundColor ?? Colors.grey[300],
+        border: border,
+        borderRadius:
+        borderRadius != null ? BorderRadius.circular(borderRadius!) : null,
+        shape: boxShape,
+        boxShadow: boxShadow ??
+            (elevation
+                ? [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.06),
+                blurRadius: 20,
+                spreadRadius: 6,
+              ),
+            ]
+                : null),
+      ),
+      child: const Icon(
+        Icons.broken_image_outlined,
+        color: Colors.grey,
+        size: 24,
       ),
     );
   }

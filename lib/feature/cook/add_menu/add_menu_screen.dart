@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:meal_deal_app/app/helpers/simmer_helper.dart';
 import 'package:meal_deal_app/app/utils/app_colors.dart';
-import 'package:meal_deal_app/custom_assets/assets.gen.dart';
+import 'package:meal_deal_app/controllers/add_meal_controller.dart';
 import 'package:meal_deal_app/routes/app_routes.dart';
+import 'package:meal_deal_app/widgets/menu_card_widget.dart';
 import 'package:meal_deal_app/widgets/widgets.dart';
 
 class AddMenuScreen extends StatefulWidget {
@@ -14,8 +16,28 @@ class AddMenuScreen extends StatefulWidget {
 }
 
 class _AddMenuScreenState extends State<AddMenuScreen> {
+
+  final ScrollController _scrollController = ScrollController();
+
+  final AddMealController _registrationsController = Get.find<AddMealController>();
+
+  @override
+  void initState() {
+    super.initState();
+    _addScrollListener();
+    _registrationsController.getTestSales();
+  }
+
   final TextEditingController _searchController = TextEditingController();
   final TextEditingController _addController = TextEditingController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _searchController.dispose();
+    _addController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,12 +109,55 @@ class _AddMenuScreenState extends State<AddMenuScreen> {
 
 
           Expanded(
-            child: ListView.builder(
-                itemCount: 2,
-                itemBuilder: (context, index) {
-                  return _menuCardWidget();
-                }),
+            child: RefreshIndicator(
+              onRefresh: () async {
+                await _registrationsController.getTestSales();
+              },
+              child: GetBuilder<AddMealController>(
+                  builder: (controller) {
+                    if(controller.isLoadingTestSales){
+                      return ShimmerHelper.productListSimmer();
+                    }
+
+                    // Null safety check করা হয়েছে
+                    if(controller.mealData == null ||
+                        controller.mealData!.meals == null ||
+                        controller.mealData!.meals!.isEmpty){
+                      return Center(
+                        child: CustomText(text: 'Meal not found yet.'),
+                      );
+                    }
+
+                    final mealsLength = controller.mealData?.meals?.length ?? 0;
+
+                    return ListView.builder(
+                        controller: _scrollController,
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        itemCount: mealsLength + (controller.isLoadingTestSalesMore ? 1 : 0),
+                        itemBuilder: (context, index) {
+                          if(index == mealsLength){
+                            return Padding(
+                              padding: EdgeInsets.symmetric(vertical: 10.h),
+                              child: const Center(child: CustomLoader()),
+                            );
+                          }
+                          final meals = controller.mealData?.meals;
+                          if(meals == null || index >= meals.length) {
+                            return const SizedBox.shrink();
+                          }
+                          final data = meals[index];
+                          return MenuCardWidget(
+                            imageUrl: data.imageUrls?.firstOrNull ?? '',
+                            title: data.mealName ?? 'N/A',
+                            subtitle: data.category ?? 'N/A',
+                            des: '\$ ${data.pricePerPortion?.toString() ?? '0.00'}',
+                          );
+                        });
+                  }
+              ),
+            ),
           ),
+
 
 
 
@@ -107,87 +172,14 @@ class _AddMenuScreenState extends State<AddMenuScreen> {
     );
   }
 
-
-  Widget _menuCardWidget() {
-    return CustomContainer(
-      onTap: () {},
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withOpacity(0.08),
-          offset: const Offset(0, 1),
-          blurRadius: 5,
-        ),
-      ],
-      verticalMargin: 6.h,
-      //horizontalMargin: 16.w,
-      paddingAll: 10.w,
-      color: Colors.white,
-      radiusAll: 12.r,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Assets.images.img.image(
-            width: 70.w,
-            height: 70.w,
-            fit: BoxFit.cover,
-          ),
-          SizedBox(width: 12.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomText(
-                  text: 'Homemade Chicken Biryani',
-                  fontSize: 16.sp,
-                ),
-                CustomText(
-                  text: "3 Persons",
-                  color: AppColors.black300TextColor,
-                  fontSize: 12.sp,
-                  top: 2.h,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Row(
-                        children: [
-                          Flexible(
-                            child: CustomText(
-                              text: "Today",
-                              fontSize: 12.sp,
-                              color: AppColors.primaryColor,
-                            ),
-                          ),
-                          SizedBox(width: 4.w),
-                          Flexible(
-                            child: CustomText(
-                              text: "4PM-5PM",
-                              fontSize: 10.sp,
-                              color: AppColors.black300TextColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    CustomContainer(
-                      height: 22.h,
-                      width: 60.w,
-                      bordersColor: AppColors.primaryColor,
-                      radiusAll: 4.r,
-                      alignment: Alignment.center,
-                      child: CustomText(
-                          fontSize: 12.sp,
-                          color: AppColors.primaryColor,
-                          text: 'Edit'),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+  void _addScrollListener() {
+    _scrollController.addListener((){
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        _registrationsController.loadMoreTestSales();
+        debugPrint("load more true");
+      }
+    });
   }
 
 }

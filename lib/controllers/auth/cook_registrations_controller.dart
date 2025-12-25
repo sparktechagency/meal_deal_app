@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:meal_deal_app/controllers/auth/user_controller.dart';
 import 'package:meal_deal_app/models/cooks/category_model_data.dart';
 import 'package:meal_deal_app/models/cooks/cook_user_model_data.dart';
+import 'package:meal_deal_app/models/cooks/hygiene_course_model_data.dart';
 import 'package:meal_deal_app/models/cooks/meal_model_data.dart';
 import 'package:meal_deal_app/models/cooks/self_contract_model_data.dart';
 import 'package:meal_deal_app/routes/app_routes.dart';
@@ -112,11 +114,11 @@ class CookRegistrationsController extends GetxController {
     if (response.statusCode == 200) {
       final data = responseBody['data']['user'];
 
-      Get.find<UserController>().cookUseModelData = CookUseModelData.fromJson(data);
+      Get.find<UserController>().useModelData = CookUseModelData.fromJson(data);
 
       Get.find<UserController>().refresh();
 
-      debugPrint('+++++++++++++>>>>> ${Get.find<UserController>().cookUseModelData?.isKlzhRegistered}');
+      debugPrint('+++++++++++++>>>>> ${Get.find<UserController>().useModelData?.isKlzhRegistered}');
 
       showToast('Thank you. Your registration with the health authorities is now complete and verified.');
       //Get.toNamed(AppRoutes.registrationCompletedScreen);
@@ -191,6 +193,202 @@ class CookRegistrationsController extends GetxController {
 
 
 
+
+
+
+  /// ===============>>> Verification ==============>>>
+
+
+  final businessController = TextEditingController();
+
+  File? selectedIdDocument;
+  File? selectedSelfieOrVideo;
+  String idType = 'passport';
+  String selfieVideoType = 'selfie';
+  bool isLoadingVerification = false;
+
+  static const idOptions = {
+    'passport': 'Passport / Resident Permit',
+    'nationalId': 'National ID',
+  };
+
+  static const selfieOptions = {
+    'selfie': 'Selfie',
+    'video': 'Video',
+  };
+
+  @override
+  void onClose() {
+    businessController.dispose();
+    super.onClose();
+  }
+
+  Future<void> captureIdDocument(ImageSource source) async {
+    try {
+      final ImagePicker picker = ImagePicker();
+      final XFile? pickedFile = await picker.pickImage(source: source);
+
+      if (pickedFile != null) {
+        selectedIdDocument = File(pickedFile.path);
+        update();
+      }
+    } catch (e) {
+      print('Error picking ID document: $e');
+    }
+  }
+
+// Selfie/Video capture করার জন্য
+  Future<void> captureSelfieOrVideo(ImageSource source, bool isVideo) async {
+    try {
+      final ImagePicker picker = ImagePicker();
+
+      if (isVideo) {
+        final XFile? pickedFile = await picker.pickVideo(source: source);
+        if (pickedFile != null) {
+          selectedSelfieOrVideo = File(pickedFile.path);
+          update();
+        }
+      } else {
+        final XFile? pickedFile = await picker.pickImage(source: source);
+        if (pickedFile != null) {
+          selectedSelfieOrVideo = File(pickedFile.path);
+          update();
+        }
+      }
+    } catch (e) {
+      print('Error picking selfie/video: $e');
+    }
+  }
+  Future<void> verification() async {
+    if (!_validateForm()) return;
+
+    isLoadingVerification = true;
+    update();
+
+    final requestBody = {
+      'data': jsonEncode({
+        "businessNumber": businessController.text.trim(),
+        "validIdType": idType,
+        "selfIdType": selfieVideoType,
+      }),
+    };
+
+    final List<MultipartBody> multipartBodyList = [];
+
+    if (selectedIdDocument != null) {
+      multipartBodyList.add(
+        MultipartBody('validIdImage', selectedIdDocument!),
+      );
+    }
+    if (selectedSelfieOrVideo != null) {
+      multipartBodyList.add(
+        MultipartBody('selfieImage', selectedSelfieOrVideo!),
+      );
+    }
+
+
+      final response = await ApiClient.postMultipartData(
+        ApiUrls.cookVerify,
+        requestBody,
+        multipartBody: multipartBodyList,
+      );
+
+      if (response.statusCode == 200) {
+        Get.toNamed(AppRoutes.startCourseScreen);
+      } else {
+        showToast(response.body['message']);
+      }
+      isLoadingVerification = false;
+      update();
+
+  }
+
+  bool _validateForm() {
+    if (selectedIdDocument == null) {
+      showToast('Please upload ID document');
+      return false;
+    }
+    return true;
+  }
+
+
+
+
+
+  /// ===============>>> hygiene course  ==============>>>
+
+
+  bool isLoadingHygiene = false;
+  List<HygieneCoursesModelData> hygieneCoursesData = [];
+  Future<void> hygieneCourse() async {
+    hygieneCoursesData.clear();
+    isLoadingHygiene = true;
+    update();
+    final response = await ApiClient.getData(
+      ApiUrls.courses,
+    );
+    final responseBody = response.body;
+
+    if (response.statusCode == 200) {
+
+      final List data = responseBody['data'] ?? [];
+
+      final hygieneData = data.map((json) => HygieneCoursesModelData.fromJson(json)).toList();
+
+      hygieneCoursesData.addAll(hygieneData);
+    }
+    isLoadingHygiene = false;
+    update();
+  }
+
+
+
+  /// Add this method in CookRegistrationsController
+
+  bool isLoadingQuiz = false;
+
+  int currentQuestionIndex = 0;
+  Map<int, String> userAnswers = {};
+  void selectAnswer(String answer) {
+    userAnswers[currentQuestionIndex] = answer;
+    update();
+  }
+
+  void nextQuestion(int totalQuestions) {
+    if (currentQuestionIndex < totalQuestions - 1) {
+      currentQuestionIndex++;
+      update();
+    }
+  }
+
+  void previousQuestion() {
+    if (currentQuestionIndex > 0) {
+      currentQuestionIndex--;
+      update();
+    }
+  }
+
+  Future<void> submitQuiz({required List<Map<String, dynamic>> answers, required String quizID,}) async {
+    isLoadingQuiz = true;
+    update();
+      final response = await ApiClient.postData(
+        ApiUrls.submitQuizUrl(quizID),
+        {
+          "answers": answers,
+        },
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        showToast('Quiz submitted successfully!');
+        currentQuestionIndex = 0;
+        userAnswers.clear();
+        Get.offAllNamed(AppRoutes.waitingApprovalScreen);
+      } else {
+        showToast(response.body['message'] ?? 'Failed to submit quiz');
+      }
+      isLoadingQuiz = false;
+      update();
+    }
 
 
 }

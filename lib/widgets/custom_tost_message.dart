@@ -6,7 +6,23 @@ import 'package:get/get.dart';
 import 'package:meal_deal_app/app/utils/app_colors.dart';
 import 'package:meal_deal_app/custom_assets/fonts.gen.dart';
 
+// Global variables to track last toast
+String? _lastMessage;
+DateTime? _lastShownTime;
+
 void showToast(String message, {int? seconds}) {
+  final now = DateTime.now();
+
+  // Check if the same message was shown in last 3 seconds
+  if (_lastMessage == message &&
+      _lastShownTime != null &&
+      now.difference(_lastShownTime!).inSeconds < (seconds ?? 3)) {
+    return; // Don't show duplicate toast
+  }
+
+  _lastMessage = message;
+  _lastShownTime = now;
+
   Get.snackbar(
     "System Notification",
     message,
@@ -43,7 +59,6 @@ void showToast(String message, {int? seconds}) {
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
           decoration: BoxDecoration(
-
             borderRadius: BorderRadius.circular(16.r),
             border: Border.all(
               color: Colors.white.withOpacity(0.2),
@@ -64,7 +79,6 @@ void showToast(String message, {int? seconds}) {
               color: Colors.black,
               fontSize: 14.sp,
               fontFamily: FontFamily.lora,
-              //fontWeight: FontWeight.w500,
             ),
           ),
         ),
@@ -73,14 +87,3 @@ void showToast(String message, {int? seconds}) {
     padding: EdgeInsets.zero,
   );
 }
-
-
-
-class ToastMessageHelper {
-}
-
-// Usage - Super Simple with Glass Effect!
-// ToastMessageHelper.showToastMessage("Login successful!");
-// ToastMessageHelper.showToastMessage("Data loaded");
-// ToastMessageHelper.showToastMessage("Something went wrong!");
-// ToastMessageHelper.showToastMessage("Profile updated", seconds: 5);

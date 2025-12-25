@@ -191,6 +191,7 @@ class AddMealController extends GetxController {
       if (response.statusCode == 200) {
         getTestSales();
         Get.back();
+        clearControllers();
       }
     } catch (e) {
       print('Error adding meal: $e');
@@ -202,31 +203,75 @@ class AddMealController extends GetxController {
 
   /// Get test meals
   bool isLoadingTestSales = false;
-  List<MealModelData> testMealData = [];
+  bool isLoadingTestSalesMore = false;
+  int testMealPage = 1;
+  int testMealLimitPage = 10;
+  int testMealTotalPage = -1;
+  MealModelData? mealData;
 
-  Future<void> getTestSales() async {
-    try {
-      testMealData.clear();
+  Future<void> getTestSales({bool isInitialLoad = true}) async {
+    if (isInitialLoad) {
+      mealData = null;
+      testMealPage = 1;
+      testMealTotalPage = -1;
       isLoadingTestSales = true;
+      isLoadingTestSalesMore = false;
       update();
-
-      final response = await ApiClient.getData(ApiUrls.mealTest);
+    }
+      final response = await ApiClient.getData(ApiUrls.mealTest(testMealPage, testMealLimitPage));
 
       if (response.statusCode == 200) {
         final responseBody = response.body;
-        final List data = responseBody['data']['meals'] ?? [];
+        final  data = responseBody['data'] ?? {};
 
-        final testData =
-        data.map((json) => MealModelData.fromJson(json)).toList();
+        mealData = MealModelData.fromJson(data);
+        testMealTotalPage = responseBody['meta']['totalPage'] ?? -1;
 
-        testMealData.addAll(testData);
+
       }
-    } catch (e) {
-      print('Error fetching meals: $e');
-    } finally {
       isLoadingTestSales = false;
+      isLoadingTestSalesMore = false;
       update();
+
+  }
+
+  Future<void> loadMoreTestSales() async {
+    if (testMealPage < testMealTotalPage && !isLoadingTestSalesMore) {
+      testMealPage += 1;
+      isLoadingTestSalesMore = true;
+      update();
+      await getTestSales(isInitialLoad: false);
+
+      debugPrint(
+          '============> Page++ $testMealPage \n=============> totalPage $testMealTotalPage');
     }
+  }
+
+  void clearControllers() {
+    mealNameController.clear();
+    descriptionController.clear();
+    portionController.clear();
+    categoryController.clear();
+    fitnessController.clear();
+    cheatController.clear();
+    timeOrderController.clear();
+    pickUpTimeController.clear();
+    priceController.clear();
+    warmController.clear();
+    reheatedController.clear();
+    ingredientsController.clear();
+    allergyController.clear();
+    locationController.clear();
+    pickupMinutesController.clear();
+    offerController.clear();
+    finalPriceController.clear();
+    images = null;
+    selectedCategory = null;
+    selectedFitness = null;
+    selectedCheat = null;
+    selectedWarmOption = null;
+    selectedCategoryDietary = null;
+    update();
   }
 
   @override
@@ -248,6 +293,12 @@ class AddMealController extends GetxController {
     pickupMinutesController.dispose();
     offerController.dispose();
     finalPriceController.dispose();
+    images = null;
+    selectedCategory = null;
+    selectedFitness = null;
+    selectedCheat = null;
+    selectedWarmOption = null;
+    selectedCategoryDietary = null;
     super.onClose();
   }
 }

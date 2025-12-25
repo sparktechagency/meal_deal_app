@@ -44,17 +44,17 @@ class _OrderScreenState extends State<OrderScreen> {
           if(selectedValue == 'current Order’s')
             Expanded(child: SingleChildScrollView(child: OrderHistoryScreen())),
 
-          if(selectedValue == 'history')
-            Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: HelperData.recentOrders.length,
-                itemBuilder: (context, index) {
-                  final data = HelperData.recentOrders[index];
-                  return OrderHistoryWidget(item: data);
-                },
-              ),
-            ),
+         // if(selectedValue == 'history')
+            // Expanded(
+            //   child: ListView.builder(
+            //     shrinkWrap: true,
+            //     itemCount: HelperData.recentOrders.length,
+            //     itemBuilder: (context, index) {
+            //       final data = HelperData.recentOrders[index];
+            //       return OrderHistoryWidget(item: data);
+            //     },
+            //   ),
+            // ),
 
         ],
       ),
