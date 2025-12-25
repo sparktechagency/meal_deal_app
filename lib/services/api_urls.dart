@@ -24,6 +24,7 @@ class ApiUrls {
   static const String become = '/cook/become-a-cook';
   static const String contracts = '/contracts/';
   static  String mealTest (int page,int limit) => '/meal?limit=$limit&page=$page';
+  static  String seeAllMeals (int page,int limit) => '/meal/popular-meals?limit=$limit&page=$page';
   static  String order(String status,int page,int limit) => '/order/current-orders?status=$status&limit=$limit&page=$page';
   static const String courses = '/courses/';
   static  String orderHistory (int page,int limit) => '/order/recent-orders?limit=$limit&page=$page';

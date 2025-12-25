@@ -145,7 +145,8 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                           rating: item?.cookId?.rating ?? '',
                             index: index
                         );
-                    },),
+                    },
+                    ),
                   ),
 
 
@@ -153,7 +154,10 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                   SizedBox(height: 10.h),
                   Divider(color: AppColors.borderColor,thickness: 0.5,),
 
-                  LabelTitleWidget(title: 'Top Rated Cooks',onTap: (){}),
+                  LabelTitleWidget(title: 'Top Rated Cooks',onTap: (){
+                    Get.toNamed(AppRoutes.productViewScreen,arguments: 'Top Rated Cooks');
+
+                  }),
 
                   SizedBox(
                     height: 210.h,

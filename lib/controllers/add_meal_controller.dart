@@ -225,7 +225,7 @@ class AddMealController extends GetxController {
         final  data = responseBody['data'] ?? {};
 
         mealData = MealModelData.fromJson(data);
-        testMealTotalPage = responseBody['meta']['totalPage'] ?? -1;
+        testMealTotalPage = responseBody['meta']?['totalPage'] ?? -1;
 
 
       }
@@ -246,6 +246,59 @@ class AddMealController extends GetxController {
           '============> Page++ $testMealPage \n=============> totalPage $testMealTotalPage');
     }
   }
+
+
+
+
+  /// Get see all meals
+  bool isLoadingSeeAll = false;
+  bool isLoadingSeeAllMore = false;
+  int seeAllMealPage = 1;
+  int seeAllMealLimitPage = 10;
+  int seeAllMealTotalPage = -1;
+  List<PopularMeals> seeAllMealData = [];
+
+  Future<void> getSeeAllMeals({bool isInitialLoad = true}) async {
+    if (isInitialLoad) {
+      seeAllMealData.clear();
+      seeAllMealPage = 1;
+      seeAllMealTotalPage = -1;
+      isLoadingSeeAll = true;
+      isLoadingSeeAllMore = false;
+      update();
+    }
+      final response = await ApiClient.getData(ApiUrls.seeAllMeals(seeAllMealPage, seeAllMealLimitPage));
+
+      if (response.statusCode == 200) {
+        final responseBody = response.body;
+        final List  data = responseBody['data']?['result'] ?? [];
+
+
+        final meals = data.map((json) => PopularMeals.fromJson(json)).toList();
+
+        seeAllMealData.addAll(meals);
+        seeAllMealTotalPage = responseBody['data']?['meta']?['totalPages'] ?? -1;
+      }
+    isLoadingSeeAll = false;
+    isLoadingSeeAllMore = false;
+      update();
+
+  }
+
+  Future<void> loadMoreSeeMeals() async {
+    if (seeAllMealPage < seeAllMealTotalPage && !isLoadingSeeAllMore) {
+      seeAllMealPage += 1;
+      isLoadingSeeAllMore = true;
+      update();
+      await getSeeAllMeals(isInitialLoad: false);
+
+      debugPrint(
+          '============> Page++ $seeAllMealPage \n=============> totalPage $seeAllMealTotalPage');
+    }
+  }
+
+
+
 
   void clearControllers() {
     mealNameController.clear();
