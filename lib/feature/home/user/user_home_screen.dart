@@ -136,6 +136,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                       itemBuilder: (context, index) {
                         final item = meals?[index];
                         return ProductsCardWidget(
+                          mealsId: item?.sId ?? '',
                           image: item?.imageUrls?.firstOrNull ?? '',
                           title: item?.mealName ?? '',
                           kcal: item?.kcalories ?? '0.0 kcal',
@@ -193,6 +194,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                       itemBuilder: (context, index) {
                         final item = popularMeals?[index];
                         return ProductsCardWidget(
+                          mealsId: item?.sId ?? '',
                             image: item?.imageUrls?.firstOrNull ?? '',
                             title: item?.mealName ?? '',
                             kcal: item?.kcalories ?? '0.0 kcal',

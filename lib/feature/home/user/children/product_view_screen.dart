@@ -100,6 +100,7 @@ class _ProductViewScreenState extends State<ProductViewScreen> {
                       }
                       final item = dataList[index];
                       return  ProductsCardWidget(
+                        mealsId: item.sId ?? '',
                         image: item.imageUrls?.firstOrNull ?? '',
                         title: item.mealName ?? '',
                         kcal: item.kcalories ?? '0.0 kcal',

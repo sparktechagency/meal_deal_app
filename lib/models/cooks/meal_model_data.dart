@@ -245,3 +245,133 @@ class Meals {
     return null;
   }
 }
+
+
+
+class MealsDetailsModelData {
+  String? sId;
+  String? cookId;
+  String? mealName;
+  String? description;
+  String? cuisineName;
+  int? availablePortion;
+  String? dietaryCategories;
+  String? category;
+  String? fitnessFlow;
+  String? cheatFlow;
+  String? timeForOrder;
+  String? timeForPickUpFood;
+  double? pricePerPortion;
+  String? servedWarm;
+  double? coldReheatPrice;
+  List<String>? ingredients;
+  String? allergyInformation;
+  double? price;
+  String? location;
+  String? pickUpTime;
+  String? offer;
+  List<String>? imageUrls;
+  String? createdAt;
+  String? updatedAt;
+  int? iV;
+  String? kcalories;
+  int? rating;
+
+  MealsDetailsModelData({
+    this.sId,
+    this.cookId,
+    this.mealName,
+    this.description,
+    this.cuisineName,
+    this.availablePortion,
+    this.dietaryCategories,
+    this.category,
+    this.fitnessFlow,
+    this.cheatFlow,
+    this.timeForOrder,
+    this.timeForPickUpFood,
+    this.pricePerPortion,
+    this.servedWarm,
+    this.coldReheatPrice,
+    this.ingredients,
+    this.allergyInformation,
+    this.price,
+    this.location,
+    this.pickUpTime,
+    this.offer,
+    this.imageUrls,
+    this.createdAt,
+    this.updatedAt,
+    this.iV,
+    this.kcalories,
+    this.rating,
+  });
+
+  MealsDetailsModelData.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    cookId = json['cookId'];
+    mealName = json['mealName'];
+    description = json['description'];
+    cuisineName = json['cuisineName'];
+
+    // Handle int conversion
+    availablePortion = json['availablePortion'] is String
+        ? int.tryParse(json['availablePortion'])
+        : json['availablePortion'];
+
+    dietaryCategories = json['dietaryCategories'];
+    category = json['category'];
+    fitnessFlow = json['fitnessFlow'];
+    cheatFlow = json['cheatFlow'];
+    timeForOrder = json['timeForOrder'];
+    timeForPickUpFood = json['timeForPickUpFood'];
+
+    // Handle double conversion
+    pricePerPortion = json['pricePerPortion'] is String
+        ? double.tryParse(json['pricePerPortion'])
+        : (json['pricePerPortion'] as num?)?.toDouble();
+
+    servedWarm = json['servedWarm'];
+
+    // Handle double conversion
+    coldReheatPrice = json['coldReheatPrice'] is String
+        ? double.tryParse(json['coldReheatPrice'])
+        : (json['coldReheatPrice'] as num?)?.toDouble();
+
+    // Handle list safely
+    ingredients = json['ingredients'] != null
+        ? List<String>.from(json['ingredients'])
+        : null;
+
+    allergyInformation = json['allergyInformation'];
+
+    // Handle double conversion
+    price = json['price'] is String
+        ? double.tryParse(json['price'])
+        : (json['price'] as num?)?.toDouble();
+
+    location = json['location'];
+    pickUpTime = json['pickUpTime'];
+    offer = json['offer'];
+
+    // Handle list safely
+    imageUrls = json['imageUrls'] != null
+        ? List<String>.from(json['imageUrls'])
+        : null;
+
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+
+    // Handle int conversion
+    iV = json['__v'] is String
+        ? int.tryParse(json['__v'])
+        : json['__v'];
+
+    kcalories = json['kcalories']?.toString();
+
+    // Handle int conversion
+    rating = json['rating'] is String
+        ? int.tryParse(json['rating'])
+        : json['rating'];
+  }
+}

@@ -17,10 +17,11 @@ class ProductsCardWidget extends StatelessWidget {
     this.distance,
     this.kcal,
     this.portions,
-    this.index,
+    this.index, required this.mealsId,
   });
 
   final String? image;
+  final String mealsId;
   final String? title;
   final String? authorImage;
   final String? author;
@@ -34,7 +35,7 @@ class ProductsCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomContainer(
       onTap: () {
-        Get.toNamed(AppRoutes.productDetailsScreen);
+        Get.toNamed(AppRoutes.productDetailsScreen,arguments: mealsId);
       },
       marginRight: index == null ? 0 : 14.w,
       marginLeft: (index == null) ? 0 : (index == 0 ? 14.w : 0),

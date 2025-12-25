@@ -299,6 +299,33 @@ class AddMealController extends GetxController {
 
 
 
+  /// meals details
+  MealsDetailsModelData? mealDataDetails;
+  bool isLoadingDetails = false;
+
+
+  Future<void> getMealDetails(String mealsID) async {
+    mealDataDetails = null;
+    isLoadingDetails = true;
+      update();
+
+    final response = await ApiClient.getData(ApiUrls.mealsDetails(mealsID));
+
+    if (response.statusCode == 200) {
+      final responseBody = response.body;
+      final  data = responseBody['data'] ?? {};
+
+      mealDataDetails = MealsDetailsModelData.fromJson(data);
+
+
+    }
+    isLoadingDetails = false;
+    update();
+
+  }
+
+
+
 
   void clearControllers() {
     mealNameController.clear();
