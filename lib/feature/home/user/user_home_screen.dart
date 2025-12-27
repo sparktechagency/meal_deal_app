@@ -172,7 +172,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                           name: item?.cookName ?? '',
                           image: item?.profileImage ?? '',
                           rating: item?.rating?.toDouble() ?? 0.0,
-                            index: index);
+                            index: index, cookID: item?.sId ?? '',);
                     },),
                   ),
 

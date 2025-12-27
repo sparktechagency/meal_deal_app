@@ -135,7 +135,7 @@ class _MapViewScreenState extends State<MapViewScreen> {
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 final item = HelperData.restaurants[index];
-                return CooksCardWidget( index: index,);
+                return CooksCardWidget( index: index, cookID: '',);
               },),
           ),
         ),

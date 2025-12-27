@@ -15,7 +15,7 @@ class CooksCardWidget extends StatelessWidget {
     this.rating,
     this.reviews,
     this.distance,
-    this.index,
+    this.index, required this.cookID,
   });
 
   final String? image;
@@ -24,13 +24,14 @@ class CooksCardWidget extends StatelessWidget {
   final double? rating;
   final int? reviews;
   final String? distance;
+  final String cookID;
   final int? index;
 
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
       onTap: () {
-        Get.toNamed(AppRoutes.cookViewScreen);
+        Get.toNamed(AppRoutes.cookViewScreen,arguments: cookID);
       },
       paddingVertical: 6.h,
       marginRight: index == null ? 0 : 14.w,

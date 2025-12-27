@@ -32,6 +32,7 @@ class ApiUrls {
   static  String submitQuizUrl(String quizID) => '/courses/submit-quiz/$quizID/';
   static  String orderDetails(String orderID) => '/order/$orderID';
   static  String mealsDetails(String mealsID) => '/meal/$mealsID';
+  static  String cookDetails(String cookID) => '/cook/$cookID';
   static const String addMeal = '/meal/add-meal';
   static const String cookVerify = '/cook-verify/verify-cook-id';
 
