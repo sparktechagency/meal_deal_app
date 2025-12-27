@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:meal_deal_app/app/helpers/helper_data.dart';
 import 'package:meal_deal_app/controllers/cook_controller.dart';
 import 'package:meal_deal_app/feature/home/widgets/category_item_widget.dart';
+import 'package:meal_deal_app/models/cooks/cook_details_model_data.dart';
 import 'package:meal_deal_app/routes/app_routes.dart';
 import '../../../../app/utils/app_colors.dart';
 import '../../../../custom_assets/assets.gen.dart';
@@ -17,89 +18,142 @@ class CookViewScreen extends StatefulWidget {
 }
 
 class _CookViewScreenState extends State<CookViewScreen> {
-
   final String cookID = Get.arguments ?? '';
-
-
   final CookController _cookController = Get.find<CookController>();
-
 
   @override
   void initState() {
+    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _cookController.getMealDetails(cookID);
     });
-    super.initState();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bgColor,
       body: Stack(
-          children: [
-            _buildContent(),
-            _buildAppBar(),
-          ]),
+        children: [
+          _buildContent(),
+          _buildAppBar(),
+        ],
+      ),
     );
   }
 
   /// Main Scrollable Content
   Widget _buildContent() {
-    return SingleChildScrollView(
-      child: GetBuilder<CookController>(
-        builder: (controller) {
-          final cookData = controller.cookDetailsModelData?.cook;
-          return Stack(
+    return GetBuilder<CookController>(
+      builder: (controller) {
+        // Loading State
+        if (controller.isLoadingDetails) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        // Error State
+        if (controller.cookDetailsModelData == null) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.error_outline, size: 64.r, color: Colors.red),
+                SizedBox(height: 16.h),
+                CustomText(text: 'Failed to load cook details'),
+                SizedBox(height: 16.h),
+                ElevatedButton(
+                  onPressed: () => controller.getMealDetails(cookID),
+                  child: const Text('Retry'),
+                ),
+              ],
+            ),
+          );
+        }
+
+        final cookData = controller.cookDetailsModelData?.cook;
+        final meals = controller.cookDetailsModelData?.meals;
+
+        // Empty State
+        if (cookData == null) {
+          return const Center(child: CustomText(text: 'No data available'));
+        }
+
+        return SingleChildScrollView(
+          child: Stack(
             children: [
               Column(
                 children: [
+                  // Profile Image
                   CustomContainer(
                     height: 370.h,
                     width: double.infinity,
-                    child: CustomNetworkImage(imageUrl: cookData?.profileImage ?? '',height: 370.h,width: double.infinity,),
+                    child: CustomNetworkImage(
+                      imageUrl: cookData.profileImage ?? '',
+                      height: 370.h,
+                      width: double.infinity,
+                    ),
                   ),
                   SizedBox(height: 70.h),
 
+                  // Category Filter
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    child: CategoryItemWidget(categoryItem: HelperData.categoryItem,),
+                    child: CategoryItemWidget(
+                      categoryItem: HelperData.categoryItem,
+                    ),
                   ),
-                  ListView.builder(
-                    padding: EdgeInsets.only(top: 16.h, bottom: 40.h),
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: 5,
-                    itemBuilder: (context, index) {
-                      return _menuCardWidget();
-                    },
-                  ),
+
+                  // Meals List
+                  if (meals != null && meals.isNotEmpty)
+                    ListView.builder(
+                      padding: EdgeInsets.only(top: 16.h, bottom: 40.h),
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: meals.length,
+                      itemBuilder: (context, index) {
+                        return _menuCardWidget(meals[index]);
+                      },
+                    )
+                  else
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 40.h),
+                      child: Center(
+                        child: CustomText(
+                          text: 'No meals available',
+                          color: AppColors.colorA0A0A0,
+                        ),
+                      ),
+                    ),
                 ],
               ),
+
+              // Floating Profile Card
               Positioned(
                 top: 280.h,
                 left: 24.w,
                 right: 24.w,
-                child: _buildProfileHeader(),
+                child: _buildProfileHeader(cookData),
               ),
             ],
-          );
-        }
-      ),
+          ),
+        );
+      },
     );
   }
 
-  Widget _menuCardWidget() {
+  Widget _menuCardWidget(Meals meal) {
     return CustomContainer(
-      onTap: (){
-        Get.toNamed(AppRoutes.productDetailsScreen);
+      onTap: () {
+        // Pass meal ID to details screen
+        Get.toNamed(
+          AppRoutes.productDetailsScreen,
+          arguments: meal.sId,
+        );
       },
       boxShadow: [
         BoxShadow(
           color: Colors.black.withOpacity(0.08),
-          offset: Offset(0, 1),
+          offset: const Offset(0, 1),
           blurRadius: 5,
         ),
       ],
@@ -110,35 +164,62 @@ class _CookViewScreenState extends State<CookViewScreen> {
       radiusAll: 12.r,
       child: Row(
         children: [
-          Assets.images.img.image(width: 70.w, height: 70.w, fit: BoxFit.cover),
+          // Meal Image
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8.r),
+            child: CustomNetworkImage(
+              imageUrl: meal.imageUrls?.first ?? '',
+              width: 70.w,
+              height: 70.w,
+              fit: BoxFit.cover,
+            ),
+          ),
           SizedBox(width: 12.w),
 
-          // Info
+          // Meal Info
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomText(text: 'Fondue', fontSize: 16.sp),
                 CustomText(
-                  text: "\$12.52",
+                  maxline: 1,
+                  textOverflow: TextOverflow.ellipsis,
+                  text: meal.mealName ?? 'N/A',
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w500,
+                ),
+                CustomText(
+                  text: "\$${meal.price?.toStringAsFixed(2) ?? '0.00'}",
                   color: AppColors.primaryColor,
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w600,
                   top: 2.h,
                   bottom: 6.h,
                 ),
                 Row(
                   children: [
                     Assets.icons.star.svg(),
-                    CustomText(text: " 4.2 (232)", fontSize: 12.sp),
+                    CustomText(
+                      text: " ${meal.rating?.toStringAsFixed(1) ?? 'N/A'}",
+                      fontSize: 12.sp,
+                    ),
                   ],
                 ),
               ],
             ),
           ),
 
-          // Add Button
+          // Add to Cart Button
           ElevatedButton.icon(
             onPressed: () {
-              Get.toNamed(AppRoutes.cardScreen);
+              // Add to cart logic should be here
+             // _cookController.addToCart(meal);
+              Get.snackbar(
+                'Added to Cart',
+                '${meal.mealName} added successfully',
+                snackPosition: SnackPosition.BOTTOM,
+                duration: const Duration(seconds: 2),
+              );
             },
             icon: Icon(Icons.shopping_cart, size: 14.r),
             label: CustomText(text: "Add", fontSize: 12.sp),
@@ -148,7 +229,7 @@ class _CookViewScreenState extends State<CookViewScreen> {
               elevation: 0,
               padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 4.h),
               shape: RoundedRectangleBorder(
-                side: BorderSide(color: AppColors.black600TextColor),
+                side: const BorderSide(color: AppColors.black600TextColor),
                 borderRadius: BorderRadius.circular(8.r),
               ),
             ),
@@ -159,47 +240,57 @@ class _CookViewScreenState extends State<CookViewScreen> {
   }
 
   /// Profile Header Card
-  Widget _buildProfileHeader() {
-    return GetBuilder<CookController>(
-      builder: (controller) {
-        final cookData = controller.cookDetailsModelData?.cook;
-        return CustomContainer(
-          paddingAll: 16.w,
-          color: Colors.white,
-          radiusAll: 12.r,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _buildProfileHeader(Cook cookData) {
+    return CustomContainer(
+      paddingAll: 16.w,
+      color: Colors.white,
+      radiusAll: 12.r,
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.1),
+          offset: const Offset(0, 2),
+          blurRadius: 8,
+        ),
+      ],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CustomText(
+            text: cookData.cookName ?? 'N/A',
+            fontSize: 18.sp,
+            fontWeight: FontWeight.w600,
+          ),
+          SizedBox(height: 6.h),
+          Row(
             children: [
-              CustomText(
-                text: cookData?.cookName ?? 'N/A',
-                fontSize: 18.sp,
-                fontWeight: FontWeight.w500,
-              ),
-              SizedBox(height: 6.h),
-              Row(
-                children: [
-                  Assets.icons.star.svg(),
-                  Flexible(child: CustomText(text: " ${cookData?.rating ?? '0.0'} • 13 km")),
-                ],
-              ),
-              Divider(
-                color: AppColors.black04TextColor,
-                thickness: 0.5,
-                height: 24.h,
-              ),
-              CustomText(
-                text: "Why I cook?",
-                fontSize: 18.sp,
-                fontWeight: FontWeight.w500,
-              ),
-              CustomText(
-                text: "Lorem ipsum dolor sit amet consectetur.",
-                color: AppColors.colorA0A0A0,
+              Assets.icons.star.svg(),
+              Flexible(
+                child: CustomText(
+                  text: " ${cookData.rating?.toStringAsFixed(1) ?? '0.0'} • "
+                      "${14 ?? '0'} km",
+                  fontSize: 14.sp,
+                ),
               ),
             ],
           ),
-        );
-      }
+          Divider(
+            color: AppColors.black04TextColor,
+            thickness: 0.5,
+            height: 24.h,
+          ),
+          CustomText(
+            text: "Why I cook?",
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w600,
+          ),
+          SizedBox(height: 4.h),
+          CustomText(
+            text: cookData.shortDescription ?? 'No description available',
+            color: AppColors.colorA0A0A0,
+            fontSize: 14.sp,
+          ),
+        ],
+      ),
     );
   }
 
@@ -212,10 +303,24 @@ class _CookViewScreenState extends State<CookViewScreen> {
       child: CustomAppBar(
         backgroundColor: Colors.transparent,
         actions: [
-          GestureDetector(onTap: () {}, child: Assets.icons.love.svg()),
-          IconButton(onPressed: () {
-            Get.toNamed(AppRoutes.cookDetailsScreen);
-          }, icon: Assets.icons.info.svg()),
+          GetBuilder<CookController>(
+            builder: (controller) {
+             // final isFavorite = controller.isCookFavorite(cookID);
+              return GestureDetector(
+                onTap: () {} ,
+                child: Assets.icons.love.svg(),
+              );
+            },
+          ),
+          IconButton(
+            onPressed: () {
+              Get.toNamed(
+                AppRoutes.cookDetailsScreen,
+                arguments: cookID,
+              );
+            },
+            icon: Assets.icons.info.svg(),
+          ),
         ],
       ),
     );

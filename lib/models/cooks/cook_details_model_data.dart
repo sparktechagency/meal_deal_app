@@ -20,6 +20,20 @@ class CookDetailsModelData {
       });
     }
   }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.cook != null) {
+      data['cook'] = this.cook!.toJson();
+    }
+    if (this.meals != null) {
+      data['meals'] = this.meals!.map((v) => v.toJson()).toList();
+    }
+    if (this.reviews != null) {
+      data['reviews'] = this.reviews!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }
 
 class Cook {
@@ -44,6 +58,8 @@ class Cook {
   String? createdAt;
   String? updatedAt;
   int? iV;
+  String? description;
+  String? shortDescription;
 
   Cook(
       {this.sId,
@@ -66,7 +82,9 @@ class Cook {
         this.isDeleted,
         this.createdAt,
         this.updatedAt,
-        this.iV});
+        this.iV,
+        this.description,
+        this.shortDescription});
 
   Cook.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -90,6 +108,36 @@ class Cook {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
+    description = json['description'];
+    shortDescription = json['shortDescription'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['userId'] = this.userId;
+    data['cookName'] = this.cookName;
+    data['businessNumber'] = this.businessNumber;
+    data['profileImage'] = this.profileImage;
+    data['kitchenImages'] = this.kitchenImages;
+    data['certificates'] = this.certificates;
+    data['approvedAt'] = this.approvedAt;
+    data['rejectionReason'] = this.rejectionReason;
+    data['totalOrders'] = this.totalOrders;
+    data['completedOrders'] = this.completedOrders;
+    data['rejectedOrders'] = this.rejectedOrders;
+    data['rating'] = this.rating;
+    data['stars'] = this.stars;
+    data['totalReviews'] = this.totalReviews;
+    data['isKlzhRegistered'] = this.isKlzhRegistered;
+    data['isCookApproved'] = this.isCookApproved;
+    data['isDeleted'] = this.isDeleted;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    data['__v'] = this.iV;
+    data['description'] = this.description;
+    data['shortDescription'] = this.shortDescription;
+    return data;
   }
 }
 
@@ -120,6 +168,7 @@ class Meals {
   String? createdAt;
   String? updatedAt;
   int? iV;
+  int? rating;
 
   Meals(
       {this.sId,
@@ -147,7 +196,8 @@ class Meals {
         this.imageUrls,
         this.createdAt,
         this.updatedAt,
-        this.iV});
+        this.iV,
+        this.rating});
 
   Meals.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -176,6 +226,39 @@ class Meals {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
+    rating = json['rating'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['cookId'] = this.cookId;
+    data['mealName'] = this.mealName;
+    data['description'] = this.description;
+    data['cuisineName'] = this.cuisineName;
+    data['availablePortion'] = this.availablePortion;
+    data['dietaryCategories'] = this.dietaryCategories;
+    data['category'] = this.category;
+    data['fitnessFlow'] = this.fitnessFlow;
+    data['cheatFlow'] = this.cheatFlow;
+    data['timeForOrder'] = this.timeForOrder;
+    data['timeForPickUpFood'] = this.timeForPickUpFood;
+    data['pricePerPortion'] = this.pricePerPortion;
+    data['servedWarm'] = this.servedWarm;
+    data['coldReheatPrice'] = this.coldReheatPrice;
+    data['ingredients'] = this.ingredients;
+    data['allergyInformation'] = this.allergyInformation;
+    data['price'] = this.price;
+    data['location'] = this.location;
+    data['pickUpTime'] = this.pickUpTime;
+    data['offer'] = this.offer;
+    data['kcalories'] = this.kcalories;
+    data['imageUrls'] = this.imageUrls;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    data['__v'] = this.iV;
+    data['rating'] = this.rating;
+    return data;
   }
 }
 
@@ -213,6 +296,22 @@ class Reviews {
     updatedAt = json['updatedAt'];
     iV = json['__v'];
   }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    if (this.userId != null) {
+      data['userId'] = this.userId!.toJson();
+    }
+    data['cookId'] = this.cookId;
+    data['rating'] = this.rating;
+    data['comment'] = this.comment;
+    data['isDeleted'] = this.isDeleted;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    data['__v'] = this.iV;
+    return data;
+  }
 }
 
 class UserId {
@@ -224,5 +323,12 @@ class UserId {
   UserId.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     name = json['name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['name'] = this.name;
+    return data;
   }
 }
